@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import "tailwindcss";
+
+
+@font-face {
+  font-family: 'Annexxus';
+  src: url('/Fonts/annexxus/Annexxus_Demo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-annexxus {
+  font-family: 'Annexxus', sans-serif;
+}
+
+:root {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  color-scheme: dark;
+}
+/* Links con transiciones suaves */
+a {
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* Ajustes generales */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color:#E6E7D9;
+  color: #e0e0e0;
+}

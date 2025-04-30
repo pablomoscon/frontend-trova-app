@@ -1,0 +1,13 @@
+export const genresList = [
+    'ROCK_ARGENTINO',
+    'TANGO',
+    'JAZZ',
+    'MÚSICA_POPULAR_ARGENTINA',
+    'MÚSICA_POPULAR_BRASILENA',
+    'HUMOR_MUSICAL',
+    'CHANSON_FRANCESA',
+    'TEATRO_MUSICAL',
+    'FOLCLORE',
+    'CONTEMPORÁNEA',
+    'CLÁSICA',
+];
