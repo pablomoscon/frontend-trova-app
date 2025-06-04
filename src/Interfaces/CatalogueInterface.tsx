@@ -34,3 +34,7 @@ export interface SortOption {
 export interface SortMenuProps {
   sortOptions: SortOption[];
 }
+
+export interface CatalogueHeaderProps {
+  onMobileFiltersOpen: () => void;
+}

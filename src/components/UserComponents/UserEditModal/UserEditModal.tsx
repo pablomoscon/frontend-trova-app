@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import Spinner from '../../Spinner/Spinner';
-import { useUserEdit } from '../../../hooks/user/useUserEdit';
+import Spinner from '../../shared/Spinner';
 import { EditUserProps } from '../../../Interfaces/UserInterface';
+import { useEditUser } from '../../../hooks/user/useEditUser';
 
 const UserEditModal: React.FC<EditUserProps> = ({ userId, onClose }) => {
-  const { formData, handleChange, handleSubmit, loading } = useUserEdit(
+  const { formData, handleChange, handleSubmit, loading } = useEditUser(
     userId,
     onClose
   );

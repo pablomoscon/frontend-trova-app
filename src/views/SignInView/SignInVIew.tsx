@@ -1,5 +1,5 @@
-import AuthLayout from "../../components/AuthComponents/AuthLayout/AuthLayout";
-import SignInForm from "../../components/AuthComponents/SignInForm/SignInForm";
+import AuthLayout from '../../components/authComponents/AuthLayout/AuthLayout';
+import SignInForm from '../../components/authComponents/SignInForm/SignInForm';
 
 const SignInView = () => (
   <AuthLayout>

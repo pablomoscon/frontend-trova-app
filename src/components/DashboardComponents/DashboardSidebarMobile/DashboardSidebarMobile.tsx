@@ -1,61 +1,19 @@
-// DashboardSidebarMobile.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   XMarkIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  MusicalNoteIcon,
-  UserGroupIcon,
-  UserIcon,
 } from '@heroicons/react/24/outline';
-import { HomeIcon } from 'lucide-react';
 import { Bars3BottomLeftIcon } from '@heroicons/react/20/solid';
+import { menuItems } from '../../../data/menuItems';
 
-const menuItems = [
-  {
-    label: 'Dashboard',
-    icon: <HomeIcon className='h-5 w-5' />,
-    key: 'dashboard',
-    href: '/admin/dashboard',
-  },
-  {
-    label: 'Álbumes',
-    icon: <MusicalNoteIcon className='h-5 w-5' />,
-    key: 'albums',
-    subitems: [
-      { label: 'Ver detalles', href: '/admin/dashboard/albums-details' },
-      { label: 'Agregar', href: '/admin/dashboard/album-form' },
-      { label: 'Administrar', href: '/admin/dashboard/albums-management' },
-    ],
-  },
-  {
-    label: 'Artistas',
-    icon: <UserGroupIcon className='h-5 w-5' />,
-    key: 'artists',
-    subitems: [
-      { label: 'Ver detalles', href: '/admin/dashboard/artists-details' },
-      { label: 'Agregar', href: '/admin/dashboard/artist-form' },
-      { label: 'Administrar', href: '/admin/dashboard/artists-management' },
-    ],
-  },
-  {
-    label: 'Usuarios',
-    icon: <UserIcon className='h-5 w-5' />,
-    key: 'users',
-    subitems: [
-      { label: 'Ver detalles', href: '/admin/dashboard/users-data' },
-      { label: 'Agregar', href: '/admin/dashboard/user-form' },
-      { label: 'Administrar', href: '/admin/dashboard/users-management' },
-    ],
-  },
-];
-
-const DashboardSidebarMobile = () => {
+const DashboardSidebarMobile: React.FC = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSubMenu = (menu: string) =>
-    setActiveMenu((prev) => (prev === menu ? null : menu));
+  const toggleSubMenu = (menuKey: string) => {
+    setActiveMenu((prev) => (prev === menuKey ? null : menuKey));
+  };
 
   return (
     <>
@@ -82,7 +40,7 @@ const DashboardSidebarMobile = () => {
           </div>
 
           <ul>
-            {menuItems.map(({ label, icon, key, href, subitems }) => (
+            {menuItems.map(({ label, icon: Icon, key, href, subitems }) => (
               <li key={key}>
                 {subitems ? (
                   <>
@@ -91,7 +49,7 @@ const DashboardSidebarMobile = () => {
                       className='w-full flex items-center justify-between text-left py-2 px-4 hover:bg-gray-100 rounded-md text-sm'
                     >
                       <span className='flex items-center gap-2'>
-                        {icon}
+                        <Icon className='h-5 w-5' />
                         <span>{label}</span>
                       </span>
                       {activeMenu === key ? (
@@ -124,7 +82,7 @@ const DashboardSidebarMobile = () => {
                     href={href}
                     className='flex items-center gap-2 py-2 px-4 hover:bg-gray-100 rounded-md text-gray-800 font-medium text-sm'
                   >
-                    {icon}
+                    <Icon className='h-5 w-5' />
                     <span>{label}</span>
                   </a>
                 )}

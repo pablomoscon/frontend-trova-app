@@ -4,21 +4,45 @@ import ArtistAlbumsSection from '../ArtistAlbumsSection/ArtistAlbumsSection';
 import AlbumSongsModal from './AlbumSongsModal';
 import { ArtistProps } from '../../../Interfaces/ArtistInterface';
 import { Album } from '../../../Interfaces/AlbumInterface';
-import Spinner from '../../Spinner/Spinner';
-import { useArtistDetails } from '../../../hooks/artist/useArtistDetails';
+import Spinner from '../../shared/Spinner';
+import { useDetailsArtist } from '../../../hooks/artist/useDetailsArtist';
+import { useFetchAlbumsByArtist } from '../../../hooks/album/useFetchAlbumsByArtist';
 
 const ArtistDetailsContent: React.FC<ArtistProps> = ({ artistId }) => {
-  const { artist, loading, error } = useArtistDetails(artistId);
+  const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(9);
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (loading)
+  const {
+    artist,
+    loading: artistLoading,
+    error: artistError,
+  } = useDetailsArtist(artistId);
+
+  const {
+    albums,
+    loading: albumsLoading,
+    error: albumsError,
+    totalPages,
+  } = useFetchAlbumsByArtist(artistId, page, pageSize);
+
+  if (artistLoading || albumsLoading) {
     return (
       <div className='flex justify-center items-center h-screen'>
         <Spinner />
       </div>
     );
-  if (error) return <p className='text-center mt-20 text-red-500'>{error}</p>;
+  }
+
+  if (artistError || albumsError) {
+    return (
+      <p className='text-center mt-20 text-red-500'>
+        {artistError || albumsError}
+      </p>
+    );
+  }
+
   if (!artist) return null;
 
   const openModal = (album: Album) => {
@@ -31,8 +55,6 @@ const ArtistDetailsContent: React.FC<ArtistProps> = ({ artistId }) => {
     setSelectedAlbum(null);
   };
 
-  const albums = artist.albums ?? [];
-
   return (
     <div className='relative bg-[#E5E6E4] px-6 pt-24 sm:py-50 lg:px-0'>
       <ArtistHeader artist={artist} />
@@ -40,6 +62,11 @@ const ArtistDetailsContent: React.FC<ArtistProps> = ({ artistId }) => {
         artistName={artist.name}
         albums={albums}
         onAlbumClick={openModal}
+        page={page}
+        totalPages={totalPages}
+        setPage={setPage}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
       />
       {selectedAlbum && (
         <AlbumSongsModal

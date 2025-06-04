@@ -1,6 +1,5 @@
 import React from 'react';
 import { ContactInputFieldProps } from '../../../Interfaces/ContactInterface';
-import { classNames } from '../../../utils/classNames';
 
 const InputField: React.FC<ContactInputFieldProps> = ({
   id,

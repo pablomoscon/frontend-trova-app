@@ -1,31 +1,19 @@
 import { useEffect, useState } from 'react';
-import { fetchAlbums } from '../../services/albumService';
-import { generateFiltersFromAlbums, getNormalizedArtists } from '../../utils/catalogUtils';
 import { Album } from '../../Interfaces/AlbumInterface';
 import { FilterSection } from '../../Interfaces/CatalogueInterface';
+import { generateFiltersFromAlbums, getNormalizedArtists } from '../../utils/catalogUtils';
 
-
-export const useFilteredAlbums = () => {
+export const useFilteredAlbums = (allAlbums: Album[], loading: boolean) => {
     const [albums, setAlbums] = useState<Album[]>([]);
-    const [allAlbums, setAllAlbums] = useState<Album[]>([]);
     const [filters, setFilters] = useState<FilterSection[]>([]);
     const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
-    const [loading, setLoading] = useState(true); // 👈
 
     useEffect(() => {
-        const loadAlbums = async () => {
-            try {
-                const data = await fetchAlbums();
-                setAllAlbums(data);
-                setAlbums(data);
-                setFilters(generateFiltersFromAlbums(data));
-            } finally {
-                setLoading(false); 
-            }
-        };
-
-        loadAlbums();
-    }, []);
+        if (!loading && allAlbums.length > 0) {
+            setAlbums(allAlbums);
+            setFilters(generateFiltersFromAlbums(allAlbums));
+        }
+    }, [allAlbums, loading]);
 
     useEffect(() => {
         const filtered = allAlbums.filter((album) =>
@@ -48,7 +36,6 @@ export const useFilteredAlbums = () => {
         albums,
         filters,
         selectedFilters,
-        setSelectedFilters,
-        loading
+        setSelectedFilters
     };
 };

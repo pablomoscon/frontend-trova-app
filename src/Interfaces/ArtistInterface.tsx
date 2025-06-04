@@ -1,4 +1,4 @@
-import { Album } from "./AlbumInterface";
+import { Album } from './AlbumInterface';
 
 export interface Artist {
   id?: number;
@@ -8,22 +8,28 @@ export interface Artist {
   photo: string;
   albums?: Album[];
   createdAt: Date;
+  status?: 'ACTIVE' | 'SUSPENDED';
 }
-
+export interface ArtistSelectProps {
+  artistId: number;
+  artists: Artist[];
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  setShowArtistModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditMode: boolean;
+}
 export interface ArtistFormData {
   name: string;
   nationality: string;
   details: string;
-  photo: string;
+  photo: File | undefined;
 }
-
 export interface ArtistProps {
   artistId: number;
 }
 
-export interface ArtistHeaderProps {
+export interface ArtistObjectProps {
   artist: Artist;
-  }
+}
 
 export interface NewArtistModalProps {
   formData: ArtistFormData;
@@ -31,7 +37,35 @@ export interface NewArtistModalProps {
   onClose: () => void;
   onSave: () => void;
 }
+export interface ArtistRowProps {
+  artist: Artist;
+  onDelete: (id: number) => void;
+  onToggleStatus: (artist: Artist) => void;
+  onEdit: (id: number) => void;
+}
 
 export interface CreateArtistFormProps {
   onSave: (data: ArtistFormData) => void;
+}
+
+export interface ArtistEditModalProps {
+  artistId: number;
+  onClose: () => void;
+  onSaveSuccess: () => void;
+}
+export interface ArtistAlbumSectionProps {
+  artistName: string;
+  albums: Album[];
+  onAlbumClick: (album: Album) => void;
+  page: number;
+  totalPages: number;
+  setPage: (page: number) => void;
+  pageSize: number;
+  setPageSize: (size: number) => void;
+}
+
+export interface ArtistEditModalProps {
+  artistId: number;
+  onClose: () => void;
+  onSaveSuccess: () => void;
 }

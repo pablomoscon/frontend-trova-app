@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
-import Spinner from '../../Spinner/Spinner';
-import { useArtistFetch } from '../../../hooks/artist/useArtistFetch';
+import Spinner from '../../shared/Spinner';
+import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
+import { useState } from 'react';
 
 const ArtistList: React.FC = () => {
-  const { artists, loading, error } = useArtistFetch(false);
+
+  const [page, setPage] = useState(0);
+  const size = 15;
+
+  const { artists, loading, error } = useFetchArtists(
+    page,
+    size
+  );
 
   if (loading)
     return (
@@ -30,6 +38,23 @@ const ArtistList: React.FC = () => {
               <p className='mt-1 text-sm text-gray-500'>{artist.nationality}</p>
             </Link>
           ))}
+        </div>
+
+        {/* Opcional: controles simples de paginación */}
+        <div className='flex justify-center mt-8 space-x-4'>
+          <button
+            disabled={page === 0}
+            onClick={() => setPage((p) => Math.max(p - 1, 0))}
+            className='px-4 py-2 bg-gray-300 rounded disabled:opacity-50'
+          >
+            Anterior
+          </button>
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            className='px-4 py-2 bg-gray-300 rounded'
+          >
+            Siguiente
+          </button>
         </div>
       </div>
     </div>

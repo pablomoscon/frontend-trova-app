@@ -1,10 +1,10 @@
+import React, { useState } from 'react';
 import { UserCircleIcon } from 'lucide-react';
 import InputField from '../InputField/InputField';
-import { useState } from 'react';
 import { validateForm } from '../../../utils/validateSignUp';
 import useSignUp from '../../../hooks/auth/useSignUp';
 
-const SignUpForm = () => {
+const SignUpForm: React.FC = () => {
   const { formData, handleChange, handleSubmit } = useSignUp();
   const [errors, setErrors] = useState({
     name: '',

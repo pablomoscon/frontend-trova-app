@@ -1,17 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDownIcon, UserCircleIcon } from '@heroicons/react/20/solid';
+import { NavbarUserMenuProps } from '../../../Interfaces/NavbarInterface';
 
-const NavbarUserMenu = ({
+const NavbarUserMenu: React.FC<NavbarUserMenuProps> = ({
   logout,
   username,
-}: {
-  logout: () => void;
-  username: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Función para manejar el cierre del menú al hacer clic en una opción
   const handleMenuClick = () => {
     setIsOpen(false);
   };
@@ -22,7 +19,7 @@ const NavbarUserMenu = ({
         <button
           onClick={() => setIsOpen(!isOpen)}
           className='inline-flex justify-center items-center w-full p-0 focus:outline-none focus:ring-offset-2'
-          aria-label='Menú de usuario' // Agregado el aria-label para accesibilidad
+          aria-label='Menú de usuario'
         >
           <UserCircleIcon
             className='h-12 w-12 text-gray-700'
@@ -39,7 +36,6 @@ const NavbarUserMenu = ({
 
       {isOpen && (
         <div className='absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50'>
-          {/* Nombre de usuario estilizado */}
           <div className='px-4 py-3 border-b border-gray-200'>
             <div className='text-lg font-semibold text-gray-900'>
               {username}
@@ -48,18 +44,18 @@ const NavbarUserMenu = ({
 
           <div className='py-1'>
             <Link
-              to='/perfil'
+              to='/admin/admin-profile'
               className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-              aria-label='Ir al perfil de usuario' // Agregado el aria-label
-              onClick={handleMenuClick} // Cierra el menú al hacer clic
+              aria-label='Ir al perfil de usuario'
+              onClick={handleMenuClick}
             >
               Perfil
             </Link>
             <Link
               to='/admin/dashboard'
               className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-              aria-label='Ir al panel de administración' // Agregado el aria-label
-              onClick={handleMenuClick} // Cierra el menú al hacer clic
+              aria-label='Ir al panel de administración'
+              onClick={handleMenuClick}
             >
               Dashboard
             </Link>
@@ -71,10 +67,10 @@ const NavbarUserMenu = ({
             <button
               onClick={() => {
                 logout();
-                handleMenuClick(); // Cierra el menú al hacer clic
+                handleMenuClick();
               }}
               className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-              aria-label='Cerrar sesión' // Agregado el aria-label
+              aria-label='Cerrar sesión'
             >
               Cerrar sesión
             </button>

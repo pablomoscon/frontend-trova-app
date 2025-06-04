@@ -1,6 +1,5 @@
-
 import React from 'react';
-import CatalogueContent from '../../components/CatalogueComponents/CatalogueContent/CatalogueContent';
+import CatalogueContent from '../../components/catalogueComponents/CatalogueContent/CatalogueContent';
 
 const CatalogueView: React.FC = () => {
   return (

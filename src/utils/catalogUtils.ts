@@ -31,7 +31,12 @@ const normalizeGenreName = (genre: string): string => {
         .join(' ');
 };
 
-export const generateFiltersFromAlbums = (albums: Album[]): FilterSection[] => {
+export const generateFiltersFromAlbums = (albums: Album[] | undefined): FilterSection[] => {
+    if (!Array.isArray(albums)) {
+        console.error("generateFiltersFromAlbums esperaba un array, pero recibió:", albums);
+        return [];
+    }
+
     const artistSet = new Set<string>();
     const yearSet = new Set<number>();
     const genreSet = new Set<string>();

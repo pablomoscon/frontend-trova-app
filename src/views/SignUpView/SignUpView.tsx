@@ -1,5 +1,5 @@
-import AuthLayout from "../../components/AuthComponents/AuthLayout/AuthLayout";
-import SignUpForm from "../../components/AuthComponents/SignUpForm/SignUpForm";
+import AuthLayout from '../../components/authComponents/AuthLayout/AuthLayout';
+import SignUpForm from '../../components/authComponents/SignUpForm/SignUpForm';
 
 const SignUpView = () => {
   return (

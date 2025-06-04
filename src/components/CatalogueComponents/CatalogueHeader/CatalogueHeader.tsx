@@ -1,21 +1,18 @@
 import React from 'react';
 import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import SortMenu from '../CatalogueSortMenu/CatalogueSortMenu';
+import { CatalogueHeaderProps } from '../../../Interfaces/CatalogueInterface';
 
 const sortOptions = [
   { name: 'Más reciente', href: '#', current: true },
   { name: 'Más antiguo', href: '#', current: false }
 ];
 
-interface Props {
-  onMobileFiltersOpen: () => void;
-}
-
-const CatalogueHeader: React.FC<Props> = ({ onMobileFiltersOpen }) => (
+const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
+  onMobileFiltersOpen,
+}) => (
   <div className='flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24'>
-    <h1 className='text-4xl font-bold tracking-tight text-gray-900'>
-      Álbumes
-    </h1>
+    <h1 className='text-4xl font-bold tracking-tight text-gray-900'>Álbumes</h1>
     <div className='flex items-center'>
       <SortMenu sortOptions={sortOptions} />
       <button

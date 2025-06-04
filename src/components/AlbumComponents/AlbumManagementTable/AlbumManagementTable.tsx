@@ -1,33 +1,24 @@
-import React, { useState } from 'react';
-import Spinner from '../../Spinner/Spinner';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { TrashIcon, PencilIcon } from '@heroicons/react/24/solid';
-import { useAlbumsFetch } from '../../../hooks/album/useAlbumFetch';
-import { useDeleteAlbum } from '../../../hooks/album/useDeleteAlbum';
+import React from 'react';
+import Spinner from '../../shared/Spinner';
+import SearchInput from '../../shared/SearchInput';
 import AlbumEditModal from '../AlbumEditModal/AlbumEditModal';
+import AlbumRow from './AlbumRow';
+import { useManagementAlbum } from '../../../hooks/album/useManagementAlbum';
 
 const AlbumManagementTable: React.FC = () => {
-  const { albums, isLoading, error, reloadAlbums } = useAlbumsFetch();
-  const { triggerDelete } = useDeleteAlbum(reloadAlbums);
-
-  const [showModal, setShowModal] = useState(false);
-  const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleEdit = (id: number) => {
-    setSelectedAlbumId(id);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedAlbumId(null);
-    reloadAlbums();
-  };
-
-  const filteredAlbums = albums.filter((album) =>
-    album.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const {
+    filteredAlbums,
+    isLoading,
+    error,
+    searchTerm,
+    setSearchTerm,
+    selectedAlbumId,
+    showModal,
+    toggleStatus,
+    triggerDelete,
+    handleEdit,
+    handleCloseModal,
+  } = useManagementAlbum();
 
   if (isLoading) return <Spinner />;
   if (error) return <p>{error}</p>;
@@ -37,77 +28,36 @@ const AlbumManagementTable: React.FC = () => {
       <div className='flex flex-col w-full mt-10 px-4 sm:px-8 md:px-16 py-30'>
         <h2 className='text-xl font-semibold mb-4 text-center'>Albums</h2>
 
-        {/* Search Input */}
-        <div className='w-full md:w-96 mb-4'>
-          <div className='relative'>
-            <input
-              type='text'
-              placeholder='Search Albums'
-              className='w-full p-2 pr-10 rounded-md border border-gray-300 focus:outline-none'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <div className='absolute top-2 right-2'>
-              <MagnifyingGlassIcon className='h-5 w-5 text-gray-500' />
-            </div>
-          </div>
-        </div>
+        <SearchInput
+          placeholder='Buscar Albums'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
-        {/* Tabla */}
         <div className='overflow-x-auto w-full'>
           <table className='min-w-full table-auto text-left border border-gray-300'>
             <thead className='bg-gray-200'>
-              <tr>
-                <th className='px-4 py-2 text-sm font-semibold text-gray-700'>
-                  Title
-                </th>
-                <th className='px-4 py-2 text-sm font-semibold text-gray-700'>
-                  Artist
-                </th>
-                <th className='px-4 py-2 text-sm font-semibold text-gray-700 text-start'>
-                  Actions
-                </th>
+              <tr className='text-center'>
+                <th className='px-4 py-2'>Título</th>
+                <th className='px-4 py-2'>Artista</th>
+                <th className='px-4 py-2'>Estado</th>
+                <th className='px-4 py-2'>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {filteredAlbums.map((album) => (
-                <tr key={album.id} className='border-b border-gray-300'>
-                  <td className='px-4 py-2 text-sm text-gray-700'>
-                    {album.title}
-                  </td>
-                  <td className='px-4 py-2 text-sm text-gray-700'>
-                    {album.displayArtistName}
-                  </td>
-                  <td className='px-4 py-2 text-sm'>
-                    <div className='flex justify-start space-x-4'>
-                      <button
-                        onClick={() =>
-                          album.id !== undefined && handleEdit(album.id)
-                        }
-                        className='text-sm text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-md'
-                        aria-label='Editar álbum'
-                      >
-                        <PencilIcon className='w-5 h-5 text-gray-800' />
-                      </button>
-                      <button
-                        onClick={() =>
-                          album.id !== undefined && triggerDelete(album.id)
-                        }
-                        className='text-sm text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-md'
-                        aria-label='Eliminar álbum'
-                      >
-                        <TrashIcon className='w-5 h-5 text-gray-600' />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {filteredAlbums.length === 0 && !isLoading && (
+              {filteredAlbums.length > 0 ? (
+                filteredAlbums.map((album) => (
+                  <AlbumRow
+                    key={album.id}
+                    album={album}
+                    onEdit={handleEdit}
+                    onDelete={triggerDelete}
+                    onToggleStatus={toggleStatus}
+                  />
+                ))
+              ) : (
                 <tr>
-                  <td
-                    colSpan={3}
-                    className='px-4 py-4 text-sm text-gray-500 text-center'
-                  >
+                  <td colSpan={4} className='text-center py-4 text-gray-500'>
                     No albums found.
                   </td>
                 </tr>

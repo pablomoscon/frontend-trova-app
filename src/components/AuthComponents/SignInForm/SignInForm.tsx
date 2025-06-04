@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import InputField from '../InputField/InputField';
 import SubmitButton from '../SubmitButton/SubmitButton';
 import useSignIn from '../../../hooks/auth/useSignIn';
 
-const SignInForm = () => {
+const SignInForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

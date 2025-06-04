@@ -1,13 +1,8 @@
-import { Outlet } from 'react-router-dom'; 
-import DashboardSidebar from '../../components/DashboardComponents/DashboardSidebar/DashboardSidebar';
-import DashboardSidebarMobile from '../../components/DashboardComponents/DashboardSidebarMobile/DashboardSidebarMobile';
-
-
-
+import { Outlet } from 'react-router-dom';
+import DashboardSidebar from '../../components/dashboardComponents/DashboardSidebar/DashboardSidebar';
+import DashboardSidebarMobile from '../../components/dashboardComponents/DashboardSidebarMobile/DashboardSidebarMobile';
 
 const DashboardView: React.FC = () => {
-
-
   return (
     <div className='flex h-screen text-gray-800'>
       <DashboardSidebar />

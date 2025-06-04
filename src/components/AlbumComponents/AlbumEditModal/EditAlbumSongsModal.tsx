@@ -1,17 +1,11 @@
 import { useState } from 'react';
-import { Song } from '../../../Interfaces/SongInteface';
+import { Song } from '../../../Interfaces/SongInterface';
 import { editSongs } from '../../../services/songsService';
 import {
   showErrorAlert,
   showSuccessAlert,
 } from '../../../utils/showAlertUtils';
-
-interface EditAlbumSongsModalProps {
-  songsInput: string;
-  setSongsInput: React.Dispatch<React.SetStateAction<string>>;
-  goBack: () => void;
-  songs: Song[];
-}
+import { EditAlbumSongsModalProps } from '../../../Interfaces/AlbumInterface';
 
 const EditAlbumSongsModal: React.FC<EditAlbumSongsModalProps> = ({
   goBack,
@@ -47,14 +41,20 @@ const EditAlbumSongsModal: React.FC<EditAlbumSongsModalProps> = ({
       );
       setSongsData(updatedSongs);
 
-      showSuccessAlert('Canciones actualizadas correctamente');
+      showSuccessAlert(
+        'Canciones actualizadas',
+        'Las canciones han sido actualizadas con éxito.'
+      );
 
       window.location.reload();
 
       goBack();
     } catch (error) {
       console.error('Error updating songs:', error);
-      showErrorAlert('Hubo un error al actualizar las canciones.');
+      showErrorAlert(
+        'Hubo un error al actualizar las canciones.',
+        'Inténtalo de nuevo.'
+      );
     }
   };
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Disclosure,
   DisclosureButton,
@@ -6,12 +7,11 @@ import {
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
 import { FilterSidebarProps } from '../../../Interfaces/CatalogueInterface';
 
-
-const CatalogueFilterSidebar = ({
+const CatalogueFilterSidebar: React.FC<FilterSidebarProps> = ({
   filters,
   selectedFilters,
   onFilterChange,
-}: FilterSidebarProps) => {
+}) => {
   const handleCheckboxChange = (sectionId: string, value: string) => {
     const sectionFilters = selectedFilters[sectionId] || [];
     const newFilters = sectionFilters.includes(value)

@@ -2,13 +2,18 @@
 import { ArtistFormData } from '../Interfaces/ArtistInterface';
 import { createArtist as createArtistService } from '../services/artistService';
 
-export const createNewArtist = async (artistData: ArtistFormData
-) => {
-    const newArtist = await createArtistService({
-        ...artistData,
-        details: artistData.details || 'Sin detalles',
-        nationality: artistData.nationality || 'Desconocida',
-        photo: artistData.photo || 'https://via.placeholder.com/150',
-    });
+
+export const createNewArtist = async (artistData: ArtistFormData) => {
+    const formData = new FormData();
+    formData.append('name', artistData.name);
+    formData.append('details', artistData.details || 'Sin detalles');
+    formData.append('nationality', artistData.nationality || 'Desconocida');
+    formData.append(
+        'photo',
+        artistData.photo || new File([], 'placeholder.jpg')
+    );
+
+    const newArtist = await createArtistService(formData);
     return newArtist;
 };
+

@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import AlbumFormFields from '../AlbumForm/AlbumFormFields';
-import Spinner from '../../Spinner/Spinner';
+import Spinner from '../../shared/Spinner';
 import { EditAlbumProps } from '../../../Interfaces/AlbumInterface';
-import { useAlbumEdit } from '../../../hooks/album/useAlbumEdit';
 import EditAlbumSongsModal from './EditAlbumSongsModal';
-import { useAuthContext } from '../../../hooks/auth/useAuthContext';
+import AlbumFormFields from '../AlbumFormFields/AlbumFormFields';
+import { useEditAlbum } from '../../../hooks/album/useEditAlbum';
 
 const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
   const {
@@ -15,7 +14,9 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
     artists,
     loading,
     handleSubmit,
-  } = useAlbumEdit(albumId, onClose);
+    imagePreview,
+    handleFileChange,
+  } = useEditAlbum(albumId, onClose);
 
   const [step, setStep] = useState<'main' | 'songs'>('main');
 
@@ -29,10 +30,10 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
           <Spinner />
         </div>
       )}
-      <div className='bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 h-auto max-h-[90vh] overflow-y-auto relative mt-12 mb-12'>
+      <div className='bg-white rounded-lg shadow-lg w-full max-w-3xl p-6 h-auto max-h-[90vh] overflow-y-auto relative mt-12 mb-12'>
         <button
           onClick={onClose}
-          className='absolute top-2 right-2 text-gray-500 hover:text-gray-700'
+          className='absolute top-2 right-4 text-gray-500 hover:text-gray-700'
         >
           ✕
         </button>
@@ -50,18 +51,20 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
                 setShowArtistModal={() => {}}
                 isEditMode={true}
                 goToSongsStep={goToSongsStep}
+                imagePreview={imagePreview}
+                handleFileChange={handleFileChange}
               />
               <div className='mt-6 flex justify-center gap-3'>
                 <button
                   type='button'
                   onClick={onClose}
-                  className='px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800'
+                  className='px-3 py-1.5 text-md text-gray-600 hover:text-gray-800'
                 >
                   Cancelar
                 </button>
                 <button
                   type='submit'
-                  className='px-3 py-1.5 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-500'
+                  className='px-3 py-1.5 bg-gray-500 text-white text-sm rounded hover:bg-gray-500'
                 >
                   Guardar Cambios
                 </button>

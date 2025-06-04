@@ -1,6 +1,5 @@
 import {  DashboardSubMenuProps } from '../../../Interfaces/DashboardInterface';
 
-
 const DashboardSubMenu: React.FC<DashboardSubMenuProps> = ({
   menuName,
   links,

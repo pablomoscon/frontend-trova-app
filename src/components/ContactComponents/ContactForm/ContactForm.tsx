@@ -9,7 +9,7 @@ const ContactForm: React.FC = () => {
   return (
     <form action='#' method='POST' className='mx-auto max-w-4xl sm:mt-10 px-6'>
       <div className='grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2'>
-        {/* Nombre y Apellido en la misma línea */}
+    
         <InputField
           id='first-name'
           label='Nombre'
@@ -28,7 +28,6 @@ const ContactForm: React.FC = () => {
         />
       </div>
 
-      {/* Email, Teléfono y Mensaje ocupando toda la línea */}
       <InputField
         id='email'
         label='Correo electrónico'

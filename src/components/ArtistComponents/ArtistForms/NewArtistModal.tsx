@@ -1,20 +1,42 @@
-import {
-  ArtistFormData,
-  NewArtistModalProps,
-} from '../../../Interfaces/ArtistInterface';
-import FormArtistFields from './FormArtistFields';
+import React from 'react';
+import { NewArtistModalProps } from '../../../Interfaces/ArtistInterface';
+import { createArtist } from '../../../services/artistService';
+import LoadingDots from '../../shared/LoadingDots';
+import ArtistFormFields from './ArtistFormFields';
+import { useCreateArtist } from '../../../hooks/artist/useCreateArtist';
 
-const NewArtistModal: React.FC<NewArtistModalProps> = ({
-  formData,
-  setFormData,
-  onClose,
-  onSave,
-}) => {
+const NewArtistModal: React.FC<NewArtistModalProps> = ({ onClose }) => {
+  const {
+    newArtistFormData,
+    setNewArtistFormData,
+    handleAddArtist,
+    createError,
+    isLoading,
+  } = useCreateArtist(createArtist, onClose);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev: ArtistFormData) => ({ ...prev, [name]: value }));
+    const { name } = e.target;
+
+    if (name === 'photo' && e.target instanceof HTMLInputElement) {
+      const file = e.target.files?.[0];
+      setNewArtistFormData((prev) => ({
+        ...prev,
+        photo: file || undefined,
+      }));
+    } else {
+      const value = e.target.value;
+      setNewArtistFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleAddArtist();
   };
 
   return (
@@ -23,26 +45,32 @@ const NewArtistModal: React.FC<NewArtistModalProps> = ({
         <h3 className='text-lg font-semibold mb-4 text-gray-800'>
           Nuevo artista
         </h3>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onSave();
-          }}
-        >
-          <FormArtistFields formData={formData} handleChange={handleChange} />
-          <div className='flex justify-end gap-4'>
+        <form onSubmit={handleSubmit}>
+          <ArtistFormFields
+            formData={newArtistFormData}
+            handleChange={handleChange}
+          />
+
+          {createError && (
+            <p className='text-red-500 text-sm mt-2'>{createError}</p>
+          )}
+
+          <div className='flex justify-end gap-4 mt-6'>
             <button
               type='button'
               className='px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300'
               onClick={onClose}
+              disabled={isLoading}
             >
               Cancelar
             </button>
             <button
               type='submit'
               className='px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-500'
+              disabled={isLoading}
             >
-              Guardar
+              {isLoading ? 'Guardando ' : 'Guardar artista'}
+              {isLoading && <LoadingDots />}
             </button>
           </div>
         </form>

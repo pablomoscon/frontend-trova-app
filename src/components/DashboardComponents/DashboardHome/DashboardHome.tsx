@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAuthContext } from '../../../hooks/auth/useAuthContext';
 
-
 const DashboardHome: React.FC = () => {
   const { user } = useAuthContext();
 

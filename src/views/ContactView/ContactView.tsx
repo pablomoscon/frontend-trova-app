@@ -1,7 +1,7 @@
 // ContactView.tsx
 import React from 'react';
-import ContactForm from '../../components/ContactComponents/ContactForm/ContactForm';
-import ContactInfo from '../../components/ContactComponents/ContactInfo/ContactInfo';
+import ContactForm from '../../components/contactComponents/ContactForm/ContactForm';
+import ContactInfo from '../../components/contactComponents/ContactInfo/ContactInfo';
 
 const ContactView: React.FC = () => (
   <div className='bg-[#E5E6E4] py-32 sm:py-16 lg:px-4 flex justify-center'>
