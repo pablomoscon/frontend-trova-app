@@ -24,6 +24,7 @@ const CatalogueFilterSidebar: React.FC<FilterSidebarProps> = ({
   return (
     <form className='block pt-20 lg:pt-0'>
       <h3 className='sr-only'>Filtros</h3>
+
       {filters.map((section) => (
         <Disclosure
           key={section.id}
@@ -44,12 +45,14 @@ const CatalogueFilterSidebar: React.FC<FilterSidebarProps> = ({
                   )}
                 </span>
               </DisclosureButton>
+
               <DisclosurePanel className='pt-4'>
                 <div className='space-y-4'>
                   {section.options.map((option, idx) => {
                     const checked =
                       selectedFilters[section.id]?.includes(option.value) ||
                       false;
+
                     return (
                       <div key={option.value} className='flex items-center'>
                         <input
@@ -60,6 +63,7 @@ const CatalogueFilterSidebar: React.FC<FilterSidebarProps> = ({
                           onChange={() =>
                             handleCheckboxChange(section.id, option.value)
                           }
+                          onClick={(e) => e.stopPropagation()} // 💡 evita que se cierre el panel
                           className='h-4 w-4 border-gray-500 text-indigo-600 focus:ring-indigo-500'
                         />
                         <label

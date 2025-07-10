@@ -7,12 +7,12 @@ export const useEditArtist = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
 
-    const updateArtist = async (id: number, data: Partial<Artist>) => {
+    const updateArtist = async (id: number, formData: FormData): Promise<Artist> => {
         setIsLoading(true);
         setError(null);
         setSuccess(false);
         try {
-            const updated = await editArtist(id, data);
+            const updated = await editArtist(id, formData);
             setSuccess(true);
             return updated;
         } catch (err: any) {

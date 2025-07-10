@@ -1,81 +1,137 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Artist } from '../../Interfaces/ArtistInterface';
-import { editArtist } from '../../services/artistService';
-import { showErrorAlert, showSuccessAlert } from '../../utils/showAlertUtils';
 import { useDeleteArtist } from './useDeleteArtist';
+import { useSearchArtists } from './useSearchArtists';
 import { useFetchArtists } from './useFetchArtists';
+import { useEditArtist } from './useEditArtist';
+import { showSuccessAlert, showErrorAlert } from '../../utils/showAlertUtils';
+import { useScroll } from '../shared/useScroll';
+import { usePageAndSearch } from '../shared/usePageAndSearch';
 
-export const useManagementArtist = () => {
-  const { artists, loading: isLoading, error, reloadArtists } = useFetchArtists();
-  const { handleDelete: triggerDelete } = useDeleteArtist(reloadArtists);
+export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage') => {
+  const {
+    page,
+    setPage,
+    searchTerm,
+    setSearchTerm,
+    handleSearchKeyDown
+  } = usePageAndSearch(pageKey);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedArtistId, setSelectedArtistId] = useState<number | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [pageSize, setPageSize] = useState(pageSizeInitial);
+  const [hasSearched, setHasSearched] = useState(false);
 
+  const searching = hasSearched && searchTerm.trim() !== '';
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const offset = window.innerWidth < 640 ? 90 : 240;
+  useScroll(scrollRef, { deps: [page], behavior: 'smooth', offset });
+
+  const {
+    artists: backendArtists,
+    totalPages: totalPagesBackend,
+    isLoading: loadingBackend,
+    error: errorBackend,
+    reloadArtists,
+  } = useFetchArtists(page - 1, pageSize);
+
+  const {
+    artists: searchArtistsList,
+    isLoading: loadingSearch,
+    error: errorSearch,
+    totalPages: totalPagesSearch,
+    refresh: refreshSearch,
+  } = useSearchArtists(searchTerm, page, pageSize);
+
+  const artists = searching ? searchArtistsList : backendArtists;
+  const isLoading = searching ? loadingSearch : loadingBackend;
+  const error = searching ? errorSearch : errorBackend;
+  const totalPages = searching ? totalPagesSearch : totalPagesBackend;
+  
   useEffect(() => {
-    const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') handleCloseModal();
-    };
-
-    if (showModal) {
-      document.addEventListener('keydown', handleEscKey);
+    if (!isLoading && totalPages > 0 && page > totalPages) {
+      if (page !== totalPages) {
+        setPage(totalPages);
+      }
     }
+  }, [isLoading, page, totalPages, setPage]);
 
-    return () => {
-      document.removeEventListener('keydown', handleEscKey);
-    };
-  }, [showModal]);
-
-  const filteredArtists = artists.filter((artist) =>
-    artist.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const { handleDelete } = useDeleteArtist(searching ? refreshSearch : reloadArtists);
+  const { updateArtist } = useEditArtist();
 
   const toggleStatus = async (artist: Artist) => {
-    if (artist.id === undefined) {
-      showErrorAlert('Error', 'El artista no tiene un ID válido.');
-      return;
-    }
-
-    const currentStatus = (artist.status ?? 'ACTIVE');
-    const newStatus = currentStatus === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
-
+    const newStatus = artist.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
     try {
-      await editArtist(artist.id, { status: newStatus });
-      showSuccessAlert(
-        'Estado actualizado',
-        `El artista fue ${newStatus === 'SUSPENDED' ? 'Suspendido' : 'Activado'}.`
-      );
-      reloadArtists();
-    } catch (err) {
-      console.error('Error al cambiar estado del artista', err);
-      showErrorAlert('Error', 'No se pudo cambiar el estado del artista.');
+      const formData = new FormData();
+      formData.append('status', newStatus);
+
+      await updateArtist(artist.id!, formData);
+      showSuccessAlert('Estado actualizado', `El artista fue ${newStatus === 'SUSPENDED' ? 'Suspendido' : 'Activado'}.`);
+      searching ? refreshSearch() : reloadArtists();
+    } catch (err: any) {
+      showErrorAlert('Error', err?.response?.data?.message || 'No se pudo cambiar el estado');
     }
   };
 
+  const [selectedArtistId, setSelectedArtistId] = useState<number | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
-  const handleEdit = (id: number) => {
+  const openEditModal = (id: number) => {
     setSelectedArtistId(id);
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
+  const closeEditModal = () => {
     setSelectedArtistId(null);
     setShowModal(false);
-    reloadArtists();
+    searching ? refreshSearch() : reloadArtists();
+  };
+
+  const onPageSizeChange = (sz: number) => {
+    setPageSize(sz);
+    setPage(1);
+  };
+
+  const onSearchChange = (val: string) => {
+    setSearchTerm(val);
+    if (val.trim() === '') {
+      setHasSearched(false);
+      setPage(1);
+    }
+  };
+
+  const onSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      if (searchTerm.trim() === '') {
+        showErrorAlert('Error', 'Por favor ingresá un término para buscar');
+        return;
+      }
+      setHasSearched(true);
+      setPage(1);
+    }
+    handleSearchKeyDown(e);
   };
 
   return {
-    filteredArtists,
+    artists,
+    totalPages,
     isLoading,
     error,
+    toggleStatus,
+    triggerDelete: handleDelete,
+    searching,
+    showModal,
+    selectedArtistId,
+    openEditModal,
+    closeEditModal,
+    reload: searching ? refreshSearch : reloadArtists,
+    scrollRef,
+    page,
+    setPage,
+    pageSize,
+    setPageSize: onPageSizeChange,
     searchTerm,
     setSearchTerm,
-    toggleStatus,
-    triggerDelete,
-    handleEdit,
-    handleCloseModal,
-    selectedArtistId,
-    showModal,
+    onSearchChange,
+    onSearchKeyDown,
   };
 };

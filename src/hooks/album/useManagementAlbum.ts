@@ -1,34 +1,73 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Album } from '../../Interfaces/AlbumInterface';
+import { usePageAndSearch } from '../shared/usePageAndSearch';
+import { useFetchAlbums } from './useFetchAlbums';
+import { useSearchAlbums } from './useSearchAlbums';
 import { useDeleteAlbum } from './useDeleteAlbum';
 import { editAlbum } from '../../services/albumService';
+import { useScroll } from '../shared/useScroll';
 import { showErrorAlert, showSuccessAlert } from '../../utils/showAlertUtils';
-import { sortAlbums } from '../../utils/sortAlbums';
-import { useFetchAlbums } from './useFetchAlbum';
 
-export const useManagementAlbum = () => {
-    const { albums, isLoading, error, reloadAlbums } = useFetchAlbums();
-    const { triggerDelete } = useDeleteAlbum(reloadAlbums);
+export const useManagementAlbum = (pageSizeInitial = 15, pageKey = 'albumsPage') => {
+    const {
+        page,
+        setPage,
+        searchTerm,
+        setSearchTerm,
+        handleSearchKeyDown
+    } = usePageAndSearch(pageKey);
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
-    const [showModal, setShowModal] = useState(false);
+    const [pageSize, setPageSize] = useState(pageSizeInitial);
+    const [hasSearched, setHasSearched] = useState(false);
 
-    const filteredAlbums = sortAlbums(albums).filter(album =>
-        album.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const searching = hasSearched && searchTerm.trim() !== '';
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const offset = window.innerWidth < 640 ? 90 : 240;
+    useScroll(scrollRef, { deps: [page], behavior: 'smooth', offset });
+
+    const {
+        albums: backendAlbums,
+        isLoading: loadingBackend,
+        error: errorBackend,
+        totalPages: totalPagesBackend,
+        reloadAlbums,
+    } = useFetchAlbums(page - 1, pageSize);
+
+    const {
+        albums: searchAlbumsList,
+        isLoading: loadingSearch,
+        error: errorSearch,
+        totalPages: totalPagesSearch,
+        refresh: refreshSearch,
+    } = useSearchAlbums(searchTerm, page, pageSize);
+
+    const albums = searching ? searchAlbumsList : backendAlbums;
+    const isLoading = searching ? loadingSearch : loadingBackend;
+    const error = searching ? errorSearch : errorBackend;
+    const totalPages = searching ? totalPagesSearch : totalPagesBackend;
+
+    useEffect(() => {
+        if (!isLoading && page > totalPages && totalPages > 0) {
+            setPage(totalPages);
+        }
+    }, [isLoading, page, totalPages, setPage]);
+
+    const { handleDelete } = useDeleteAlbum(searching ? refreshSearch : reloadAlbums);
 
     const toggleStatus = async (album: Album) => {
         const newStatus = (album.status ?? 'ACTIVE') === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
         try {
             await editAlbum(album.id, { status: newStatus });
-            showSuccessAlert("Estado actualizado", `El álbum fue ${newStatus === 'SUSPENDED' ? 'suspendido' : 'activado'}.`);
-            reloadAlbums();
-        } catch (error) {
-            console.error("Error al cambiar estado del álbum", error);
-            showErrorAlert("Error", "No se pudo cambiar el estado.");
+            showSuccessAlert('Estado actualizado', `El álbum fue ${newStatus === 'SUSPENDED' ? 'suspendido' : 'activado'}.`);
+            searching ? await refreshSearch() : await reloadAlbums();
+        } catch {
+            showErrorAlert('Error', 'No se pudo cambiar el estado.');
         }
     };
+
+    const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
+    const [showModal, setShowModal] = useState(false);
 
     const handleEdit = (id: number) => {
         setSelectedAlbumId(id);
@@ -38,36 +77,54 @@ export const useManagementAlbum = () => {
     const handleCloseModal = () => {
         setSelectedAlbumId(null);
         setShowModal(false);
-        reloadAlbums();
+        searching ? refreshSearch() : reloadAlbums();
     };
 
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && showModal) {
-                handleCloseModal();
-            }
-        };
+    const onPageSizeChange = (sz: number) => {
+        setPageSize(sz);
+        setPage(1);
+    };
 
-        if (showModal) {
-            document.addEventListener('keydown', handleKeyDown);
+    const onSearchChange = (val: string) => {
+        setSearchTerm(val);
+        if (val.trim() === '') {
+            setHasSearched(false);
+            setPage(1);
         }
+    };
 
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [showModal]);
+    const onSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            if (searchTerm.trim() === '') {
+                showErrorAlert('Error', 'Por favor ingresá un término para buscar');
+                return;
+            }
+            setHasSearched(true);
+            setPage(1);
+        }
+        handleSearchKeyDown(e);
+    };
 
     return {
-        filteredAlbums,
+        albums,
         isLoading,
         error,
+        totalPages,
+        searching,
+        page,
+        setPage,
+        pageSize,
+        setPageSize: onPageSizeChange,
         searchTerm,
-        setSearchTerm,
+        onSearchChange,
+        onSearchKeyDown,
         toggleStatus,
-        triggerDelete,
+        handleDelete,
         showModal,
         selectedAlbumId,
+        reload: searching ? refreshSearch : reloadAlbums,
         handleEdit,
         handleCloseModal,
+        scrollRef,
     };
 };

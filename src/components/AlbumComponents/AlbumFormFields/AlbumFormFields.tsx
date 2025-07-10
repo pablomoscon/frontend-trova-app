@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import TextInput from './TextInput';
+import TextInput from '../../shared/inputs/TextInput';
 import ArtistSelector from './ArtistSelector';
-import SongInputs from './SongInputs';
-import TextAreaInput from './TextAreaInput';
+import TextAreaInput from '../../shared/inputs/TextAreaInput';
 import GenreSelector from './GenreSelector';
-import ImageFileUpload from './ImageFileUpload';
+import ImageFileUpload from '../../shared/inputs/ImageFileUpload';
 import { AlbumFormFieldsProps } from '../../../Interfaces/AlbumInterface';
-
+import SongInputs from '../../shared/inputs/SongInputs';
 
 const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
   formData,

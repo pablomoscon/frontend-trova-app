@@ -12,8 +12,8 @@ const ArtistAlbumsSection: React.FC<ArtistAlbumSectionProps> = ({
   pageSize,
   setPageSize,
 }) => (
-  <div className='mx-auto max-w-5xl px-8 py-16'>
-    <h2 className='text-2xl font-bold tracking-tight text-gray-900 py-10'>
+  <div className='mx-auto max-w-full sm:max-w-5xl px-4 sm:px-8 py-16'>
+    <h2 className='text-2xl font-bold tracking-tight text-gray-900 py-10 text-center sm:text-left'>
       Álbumes de {artistName}
     </h2>
     <AlbumList

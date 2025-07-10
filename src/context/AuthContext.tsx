@@ -10,11 +10,11 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Check if there is a user stored in localStorage and set it to the user state
   const storedUser = localStorage.getItem('user');
-   const parsedUser: User | null = storedUser ? JSON.parse(storedUser) : null;
+  const parsedUser: User | null = storedUser ? JSON.parse(storedUser) : null;
 
   const initialUser =
     parsedUser && !isTokenExpired(parsedUser.token) ? parsedUser : null;
-  
+
   const [user, setUser] = useState<User | null>(initialUser);
 
   const login = (userData: User) => {
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('user');
   };
 
-  const isAdmin = user?.role === 'admin';
+  const isAdmin = user?.role === 'ADMIN';
   const isAuthenticated = !!user && !isTokenExpired(user.token);
   const token = user?.token || null;
 
@@ -39,20 +39,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     logout,
     isAdmin,
     isAuthenticated,
-    token
+    token,
   };
 
-useEffect(() => {
-  const storedUser = localStorage.getItem('user');
-  const parsedUser: User | null = storedUser ? JSON.parse(storedUser) : null;
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    const parsedUser: User | null = storedUser ? JSON.parse(storedUser) : null;
 
-  if (!parsedUser || isTokenExpired(parsedUser.token)) {
-    setUser(null);
-    localStorage.removeItem('user');
-  } else {
-    setUser(parsedUser);
-  }
-}, []);
+    if (!parsedUser || isTokenExpired(parsedUser.token)) {
+      setUser(null);
+      localStorage.removeItem('user');
+    } else {
+      setUser(parsedUser);
+    }
+  }, []);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

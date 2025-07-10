@@ -21,8 +21,8 @@ export interface MobileFilterDialogProps {
 
 export interface FilterSidebarProps {
   filters: FilterSection[];
-  selectedFilters: SelectedFilters; // ⬅️ agregado
-  onFilterChange: (selectedFilters: SelectedFilters) => void;
+  selectedFilters: Record<string, string[]>;
+  onFilterChange: (filters: Record<string, string[]>) => void;
 }
 
 export interface SortOption {

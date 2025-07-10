@@ -1,45 +1,45 @@
-import { useEffect, useState } from 'react';
-import { User } from '../../Interfaces/UserInterface';
-import { fetchUserById, fetchUsers } from '../../services/userService';
+import { useCallback, useEffect, useState } from 'react';
+import { User, UsersData } from '../../Interfaces/UserInterface';
+import { fetchUsers } from '../../services/userService';
 
-export const useFetchUsers = () => {
+export const useFetchUsers = (page: number, size: number) => {
     const [users, setUsers] = useState<User[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [totalPages, setTotalPages] = useState<number>(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const loadUsers = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const res: UsersData = await fetchUsers(page, size);
+            setUsers(res.content|| []);
+            setTotalPages(Math.max(1, res.totalPages));
+            setCurrentPage(res.currentPage ?? 0);
+            setError(null);
+        } catch (e) {
+            console.error(e);
+            const msg =
+                e instanceof Error ? e.message : 'Failed to load users';
+            setError(msg);
+            setUsers([]);
+            setTotalPages(1);
+            setCurrentPage(0);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [page, size]);
 
     useEffect(() => {
-        const load = async () => {
-            try {
-                const data = await fetchUsers();
-                setUsers(data);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        load();
-    }, []);
+        loadUsers();
+    }, [loadUsers]);
 
-    return { users, loading };
-};
-
-export const useFetchUserById = (id: string) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const load = async () => {
-            try {
-                const data = await fetchUserById(id); // 👈 ya no destructures
-                setUser(data);
-            } catch (error) {
-                console.error('Error fetching user by id:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        if (id) load();
-    }, [id]);
-
-    return { user, loading };
-};
+    return {
+        users,
+        totalPages,
+        isLoading,
+        error,
+        reloadUsers: loadUsers,
+        currentPage
+    };
+}

@@ -56,7 +56,7 @@ export interface ArtistEditModalProps {
 export interface ArtistAlbumSectionProps {
   artistName: string;
   albums: Album[];
-  onAlbumClick: (album: Album) => void;
+  onAlbumClick: (albumId: number) => void;
   page: number;
   totalPages: number;
   setPage: (page: number) => void;
@@ -68,4 +68,17 @@ export interface ArtistEditModalProps {
   artistId: number;
   onClose: () => void;
   onSaveSuccess: () => void;
+}
+
+export interface ArtistsData {
+  content: Artist[];
+  totalPages: number;
+  number: number;
+  totalElements: number;
+  size: number;
+}
+
+export interface ArtistDetailsModalProps {
+  artist: Artist;
+  onClose: () => void;
 }

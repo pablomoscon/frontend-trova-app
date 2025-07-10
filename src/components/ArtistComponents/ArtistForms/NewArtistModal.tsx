@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { NewArtistModalProps } from '../../../Interfaces/ArtistInterface';
 import { createArtist } from '../../../services/artistService';
 import LoadingDots from '../../shared/LoadingDots';
 import ArtistFormFields from './ArtistFormFields';
 import { useCreateArtist } from '../../../hooks/artist/useCreateArtist';
+import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
+
 
 const NewArtistModal: React.FC<NewArtistModalProps> = ({ onClose }) => {
   const {
@@ -13,6 +15,8 @@ const NewArtistModal: React.FC<NewArtistModalProps> = ({ onClose }) => {
     createError,
     isLoading,
   } = useCreateArtist(createArtist, onClose);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useCloseOnOutside(panelRef, onClose);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -41,10 +45,14 @@ const NewArtistModal: React.FC<NewArtistModalProps> = ({ onClose }) => {
 
   return (
     <div className='fixed inset-0 bg-opacity-40 backdrop-blur-lg flex justify-center items-center z-50'>
-      <div className='bg-white rounded-lg p-8 w-full max-w-2xl shadow-lg border-4 border-gray-800'>
+      <div
+        ref={panelRef}
+        className='bg-white rounded-lg p-8 w-full max-w-2xl shadow-lg border-4 border-gray-800'
+      >
         <h3 className='text-lg font-semibold mb-4 text-gray-800'>
           Nuevo artista
         </h3>
+
         <form onSubmit={handleSubmit}>
           <ArtistFormFields
             formData={newArtistFormData}

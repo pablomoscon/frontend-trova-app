@@ -15,7 +15,6 @@ export interface OptionalStepNavigation {
 export interface ArtistModalControl {
   setShowArtistModal?: (show: boolean) => void;
 }
-
 export interface Album {
   id: number;
   title: string;
@@ -23,7 +22,7 @@ export interface Album {
   cdNumber: string;
   photo: string;
   year: number;
-  listOfSongs: Song[];
+  listOfSongs?: Song[];
   artistName: string;
   displayArtistName: string;
   genres: string[];
@@ -42,31 +41,25 @@ export interface AlbumFormData {
   listOfSongs: Song[];
   status?: Status;
 }
-export interface AlbumsResponse {
+export interface AlbumsData {
   albums: Album[];
-  totalItems: number;
+  totalElements: number;
   totalPages: number;
   currentPage: number;
 }
 export interface AlbumCardProps {
   album: Album;
-  onClick?: () => void;
+  onClick?: (albumId: number) => void;
 }
 
 export interface AlbumListProps {
   albums: Album[];
-  onClick?: (album: Album) => void;
+  onClick?: (albumId: number) => void;
   page: number;
   totalPages: number;
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (size: number) => void;
-}
-
-export interface AlbumAdminGridProps {
-  albums: Album[];
-  onOpenDetails: (album: Album) => void;
-  onOpenImage: (url: string) => void;
 }
 
 export interface EditAlbumProps {
@@ -76,7 +69,7 @@ export interface EditAlbumProps {
 
 export interface AlbumSongsModalProps {
   isOpen: boolean;
-  album: Album;
+  albumId: number;
   onClose: () => void;
 }
 
@@ -147,3 +140,36 @@ export interface EditAlbumSongsModalProps {
   goBack: () => void;
   songs: Song[];
 }
+
+export interface AlbumFilterParams {
+  page: number;
+  size: number;
+  artistName?: string [];
+  year?: number[]; 
+  genre?: string[];
+}
+
+export interface AlbumFilterResponse {
+  albums: Album[];
+  currentPage: number;
+  totalItems: number;
+  totalPages: number;
+}
+
+export interface SearchAlbumsProps {
+  albums: Album[];
+  isLoading: boolean;
+  error: string | null;
+  totalPages: number;
+  refresh: () => void;
+  currentPage: number;
+
+}
+
+export interface useManagementAlbumProps {
+  page: number;
+  setPage: (p: number) => void;
+  pageSize: number;
+  searchTerm: string;
+}
+

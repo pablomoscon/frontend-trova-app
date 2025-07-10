@@ -27,26 +27,33 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
         const loadData = async () => {
             try {
                 startLoading();
-                const album = await fetchAlbumById(albumId);
-                const allArtists = await fetchArtists();
 
-                const matchingArtist = allArtists.find((a) => a.name === album.artistName);
+                const album = await fetchAlbumById(albumId);
+
+                const { content: artistList } = await fetchArtists(0, 100);  
+
+                const matchingArtist = artistList.find(
+                    (a) => a.name === album.artistName
+                );
+                
                 const loadedData: AlbumFormData = {
                     title: album.title,
                     year: album.year ?? 0,
                     photo: album.photo,
-                    artistId: matchingArtist?.id || 0,
+                    artistId: matchingArtist?.id ?? 0,
                     details: album.details,
                     cdNumber: album.cdNumber,
                     genres: album.genres ?? [],
-                    listOfSongs: album.listOfSongs,
+                    listOfSongs: album.listOfSongs ?? [],  
                     displayArtistName: album.displayArtistName,
                 };
 
                 setFormData(loadedData);
                 setInitialData(loadedData);
-                setSongsInput(album.listOfSongs.map((song) => song.name).join(", "));
-                setArtists(allArtists);
+                setSongsInput(
+                    (album.listOfSongs ?? []).map((s) => s.title).join(", ")
+                );
+                setArtists(artistList);              
             } catch (error) {
                 console.error("Error al cargar álbum", error);
             } finally {

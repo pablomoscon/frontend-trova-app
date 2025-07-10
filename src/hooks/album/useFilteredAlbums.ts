@@ -1,41 +1,135 @@
-import { useEffect, useState } from 'react';
-import { Album } from '../../Interfaces/AlbumInterface';
+// src/hooks/album/useFilteredAlbums.ts
+import { useState, useEffect, useCallback } from 'react';
+import { fetchFilteredAlbums } from '../../services/albumService';
+import {
+  Album,
+  AlbumFilterParams,
+  AlbumsData,
+} from '../../Interfaces/AlbumInterface';
 import { FilterSection } from '../../Interfaces/CatalogueInterface';
-import { generateFiltersFromAlbums, getNormalizedArtists } from '../../utils/catalogUtils';
+import { generateFiltersFromAlbums } from '../../utils/filterUtils';
+import { groupAlbumsByArtist } from '../../utils/groupAlbumsByArtist';
 
-export const useFilteredAlbums = (allAlbums: Album[], loading: boolean) => {
+const buildFilterParams = (
+  filters: Record<string, string[]>,
+  page: number,
+  size: number
+): AlbumFilterParams => {
+  const params: AlbumFilterParams = { page: page - 1, size };
+
+  if (filters.artistName?.length) params.artistName = filters.artistName;
+
+  if (filters.year?.length) params.year = filters.year.map(Number);
+
+  if (filters.genre?.length) params.genre = filters.genre;
+
+  return params;
+};
+
+
+export function useFilteredAlbums(initialSize = 9) {
+
     const [albums, setAlbums] = useState<Album[]>([]);
-    const [filters, setFilters] = useState<FilterSection[]>([]);
-    const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
+  const [groupedAlbums, setGroupedAlbums] = useState<Record<string, Album[]>>(
+    {}
+  );
+  const [allAlbums, setAllAlbums] = useState<Album[]>([]);
 
-    useEffect(() => {
-        if (!loading && allAlbums.length > 0) {
-            setAlbums(allAlbums);
-            setFilters(generateFiltersFromAlbums(allAlbums));
-        }
-    }, [allAlbums, loading]);
+  const [filters, setFilters] = useState<FilterSection[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<
+    Record<string, string[]>
+  >({});
 
-    useEffect(() => {
-        const filtered = allAlbums.filter((album) =>
-            Object.entries(selectedFilters).every(([key, values]) => {
-                if (values.length === 0) return true;
-                if (key === 'genre') return album.genres.some((genre) => values.includes(genre));
-                if (key === 'artist') {
-                    const albumArtists = getNormalizedArtists(album.displayArtistName);
-                    return values.some((v) => albumArtists.includes(v));
-                }
-                if (key === 'year') return values.includes(album.year.toString());
-                return true;
-            })
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(initialSize);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAllAlbums = async () => {
+      try {
+        const { albums: all } = await fetchFilteredAlbums({
+          page: 0,
+          size: 9999, 
+        });
+
+        const sorted = [...all].sort((a, b) =>
+          (a.artistName || '').localeCompare(b.artistName || '')
         );
 
-        setAlbums(filtered);
-    }, [selectedFilters, allAlbums]);
-
-    return {
-        albums,
-        filters,
-        selectedFilters,
-        setSelectedFilters
+        setAllAlbums(sorted);
+        setFilters(generateFiltersFromAlbums(sorted));
+      } catch (err) {
+        console.error('Error loading full album list:', err);
+      }
     };
-};
+
+    fetchAllAlbums();
+  }, []);
+
+  const loadAlbums = useCallback(async () => {
+    if (!pageSize) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    const params = buildFilterParams(selectedFilters, page, pageSize);
+
+    try {
+      const data: AlbumsData = await fetchFilteredAlbums(params);
+
+      const sorted = [...data.albums].sort((a, b) =>
+        (a.artistName || '').localeCompare(b.artistName || '')
+      );
+
+      setAlbums(sorted);
+      setGroupedAlbums(groupAlbumsByArtist(sorted));
+
+      setTotalPages(data.totalPages);
+      setTotalItems(data.totalItems);
+
+      setPage(data.currentPage ? data.currentPage + 1 : 1);
+    } catch (err) {
+      console.error('Error loading albums:', err);
+      setAlbums([]);
+      setGroupedAlbums({});
+      setTotalPages(1);
+      setTotalItems(0);
+      setError('Error loading albums');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [page, pageSize, selectedFilters]);
+
+  useEffect(() => {
+    loadAlbums();
+  }, [loadAlbums]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [selectedFilters]);
+
+  return {
+
+    albums,          
+    groupedAlbums,  
+    filters,
+    selectedFilters,
+    setSelectedFilters,
+
+    isLoading,
+    error,
+    page,
+    setPage,
+    totalPages,
+    totalItems,
+    pageSize,
+    setPageSize,
+
+    reloadAlbums: loadAlbums,
+    allAlbums,       
+  };
+}

@@ -6,27 +6,27 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   page,
   totalPages,
   setPage,
+  onPageChangeComplete
 }) => {
   const maxButtons = 5;
 
   const handlePageChange = (newPage: number) => {
-    if (newPage !== page) {
+    if (newPage !== page && newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
+      if (onPageChangeComplete) {
+        onPageChangeComplete();
+      }
     }
-    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   let startPage = Math.max(1, page - 2);
   let endPage = Math.min(totalPages, page + 2);
 
-  if (page <= 3) {
-    endPage = Math.min(totalPages, maxButtons);
-  }
-  if (page >= totalPages - 2) {
+  if (page <= 3) endPage = Math.min(totalPages, maxButtons);
+  if (page >= totalPages - 2)
     startPage = Math.max(1, totalPages - (maxButtons - 1));
-  }
 
-  const buttons = [];
+  const buttons: React.ReactNode[] = [];
 
   if (startPage > 1) {
     buttons.push(
@@ -42,9 +42,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
         1
       </button>
     );
-    if (startPage > 2) {
-      buttons.push(<span key='start-ellipsis'>...</span>);
-    }
+    if (startPage > 2) buttons.push(<span key='start-ellipsis'>…</span>);
   }
 
   for (let p = startPage; p <= endPage; p++) {
@@ -64,9 +62,8 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   }
 
   if (endPage < totalPages) {
-    if (endPage < totalPages - 1) {
-      buttons.push(<span key='end-ellipsis'>...</span>);
-    }
+    if (endPage < totalPages - 1)
+      buttons.push(<span key='end-ellipsis'>…</span>);
     buttons.push(
       <button
         key={totalPages}
@@ -83,11 +80,12 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   }
 
   return (
-    <div className='flex justify-center items-center gap-2 mt-6'>
+    <div className='flex justify-center items-center gap-2 pt-4 pb-14'>
       <button
-        onClick={() => handlePageChange(Math.max(1, page - 1))}
+        onClick={() => handlePageChange(page - 1)}
+        disabled={page === 1}
         className={`p-2 border rounded-full text-gray-700 hover:bg-gray-100 transition ${
-          page === 1 ? 'opacity-50' : ''
+          page === 1 ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         aria-label='Anterior'
       >
@@ -97,9 +95,10 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       {buttons}
 
       <button
-        onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
+        onClick={() => handlePageChange(page + 1)}
+        disabled={page === totalPages}
         className={`p-2 border rounded-full text-gray-700 hover:bg-gray-100 transition ${
-          page === totalPages ? 'opacity-50' : ''
+          page === totalPages ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         aria-label='Siguiente'
       >

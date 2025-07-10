@@ -14,7 +14,7 @@ const PublicRoute = ({ children }: PublicRouteProps) => {
     return <Navigate to='/' replace />;
   }
 
-  return <>{children}</>; // envolvemos porque children puede ser múltiple
+  return <>{children}</>;
 };
 
 export default PublicRoute;

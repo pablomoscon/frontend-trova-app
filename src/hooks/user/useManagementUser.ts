@@ -1,59 +1,73 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { User } from '../../Interfaces/UserInterface';
-import { fetchUsers, deleteUser, patchUser } from '../../services/userService';
-import { showErrorAlert, showSuccessAlert, showConfirmationDialog } from '../../utils/showAlertUtils';
+import { useFetchUsers } from './useFetchUsers';
+import { useSearchUsers } from './useSearchUsers';
+import { useDeleteUser } from './useDeleteUser';
+import { usePageAndSearch } from '../shared/usePageAndSearch';
+import { useScroll } from '../shared/useScroll';
+import { showErrorAlert, showSuccessAlert } from '../../utils/showAlertUtils';
+import { editUser } from '../../services/userService';
 
-export const useManagementUser = () => {
-    const [users, setUsers] = useState<User[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-    const [showModal, setShowModal] = useState(false);
+export const useManagementUser = (pageSizeInitial = 20, pageKey = 'usersPage') => {
+    const {
+        page,
+        setPage,
+        searchTerm,
+        setSearchTerm,
+        handleSearchKeyDown
+    } = usePageAndSearch(pageKey);
 
-    const reloadUsers = async () => {
-        try {
-            setIsLoading(true);
-            const data = await fetchUsers();
-            setUsers(data);
-        } catch {
-            setError('Error al cargar los usuarios');
-        } finally {
-            setIsLoading(false);
+    const [pageSize, setPageSize] = useState(pageSizeInitial);
+    const [hasSearched, setHasSearched] = useState(false);
+
+    const searching = hasSearched && searchTerm.trim() !== '';
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const offset = window.innerWidth < 640 ? 90 : 240;
+    useScroll(scrollRef, { deps: [page], behavior: 'smooth', offset });
+
+    const {
+        users: backendUsers,
+        totalPages: totalPagesBackend,
+        isLoading: loadingBackend,
+        error: errorBackend,
+        reloadUsers,
+    } = useFetchUsers(page - 1, pageSize);
+
+    const {
+        content: searchUsersList,
+        totalPages: totalPagesSearch,
+        isLoading: loadingSearch,
+        error: errorSearch,
+        refresh: refreshSearch,
+    } = useSearchUsers(searchTerm, page, pageSize);
+
+    const users = searching ? searchUsersList : backendUsers;
+    const isLoading = searching ? loadingSearch : loadingBackend;
+    const error = searching ? errorSearch : errorBackend;
+    const totalPages = searching ? totalPagesSearch : totalPagesBackend;
+
+    useEffect(() => {
+        if (!isLoading && page > totalPages && totalPages > 0) {
+            setPage(totalPages);
         }
-    };
+    }, [isLoading, page, totalPages, setPage]);
+
+    const { handleDelete } = useDeleteUser(searching ? refreshSearch : reloadUsers);
 
     const toggleStatus = async (user: User) => {
         const newStatus = (user.status ?? 'ACTIVE') === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
         try {
-            await patchUser(user.id, { status: newStatus });
-            showSuccessAlert(
-                'Estado actualizado',
-                `El usuario fue ${newStatus === 'SUSPENDED' ? 'suspendido' : 'activado'}.`
-            );
-            reloadUsers();
-        } catch (error) {
-            console.error("Error al cambiar estado del usuario", error);
-            showErrorAlert("Error", "No se pudo cambiar el estado del usuario.");
+            await editUser(user.id, { status: newStatus });
+            showSuccessAlert('Estado actualizado', `El álbum fue ${newStatus === 'SUSPENDED' ? 'suspendido' : 'activado'}.`);
+            searching ? await refreshSearch() : await reloadUsers();
+        } catch {
+            showErrorAlert('Error', 'No se pudo cambiar el estado.');
         }
     };
 
-    const triggerDelete = async (id: string) => {
-        const confirmed = await showConfirmationDialog(
-            '¿Estás seguro?',
-            'Esta acción eliminará el usuario permanentemente.'
-        );
-
-        if (!confirmed) return;
-
-        try {
-            await deleteUser(id);
-            showSuccessAlert('Usuario eliminado', 'El usuario ha sido eliminado correctamente.');
-            reloadUsers();
-        } catch (err) {
-            showErrorAlert('Error al eliminar usuario', 'No se pudo eliminar el usuario.');
-        }
-    };
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+    const [showModal, setShowModal] = useState(false);
 
     const handleEdit = (id: string) => {
         setSelectedUserId(id);
@@ -61,46 +75,56 @@ export const useManagementUser = () => {
     };
 
     const handleCloseModal = () => {
-        setShowModal(false);
         setSelectedUserId(null);
-        reloadUsers();
+        setShowModal(false);
+        searching ? refreshSearch() : reloadUsers();
     };
 
-    const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const onPageSizeChange = (sz: number) => {
+        setPageSize(sz);
+        setPage(1);
+    };
 
-    useEffect(() => {
-        reloadUsers();
-    }, []);
-
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && showModal) {
-                handleCloseModal();
-            }
-        };
-
-        if (showModal) {
-            document.addEventListener('keydown', handleKeyDown);
+    const onSearchChange = (val: string) => {
+        setSearchTerm(val);
+        if (val.trim() === '') {
+            setHasSearched(false);
+            setPage(1);
         }
+    };
 
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [showModal]);
+    const onSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            if (searchTerm.trim() === '') {
+                showErrorAlert('Error', 'Por favor ingresá un término para buscar');
+                return;
+            }
+            setHasSearched(true);
+            setPage(1);
+        }
+        handleSearchKeyDown(e);
+    };
 
     return {
-        filteredUsers,
+        users,
         isLoading,
         error,
+        totalPages,
+        searching,
+        page,
+        setPage,
+        pageSize,
+        setPageSize: onPageSizeChange,
         searchTerm,
-        setSearchTerm,
-        selectedUserId,
+        onSearchChange,
+        onSearchKeyDown,
+        toggleStatus,
+        handleDelete,
         showModal,
+        selectedUserId,
+        reload: searching ? refreshSearch : reloadUsers,
         handleEdit,
         handleCloseModal,
-        triggerDelete,
-        toggleStatus,
+        scrollRef,
     };
 };

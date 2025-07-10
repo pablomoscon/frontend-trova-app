@@ -5,39 +5,43 @@ import CatalogueFilterSidebar from '../CatalogueFilterSidebar/CatalogueFilterSid
 import CatalogueMobileFilterDialog from '../CatalogueMobileFilterDialog/CatalogueMobileFilterDialog';
 import CatalogueHeader from '../CatalogueHeader/CatalogueHeader';
 import { useFilteredAlbums } from '../../../hooks/album/useFilteredAlbums';
-import AlbumSongsModal from '../../artistComponents/ArtistDetails/AlbumSongsModal';
-import { Album } from '../../../Interfaces/AlbumInterface';
-import { useFetchAlbums } from '../../../hooks/album/useFetchAlbum';
+import AlbumSongsModal from '../../albumComponents/AlbumCard/AlbumSongsModal';
+import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
 
 const CatalogueContent: React.FC = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
+  const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [pageSize, setPageSize] = useState<number>(9);
 
   const {
-    albums: allAlbums,
+    albums,
+    filters,
+    selectedFilters,
+    setSelectedFilters,
     isLoading,
     page,
     setPage,
     totalPages,
-  } = useFetchAlbums(pageSize);
+    pageSize,
+    setPageSize,
+  } = useFilteredAlbums();
 
-  const { albums, filters, selectedFilters, setSelectedFilters } =
-    useFilteredAlbums(allAlbums, isLoading);
+  const { album: selectedAlbum, isLoading: isAlbumLoading } =
+    useFetchAlbumById(selectedAlbumId);
 
   const handleFilterChange = (filters: Record<string, string[]>) => {
     setSelectedFilters(filters);
+    setPage(1);
   };
 
-  const openModal = (album: Album) => {
-    setSelectedAlbum(album);
+  const openModal = (albumId: number) => {
+    setSelectedAlbumId(albumId);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedAlbum(null);
+    setSelectedAlbumId(null);
   };
 
   if (isLoading) {
@@ -69,7 +73,7 @@ const CatalogueContent: React.FC = () => {
             <CatalogueFilterSidebar
               filters={filters}
               selectedFilters={selectedFilters}
-              onFilterChange={handleFilterChange}
+              onFilterChange={handleFilterChange}  
             />
           </div>
           <div className='lg:col-span-3'>
@@ -86,10 +90,10 @@ const CatalogueContent: React.FC = () => {
         </div>
       </section>
 
-      {selectedAlbum && (
+      {selectedAlbum && isModalOpen && !isAlbumLoading && (
         <AlbumSongsModal
           isOpen={isModalOpen}
-          album={selectedAlbum}
+          albumId={selectedAlbum.id}
           onClose={closeModal}
         />
       )}

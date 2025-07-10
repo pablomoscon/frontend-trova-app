@@ -8,6 +8,7 @@ import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
 
 const CreateArtist: React.FC = () => {
   const { loading, error } = useFetchArtists();
+
   const {
     newArtistFormData,
     setNewArtistFormData,
@@ -42,36 +43,61 @@ const CreateArtist: React.FC = () => {
   };
 
   if (loading) {
-    return <Spinner />;
+    return (
+      <div className='min-h-screen flex justify-center items-center bg-[#E5E6E4] py-12 mt-20'>
+        <Spinner />
+      </div>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className='text-center text-red-500 mt-20'>{error}</p>;
   }
 
   return (
-    <div className='min-w-full min-h-screen flex items-center justify-center bg-gray-100 py-20'>
-      <div className='w-full max-w-2xl p-6 bg-white shadow-md rounded-lg border border-gray-300 mt-28 sm:mx-10 md:mx-6 lg:mx-8'>
-        <h2 className='text-2xl font-bold mb-6 text-gray-800'>
-          Crear nuevo artista
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <ArtistFormFields
-            formData={newArtistFormData}
-            handleChange={handleChange}
-          />
-          {createError && (
-            <p className='text-red-500 text-sm mt-2'>{createError}</p>
-          )}
-          <div className='flex justify-center gap-4 my-10'>
-            <button
-              type='submit'
-              className='px-6 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-500'
-              disabled={isLoading}
-            >
-              {isLoading ? 'Guardando ' : 'Guardar artista'}
-              {isLoading && <LoadingDots />}
-            </button>
+    <div className='bg-[#E5E6E4] min-h-screen w-full mt-20 overflow-x-hidden py-10 px-4 sm:px-6 lg:px-20'>
+      <div className='mx-auto max-w-full px-6 lg:px-8'>
+        <form onSubmit={handleSubmit} className='py-10'>
+          <div className='border border-gray-900/10 p-6 bg-[#FEFEFE] rounded-xl py-10 sm:py-20'>
+            <h2 className='text-xl sm:text-2xl font-semibold leading-7 text-gray-900'>
+              Artista Info
+            </h2>
+
+            <ArtistFormFields
+              formData={newArtistFormData}
+              handleChange={handleChange}
+            />
+
+            {createError && (
+              <p className='text-red-500 text-sm mt-4 text-center'>
+                {createError}
+              </p>
+            )}
+
+            <div className='mt-4 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-y-2 sm:gap-x-6'>
+              <button
+                type='button'
+                onClick={() =>
+                  setNewArtistFormData({
+                    name: '',
+                    nationality: '',
+                    details: '',
+                    photo: undefined,
+                  })
+                }
+                className='text-xs sm:text-sm font-semibold text-gray-900 w-full sm:w-auto'
+              >
+                Cancelar
+              </button>
+              <button
+                type='submit'
+                className='bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-400 transition text-md'
+                disabled={isLoading}
+              >
+                {isLoading ? 'Guardando ' : 'Guardar artista'}
+                {isLoading && <LoadingDots />}
+              </button>
+            </div>
           </div>
         </form>
       </div>

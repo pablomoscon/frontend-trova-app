@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArtistFormData } from '../../../Interfaces/ArtistInterface';
+import TextInput from '../../shared/inputs/TextInput';
+import ImageFileUpload from '../../shared/inputs/ImageFileUpload';
+import TextAreaInput from '../../shared/inputs/TextAreaInput';
 
 const ArtistFormFields: React.FC<{
   formData: ArtistFormData;
@@ -7,73 +10,42 @@ const ArtistFormFields: React.FC<{
     HTMLInputElement | HTMLTextAreaElement
   >;
 }> = ({ formData, handleChange }) => {
+  const [selectedFileName, setSelectedFileName] = useState('');
+
   return (
-    <>
-      <div className='mb-4'>
-        <label
-          className='block text-gray-700 text-sm font-semibold mb-2'
-          htmlFor='name'
-        >
-          Nombre del artista
-        </label>
-        <input
-          type='text'
-          name='name'
-          value={formData.name}
-          onChange={handleChange}
-          placeholder='Nombre del artista'
-          className='w-full px-4 py-2 border rounded-md text-gray-600'
-        />
-      </div>
-      <div className='mb-4'>
-        <label
-          className='block text-gray-700 text-sm font-semibold mb-2'
-          htmlFor='nationality'
-        >
-          Nacionalidad
-        </label>
-        <input
-          type='text'
-          name='nationality'
-          value={formData.nationality}
-          onChange={handleChange}
-          placeholder='Nacionalidad'
-          className='w-full px-4 py-2 border rounded-md text-gray-600'
-        />
-      </div>
-      <div className='mb-4'>
-        <label
-          className='block text-gray-700 text-sm font-semibold mb-2'
-          htmlFor='details'
-        >
-          Detalles
-        </label>
-        <textarea
-          name='details'
-          value={formData.details}
-          onChange={handleChange}
-          placeholder='Detalles'
-          className='w-full px-4 py-2 border rounded-md text-gray-600'
-          rows={3}
-        />
-      </div>
-      <div className='mb-4'>
-        <label
-          className='block text-gray-700 text-sm font-semibold mb-2'
-          htmlFor='photo'
-        >
-          Foto del artista
-        </label>
-        <input
-          aria-label='Sube una foto del artista'
-          type='file'
-          name='photo'
-          accept='image/*'
-          onChange={handleChange}
-          className='w-full px-4 py-2 border rounded-md text-gray-600'
-        />
-      </div>
-    </>
+    <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 max-w-4xl mx-auto'>
+      <TextInput
+        label='Nombre del artista'
+        name='name'
+        value={formData.name}
+        onChange={handleChange}
+        colSpan='sm:col-span-3'
+        placeholder='Ej: Astor Piazzolla'
+      />
+
+      <TextInput
+        label='Nacionalidad'
+        name='nationality'
+        value={formData.nationality}
+        onChange={handleChange}
+        colSpan='sm:col-span-3'
+        placeholder='Ej: Argentina'
+      />
+
+      <TextAreaInput
+        label='Detalles'
+        name='details'
+        value={formData.details}
+        onChange={handleChange}
+      />
+
+      <ImageFileUpload
+        handleFileChange={handleChange}
+        selectedFileName={selectedFileName}
+        setSelectedFileName={setSelectedFileName}
+        imagePreview={undefined}
+      />
+    </div>
   );
 };
 

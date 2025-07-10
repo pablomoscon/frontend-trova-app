@@ -3,15 +3,15 @@ import { AlbumCardProps } from '../../../Interfaces/AlbumInterface';
 import { FaSpotify, FaYoutube, FaAmazon, FaApple } from 'react-icons/fa';
 
 const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => (
-  <div className='w-[220px] h-[380px] border border-gray-300 p-4 rounded shadow flex flex-col items-center justify-between'>
+  <div className='w-full h-[380px] border border-gray-300 p-4 rounded shadow flex flex-col items-center justify-between max-w-[350px] md:max-w-[250px] mx-auto'>
     <img
       src={album.photo}
       alt={album.title}
-      className='w-full h-[180px] object-cover rounded mb-2'
+      className='w-full h-auto max-h-[220px] md:max-h-[180px] object-scale-down rounded mb-2'
     />
     <h3
       className='font-semibold text-md text-gray-600 hover:underline hover:cursor-pointer text-center transition'
-      onClick={onClick}
+      onClick={() => onClick?.(album.id)}
     >
       {album.title}
     </h3>

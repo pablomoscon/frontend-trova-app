@@ -1,63 +1,96 @@
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Spinner from '../../shared/Spinner';
+import PaginationControls from '../../shared/PaginationControls';
 import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
-import { useState } from 'react';
+import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
+import { useScroll } from '../../../hooks/shared/useScroll';
 
 const ArtistList: React.FC = () => {
-
-  const [page, setPage] = useState(0);
-  const size = 15;
-
-  const { artists, loading, error } = useFetchArtists(
-    page,
-    size
+  const { page, setPage } = usePageAndSearch('artistPage');
+  const pageSize = 8;
+  const { artists, totalPages, isLoading, error } = useFetchArtists(
+    page - 1,
+    pageSize
   );
 
-  if (loading)
+  const topRef = useRef<HTMLDivElement>(null);
+  const offset = window.innerWidth < 640 ? 90 : 240;
+
+  const [shouldScroll, setShouldScroll] = useState(false);
+  
+  useScroll(topRef, {
+    deps: [page],
+    behavior: 'smooth',
+    offset,
+    enabled: true,
+  });
+
+  React.useEffect(() => {
+    if (shouldScroll) {
+      const t = setTimeout(() => setShouldScroll(false), 300);
+      return () => clearTimeout(t);
+    }
+  }, [shouldScroll]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    setShouldScroll(true);
+  };
+
+  if (isLoading)
     return (
       <div className='flex justify-center items-center h-screen'>
         <Spinner />
       </div>
     );
+
   if (error) return <p className='text-center mt-20 text-red-500'>{error}</p>;
 
   return (
-    <div className='bg-[#E5E6E4] py-40'>
-      <div className='mx-auto max-w-2xl px-4 py-40 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 text-center'>
-        <h2 className='sr-only'>Artists</h2>
+    <>
+      <div ref={topRef} />
 
-        <div className='grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 text-center'>
-          {artists.map((artist) => (
-            <Link key={artist.id} to={`/artist/${artist.id}`} className='group'>
-              <img
-                alt={artist.name}
-                src={artist.photo}
-                className='aspect-square w-full bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-7/8 rounded-full items-center text-center'
-              />
-              <h3 className='mt-4 text-sm text-gray-700'>{artist.name}</h3>
-              <p className='mt-1 text-sm text-gray-500'>{artist.nationality}</p>
-            </Link>
-          ))}
-        </div>
+      <div className='bg-[#E5E6E4] min-h-screen py-50'>
+        <div className='mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8'>
+          <h2 className='sr-only'>Artists</h2>
 
-        {/* Opcional: controles simples de paginación */}
-        <div className='flex justify-center mt-8 space-x-4'>
-          <button
-            disabled={page === 0}
-            onClick={() => setPage((p) => Math.max(p - 1, 0))}
-            className='px-4 py-2 bg-gray-300 rounded disabled:opacity-50'
-          >
-            Anterior
-          </button>
-          <button
-            onClick={() => setPage((p) => p + 1)}
-            className='px-4 py-2 bg-gray-300 rounded'
-          >
-            Siguiente
-          </button>
+          <div className='grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 pb-20'>
+            {artists.length ? (
+              artists.map((artist) => (
+                <Link
+                  key={artist.id}
+                  to={`/artist/${artist.id}`}
+                  className='group text-center'
+                >
+                  <img
+                    src={artist.photo}
+                    alt={artist.name}
+                    className='w-56 h-56 bg-gray-200 object-cover group-hover:opacity-75 rounded-full mx-auto'
+                  />
+                  <h3 className='mt-4 text-base text-gray-700'>
+                    {artist.name}
+                  </h3>
+                  <p className='mt-1 text-sm text-gray-500'>
+                    {artist.nationality}
+                  </p>
+                </Link>
+              ))
+            ) : (
+              <p className='text-center text-gray-500'>No artists found.</p>
+            )}
+          </div>
+
+          {totalPages > 1 && (
+            <PaginationControls
+              page={page}
+              totalPages={totalPages}
+              setPage={handlePageChange}
+            />
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
