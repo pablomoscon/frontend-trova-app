@@ -9,17 +9,17 @@ const SongInputs: React.FC<AlbumSongInputsProps> = ({
 }) => {
   const updateSong = (
     index: number,
-    field: 'name' | 'duration',
+    field: 'title' | 'duration',
     value: string
   ) => {
     const updatedSongs = [...listOfSongs];
     updatedSongs[index][field] = value;
-    handleChange({ target: { name: 'listOfSongs', value: updatedSongs } });
+    handleChange({ target: { title: 'listOfSongs', value: updatedSongs } });
   };
 
   const addSong = () => {
     const last = listOfSongs[listOfSongs.length - 1];
-    if (last?.name.trim() && last?.duration.trim()) {
+    if (last?.title.trim() && last?.duration.trim()) {
       handleChange({
         target: {
           name: 'listOfSongs',
@@ -52,8 +52,8 @@ const SongInputs: React.FC<AlbumSongInputsProps> = ({
               <input
                 type='text'
                 placeholder='Nombre de la canción'
-                value={song.name}
-                onChange={(e) => updateSong(i, 'name', e.target.value)}
+                value={song.title}
+                onChange={(e) => updateSong(i, 'title', e.target.value)}
                 className='input sm:w-1/2 border border-gray-300 rounded-md p-2'
               />
               <input

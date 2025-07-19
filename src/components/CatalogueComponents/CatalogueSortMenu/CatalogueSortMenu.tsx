@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { classNames } from '../../../utils/classNames';
+import { classNames } from '../../../utils/classNamesUtils';
 import { SortMenuProps } from '../../../Interfaces/CatalogueInterface';
 
 const CatalogueSortMenu: React.FC<SortMenuProps> = ({ sortOptions }) => (

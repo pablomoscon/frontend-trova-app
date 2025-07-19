@@ -1,6 +1,6 @@
 import Spinner from '../../shared/Spinner';
 import NewArtistModal from '../../artistComponents/ArtistForms/NewArtistModal';
-import { createNewArtist } from '../../../utils/createNewArtist';
+import { createNewArtist } from '../../../utils/createNewArtistUtils';
 import { ArtistFormData } from '../../../Interfaces/ArtistInterface';
 import LoadingDots from '../../shared/LoadingDots';
 import AlbumFormFields from '../AlbumFormFields/AlbumFormFields';
@@ -21,7 +21,11 @@ const CreateAlbum: React.FC = () => {
     isLoading,
   } = useCreateAlbum();
 
-  const { artists, setArtists, loading } = useFetchArtists();
+  const {
+    artists,
+    setArtists,
+    isLoading: isLoadingArtist,
+  } = useFetchArtists(0, 9999);
 
   const {
     showArtistModal,
@@ -35,7 +39,7 @@ const CreateAlbum: React.FC = () => {
     return newArtist;
   }, handleChange);
 
-  if (loading) {
+  if (isLoadingArtist) {
     return (
       <div className='min-h-screen flex justify-center items-center bg-[#E5E6E4] py-12 mt-20'>
         <Spinner />
@@ -84,6 +88,7 @@ const CreateAlbum: React.FC = () => {
           </div>
         </form>
       </div>
+
 
       {showArtistModal && (
         <NewArtistModal

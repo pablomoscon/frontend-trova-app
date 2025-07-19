@@ -22,14 +22,14 @@ const AdminDetails: React.FC<{ user: User }> = ({ user }) => {
       <h2 className='text-3xl font-extrabold text-gray-900 mb-4 tracking-tight'>
         {user.name}
       </h2>
-      <p className='inline-block px-4 py-1 text-indigo-700 font-semibold rounded-full bg-indigo-100 uppercase tracking-wide mb-8'>
+      <p className='inline-block px-4 py-1 text-gray-700 font-semibold rounded-full bg-indigo-100 uppercase tracking-wide mb-8'>
         {user.role === 'ADMIN' ? 'Administrador' : 'Usuario'}
       </p>
 
-      <div className='flex flex-col gap-6 text-gray-700 text-base sm:text-lg'>
+      <div className='flex flex-col gap-6 text-gray-700 text-gray-700 sm:text-lg'>
         {/* Email */}
         <div className='flex items-center gap-4'>
-          <FaEnvelope className='text-indigo-600 w-6 h-6 shrink-0' />
+          <FaEnvelope className='text-gray-600 w-6 h-6 shrink-0' />
           <p className='leading-relaxed'>
             <span className='font-semibold text-gray-600'>Email:</span>{' '}
             {user.email}
@@ -39,7 +39,7 @@ const AdminDetails: React.FC<{ user: User }> = ({ user }) => {
         {/* Miembro desde */}
         {user.createdAt && (
           <div className='flex items-center gap-4'>
-            <FaCalendarAlt className='text-indigo-600 w-6 h-6 shrink-0' />
+            <FaCalendarAlt className='text-gray-600 w-6 h-6 shrink-0' />
             <p className='leading-relaxed'>
               <span className='font-semibold text-gray-600'>
                 Miembro desde:
@@ -52,12 +52,12 @@ const AdminDetails: React.FC<{ user: User }> = ({ user }) => {
         {/* Estado */}
         {user.status && (
           <div className='flex items-center gap-4'>
-            <FaUserShield className='text-indigo-600 w-6 h-6 shrink-0' />
+            <FaUserShield className='text-gray-600 w-6 h-6 shrink-0' />
             <p className='leading-relaxed'>
               <span className='font-semibold text-gray-600'>Estado:</span>{' '}
               <span
                 className={`font-semibold ${
-                  user.status === 'ACTIVE' ? 'text-green-600' : 'text-red-600'
+                  user.status === 'ACTIVE' ? 'text-gray-600' : 'text-gray-300'
                 }`}
               >
                 {user.status === 'ACTIVE' ? 'Activo' : 'Suspendido'}

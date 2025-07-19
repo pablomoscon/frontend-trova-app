@@ -22,7 +22,7 @@ const DashboardAlbumDetails: React.FC<{ pageSize?: number }> = ({
   useEffect(() => {
     setSelectedAlbum(null);
     setImageModalUrl(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }, [page]);
 
   if (isLoading) return <Spinner />;
@@ -47,7 +47,7 @@ const DashboardAlbumDetails: React.FC<{ pageSize?: number }> = ({
           totalPages={totalPages}
           setPage={setPage}
           onPageChangeComplete={() =>
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            window.scrollTo({ top: 0, behavior: 'auto' })
           }
         />
       )}

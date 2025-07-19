@@ -1,5 +1,5 @@
 import React from 'react';
-import { SubmitButtonProps } from '../../../Interfaces/AuthInterface';
+import { SubmitButtonProps } from '../../Interfaces/AuthInterface';
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({ text }) => (
   <button

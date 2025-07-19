@@ -6,6 +6,20 @@ export interface SearchInputProps {
   onEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  className?: string;
+  onSearchClick?: () => void;
+}
+
+export interface SelectInputProps {
+  label: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: { label: string; value: string }[];
+  placeholder?: string;
+  error?: string;
+  wrapperClass?: string;
+  colSpan?: string;
 }
 
 export interface ToggleSwitchProps {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   BarChart,
   Bar,
@@ -17,21 +17,20 @@ const ChartSection: React.FC<DashboardChartSectionProps> = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const sortedData = [...data].sort((a, b) => b.visits - a.visits);
-  const visibleData = expanded ? sortedData : sortedData.slice(0, 10);
+  const sortedData = useMemo(
+    () => [...data].sort((a, b) => b.visits - a.visits),
+    [data]
+  );
+
+  const visibleData = useMemo(
+    () => (expanded ? sortedData : sortedData.slice(0, 10)),
+    [expanded, sortedData]
+  );
 
   return (
     <div className='bg-white p-6 rounded-lg shadow-md'>
       <div className='flex justify-between items-center mb-4'>
         <h3 className='text-xl font-semibold text-gray-800'>{title}</h3>
-        {data.length > 10 && (
-          <button
-            onClick={() => setExpanded((prev) => !prev)}
-            className='text-sm text-blue-600 hover:underline'
-          >
-            {expanded ? 'Mostrar menos' : 'Mostrar más'}
-          </button>
-        )}
       </div>
 
       {data.length === 0 ? (
@@ -75,8 +74,19 @@ const ChartSection: React.FC<DashboardChartSectionProps> = ({
           </ResponsiveContainer>
         </div>
       )}
+
+      {data.length > 10 && (
+        <div className='flex justify-end mt-8'>
+          <button
+            onClick={() => setExpanded((prev) => !prev)}
+            className='text-sm text-blue-800 hover:underline cursor-pointer'
+          >
+            {expanded ? 'Mostrar menos' : 'Mostrar todo'}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ChartSection;
+export default React.memo(ChartSection);

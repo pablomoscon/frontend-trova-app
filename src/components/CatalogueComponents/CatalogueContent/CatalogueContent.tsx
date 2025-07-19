@@ -63,7 +63,7 @@ const CatalogueContent: React.FC = () => {
       />
       <CatalogueHeader onMobileFiltersOpen={() => setMobileFiltersOpen(true)} />
 
-      <section aria-labelledby='albums-heading' className='pt-6 pb-24'>
+      <section aria-labelledby='albums-heading' className='pt-4 pb-24'>
         <h2 id='albums-heading' className='sr-only'>
           Albums
         </h2>

@@ -8,7 +8,7 @@ import {
 } from '../../Interfaces/AlbumInterface';
 import { FilterSection } from '../../Interfaces/CatalogueInterface';
 import { generateFiltersFromAlbums } from '../../utils/filterUtils';
-import { groupAlbumsByArtist } from '../../utils/groupAlbumsByArtist';
+import { groupAlbumsByArtist } from '../../utils/groupAlbumsByArtistUtils';
 
 const buildFilterParams = (
   filters: Record<string, string[]>,
@@ -89,7 +89,7 @@ export function useFilteredAlbums(initialSize = 9) {
       setGroupedAlbums(groupAlbumsByArtist(sorted));
 
       setTotalPages(data.totalPages);
-      setTotalItems(data.totalItems);
+      setTotalItems(data.totalElements);
 
       setPage(data.currentPage ? data.currentPage + 1 : 1);
     } catch (err) {

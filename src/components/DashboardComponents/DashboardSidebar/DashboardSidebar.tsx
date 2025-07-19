@@ -10,9 +10,9 @@ const DashboardSidebar = () => {
     setActiveMenu((prev) => (prev === key ? null : key));
 
   return (
-    <aside className='hidden md:block bg-gray-200 p-8 pt-40 h-screen max-w-[16rem] border-e border-gray-300'>
+    <aside className='hidden md:block'>
       <div className='mb-4 px-4'>
-        <h2 className='text-lg font-semibold text-blue-gray-800 pb-6'>Panel</h2>
+        <h2 className='text-lg font-semibold text-gray-800 pb-6'>Panel</h2>
       </div>
 
       <ul>

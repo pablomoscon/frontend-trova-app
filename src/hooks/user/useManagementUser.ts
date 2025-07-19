@@ -24,7 +24,7 @@ export const useManagementUser = (pageSizeInitial = 20, pageKey = 'usersPage') =
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const offset = window.innerWidth < 640 ? 90 : 240;
-    useScroll(scrollRef, { deps: [page], behavior: 'smooth', offset });
+    useScroll(scrollRef, { deps: [page], behavior: 'auto', offset });
 
     const {
         users: backendUsers,

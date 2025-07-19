@@ -4,7 +4,7 @@ import { useFetchAlbumsByArtist } from '../../../hooks/album/useFetchAlbumsByArt
 import ArtistDetailsModal from './ArtistDetailsModal';
 
 const ArtistCardWithAlbums: React.FC<ArtistObjectProps> = ({ artist }) => {
-  const { albums, loading } = useFetchAlbumsByArtist(artist.id || null);
+  const { albums, loading } = useFetchAlbumsByArtist(artist.id || null, 1);
   const [showModal, setShowModal] = useState(false);
 
   return (

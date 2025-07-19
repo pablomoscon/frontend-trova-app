@@ -4,7 +4,7 @@ import { AlbumFormData } from "../../Interfaces/AlbumInterface";
 import { useAlbumForm } from "./useAlbumForm";
 import { editAlbum, fetchAlbumById } from "../../services/albumService";
 import { showErrorAlert, showSuccessAlert } from "../../utils/showAlertUtils";
-import { getChangedData } from "../../utils/getChangedData";
+import { getChangedData } from "../../utils/getChangedDataUtils";
 import { useLoading } from "../shared/useLoading";
 import { fetchArtists } from "../../services/artistService";
 

@@ -24,7 +24,7 @@ export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const offset = window.innerWidth < 640 ? 90 : 240;
-  useScroll(scrollRef, { deps: [page], behavior: 'smooth', offset });
+  useScroll(scrollRef, { deps: [page], behavior: 'auto', offset });
 
   const {
     artists: backendArtists,

@@ -5,7 +5,7 @@ export const useAlbumForm = () => {
     const [formData, setFormData] = useState<AlbumFormData>({
         title: '',
         artistId: 0,
-        listOfSongs: [{ name: '', duration: '' }],
+        listOfSongs: [{ title: '', duration: '' }],
         details: '',
         genres: [],
         cdNumber: '',
@@ -59,7 +59,7 @@ export const useAlbumForm = () => {
             cdNumber: '',
             year: undefined,
             photo: undefined,
-            listOfSongs: [{ name: '', duration: '' }],
+            listOfSongs: [{ title: '', duration: '' }],
             displayArtistName: '',
         });
         setSongsInput('');

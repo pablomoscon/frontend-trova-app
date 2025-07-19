@@ -74,7 +74,7 @@ export const searchAlbums = async (
   }
 
   const { data } = await axiosInstance.get<AlbumsData>('http://localhost:8081/albums/search', {
-    params: { q: query, page: page - 1, size },
+    params: { q: query, page: page, size },
   });
   return data;
 };

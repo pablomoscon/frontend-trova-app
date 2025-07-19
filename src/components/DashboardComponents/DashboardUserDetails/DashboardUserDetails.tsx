@@ -19,7 +19,7 @@ const DashboardUserDetails: React.FC<{ pageSize?: number }>= ({
 
   useEffect(() => {
     sessionStorage.setItem('userDashboardPage', String(page));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }, [page]);
 
   if (isLoading) return <Spinner />;
@@ -43,7 +43,7 @@ const DashboardUserDetails: React.FC<{ pageSize?: number }>= ({
           totalPages={totalPages}
           setPage={setPage}
           onPageChangeComplete={() =>
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            window.scrollTo({ top: 0, behavior: 'auto' })
           }
         />
       )}

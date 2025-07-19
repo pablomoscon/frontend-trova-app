@@ -8,7 +8,7 @@ const ContactForm: React.FC = () => {
 
   return (
     <form action='#' method='POST' className='mx-auto max-w-4xl sm:mt-10 px-6'>
-      <div className='grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2'>
+      <div className='grid grid-cols-1 gap-x-4 sm:grid-cols-2'>
     
         <InputField
           id='first-name'

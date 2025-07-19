@@ -18,6 +18,7 @@ export function useScroll(
             window.scrollTo({ top: top - offset, left, behavior });
             return;
         }
+        if (target && 'current' in target && !target.current) return;
 
         if (target && 'current' in target && target.current) {
             const rect = target.current.getBoundingClientRect();
@@ -31,7 +32,8 @@ export function useScroll(
             });
             return;
         }
-
-        window.scrollTo({ top: 0, behavior });
+        if (!target) {
+            window.scrollTo({ top: 0, behavior });
+        }
     }, deps);
 }

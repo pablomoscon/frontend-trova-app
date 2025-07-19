@@ -35,7 +35,7 @@ const DashboardArtistDetails: React.FC = () => {
             totalPages={totalPages}
             setPage={setPage}
             onPageChangeComplete={() =>
-              window.scrollTo({ top: 0, behavior: 'smooth' })
+              window.scrollTo({ top: 0, behavior: 'auto' })
             }
           />
         )}

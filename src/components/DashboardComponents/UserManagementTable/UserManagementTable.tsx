@@ -39,6 +39,7 @@ const UserManagementTable: React.FC = () => {
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
           onEnter={onSearchKeyDown}
+          className='w-full md:w-96 mb-8'
         />
 
         <div className='overflow-x-auto w-full'>

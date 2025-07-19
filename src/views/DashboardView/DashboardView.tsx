@@ -4,13 +4,23 @@ import DashboardSidebarMobile from '../../components/dashboardComponents/Dashboa
 
 const DashboardView: React.FC = () => {
   return (
-    <div className='flex h-screen text-gray-800'>
-      <DashboardSidebar />
-      <DashboardSidebarMobile />
+    <div className='flex flex-col min-h-screen bg-[#E5E6E4] text-gray-800'>
+      <main className='flex flex-1'>
+        {/* Desktop sidebar */}
+        <div className='hidden md:block min-h-screen bg-gray-200 p-8 pt-40 min-h-screen max-w-[16rem] border-e border-gray-300'>
+          <DashboardSidebar />
+        </div>
 
-      <div className='flex flex-col md:flex-row min-h-screen w-full overflow-x-hidden bg-[#E5E6E4]'>
-        <Outlet />
-      </div>
+        {/* Mobile sidebar */}
+        <div className='block md:hidden bg-gray-200 p-8 pt-40 min-h-screen max-w-[16rem] border-e border-gray-300'>
+          <DashboardSidebarMobile />
+        </div>
+
+        {/* Main content */}
+        <div className='flex flex-col w-full'>
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 };

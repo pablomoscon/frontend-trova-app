@@ -1,7 +1,7 @@
-import { patchUser } from '../../services/userService';
 import { showErrorAlert, showSuccessAlert } from '../../utils/showAlertUtils';
 import { User } from '../../Interfaces/UserInterface';
 import { useState } from 'react';
+import { editUser } from '../../services/userService';
 
 export const useToggleUserStatus = () => {
     const [loading, setLoading] = useState(false);
@@ -10,7 +10,7 @@ export const useToggleUserStatus = () => {
         setLoading(true);
         try {
             const newStatus = user.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
-            await patchUser(user.id, { status: newStatus });
+            await editUser(user.id, { status: newStatus });
             showSuccessAlert(
                 'Estado actualizado',
                 `Usuario ${newStatus === 'ACTIVE' ? 'activado' : 'suspendido'} correctamente.`

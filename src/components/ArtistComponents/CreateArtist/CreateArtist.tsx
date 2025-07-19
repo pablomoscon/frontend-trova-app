@@ -7,14 +7,14 @@ import { useCreateArtist } from '../../../hooks/artist/useCreateArtist';
 import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
 
 const CreateArtist: React.FC = () => {
-  const { loading, error } = useFetchArtists();
+  const { isLoading, error } = useFetchArtists(0, 100);
 
   const {
     newArtistFormData,
     setNewArtistFormData,
     handleAddArtist,
     createError,
-    isLoading,
+    isLoading: loading,
   } = useCreateArtist(createArtist, () => {});
 
   const handleChange = (

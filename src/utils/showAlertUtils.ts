@@ -23,7 +23,7 @@ export const showSuccessAlert = (title: string, message: string) => {
     },
     buttonsStyling: false,
     didClose: () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     },
   });
 };

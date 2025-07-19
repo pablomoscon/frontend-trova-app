@@ -25,3 +25,8 @@ export interface StatsState {
   loading: boolean;
   error: string | null;
 }
+
+export interface StatCardProps {
+  label: string;
+  value: string;
+}

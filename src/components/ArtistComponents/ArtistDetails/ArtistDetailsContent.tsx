@@ -18,16 +18,16 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
     error: artistError,
   } = useDetailsArtist(artistId);
 
-const { page, setPage } = usePageAndSearch(`artistDetailsPage_${artistId}`);
-const pageSize = 6;
+  const { page, setPage } = usePageAndSearch(`artistDetailsPage_${artistId}`);
 
-const {
-  albums,
-  loading: albumsLoading,
-  error: albumsError,
-  totalPages,
-  setPageSize,
-} = useFetchAlbumsByArtist(artistId, page, pageSize);
+  const {
+    albums,
+    loading: albumsLoading,
+    error: albumsError,
+    totalPages,
+    pageSize,
+    setPageSize,
+  } = useFetchAlbumsByArtist(artistId, page);
 
   if (artistLoading || albumsLoading)
     return (

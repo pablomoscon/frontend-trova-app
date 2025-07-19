@@ -11,32 +11,33 @@ const AlbumList: React.FC<AlbumListProps> = ({
   totalPages,
   setPage,
 }) => {
-const [isFirstLoad, setIsFirstLoad] = useState(true);
-const listTopRef = useRef<HTMLDivElement>(null);
-const offset = window.innerWidth < 640 ? 90 : 240;
+  const listTopRef = useRef<HTMLDivElement>(null);
+const offset = window.innerWidth < 640 ? 140 : 200;
 
- useScroll(isFirstLoad ? null : listTopRef, {
-   deps: [page],
-   behavior: 'smooth',
-   offset,
- });
+  const [shouldScroll, setShouldScroll] = useState(false);
 
-const handlePageChange = (newPage: number) => {
-  setIsFirstLoad(false);
-  setPage(newPage);
-};
+  useScroll(shouldScroll ? listTopRef : null, {
+    deps: [page],
+    behavior: 'auto',
+    offset,
+    enabled: shouldScroll,
+  });
+
+  const handlePageChange = (newPage: number) => {
+    setShouldScroll(true);
+    setPage(newPage);
+  };
 
   return (
     <>
       <div ref={listTopRef} />
-
       <div className='flex justify-center'>
-        <div
-          className='grid auto-rows-auto grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-6 justify-center px-4 py-6 max-w-[1100px]'>
+        <div className='grid auto-rows-auto grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-6 justify-center px-4 py-6 max-w-[1100px]'>
           {albums.map((album) => (
             <div
               key={album.id}
-              className='w-full max-w-[350px] md:max-w-[250px] mx-auto'>
+              className='w-full max-w-[350px] md:max-w-[250px] mx-auto'
+            >
               <AlbumCard album={album} onClick={() => onClick?.(album.id)} />
             </div>
           ))}

@@ -48,6 +48,7 @@ const ArtistManagementTable: React.FC = () => {
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             onEnter={onSearchKeyDown}
+            className='w-full md:w-96 mb-4'
           />
 
           <PageSizeSelector pageSize={pageSize} onChange={setPageSize} />

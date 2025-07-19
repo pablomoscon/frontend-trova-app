@@ -4,7 +4,6 @@ import { showLoginErrorAlert, showLoginSuccessAlert } from '../../utils/showAuth
 import { signIn } from '../../services/authService';
 import { Credentials } from '../../Interfaces/AuthInterface';
 
-
 const useSignIn = ({ username, password }: Credentials) => {
     const navigate = useNavigate();
     const { login } = useAuthContext();
@@ -13,9 +12,13 @@ const useSignIn = ({ username, password }: Credentials) => {
         e.preventDefault();
         try {
             const user = await signIn({ username, password });
+
+            if (user.role !== 'ADMIN') {
+                throw new Error('Unauthorized');
+            }
             login(user);
-            const result = await showLoginSuccessAlert();
-            if (result.isConfirmed) navigate('/');
+            navigate('/admin/dashboard', { replace: true });
+            showLoginSuccessAlert();
         } catch (error) {
             console.error('Error logging in:', error);
             showLoginErrorAlert();

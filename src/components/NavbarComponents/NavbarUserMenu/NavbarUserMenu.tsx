@@ -1,38 +1,31 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDownIcon, UserCircleIcon } from '@heroicons/react/20/solid';
+import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
 import { NavbarUserMenuProps } from '../../../Interfaces/NavbarInterface';
+import { useCloseOnResize } from '../../../hooks/shared/useCloseOnResize';
 
 
 const NavbarUserMenu: React.FC<NavbarUserMenuProps> = ({
   logout,
   username,
-  isOpen,
-  onToggle,
-  onClose,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (
-        isOpen &&
-        menuRef.current &&
-        !menuRef.current.contains(e.target as Node)
-      ) {
-        onClose();
-      }
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [isOpen, onClose]);
+  const closeMenu = () => setIsOpen(false);
 
-  const handleInternalClick = () => onClose(); // close after navigation / logout
+  useCloseOnOutside(menuRef, () => {
+    if (isOpen) closeMenu();
+  });
+
+  
+useCloseOnResize(closeMenu);
 
   return (
     <div ref={menuRef} className='relative inline-block text-left'>
       <button
-        onClick={onToggle}
+        onClick={() => setIsOpen((prev) => !prev)}
         className='inline-flex justify-center items-center w-full p-0 focus:outline-none focus:ring-offset-2'
         aria-label='Menú de usuario'
       >
@@ -49,10 +42,7 @@ const NavbarUserMenu: React.FC<NavbarUserMenuProps> = ({
       </button>
 
       {isOpen && (
-        <div
-          className='absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50'
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className='absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50'>
           <div className='px-4 py-3 border-b border-gray-200'>
             <div className='text-lg font-semibold text-gray-900'>
               {username}
@@ -63,14 +53,16 @@ const NavbarUserMenu: React.FC<NavbarUserMenuProps> = ({
             <Link
               to='/admin/admin-profile'
               className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-              onClick={handleInternalClick}
+              aria-label='Ir al perfil de usuario'
+              onClick={closeMenu}
             >
               Perfil
             </Link>
             <Link
               to='/admin/dashboard'
               className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-              onClick={handleInternalClick}
+              aria-label='Ir al panel de administración'
+              onClick={closeMenu}
             >
               Dashboard
             </Link>
@@ -82,9 +74,10 @@ const NavbarUserMenu: React.FC<NavbarUserMenuProps> = ({
             <button
               onClick={() => {
                 logout();
-                onClose();
+                closeMenu();
               }}
               className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+              aria-label='Cerrar sesión'
             >
               Cerrar sesión
             </button>

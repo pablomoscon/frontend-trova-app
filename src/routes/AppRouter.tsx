@@ -1,7 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import HomeView from '../views/HomeView/HomeView';
-import SignUpView from '../views/SignUpView/SignUpView';
 import SignInView from '../views/SignInView/SignInVIew';
 import CatalogueView from '../views/CatalogueView/CatalogueView';
 import ArtistList from '../components/artistComponents/ArtistList/ArtistsList';
@@ -21,23 +20,22 @@ import DashboardArtistDetails from '../components/dashboardComponents/DashboardA
 import AdminRoute from './AdminRoute';
 import { useScroll } from '../hooks/shared/useScroll';
 import { useClearSessionStorageOnRouteChange } from '../hooks/shared/useClearPaginationOnRouteChange';
+import SignUpForm from '../components/userComponents/CreateUserForm/CreateUserForm';
+import SearchResultsView from '../views/SearchResultsView/SearchResultsView';
 
 const AppRouter: React.FC = () => {
   const location = useLocation();
-  useScroll(undefined, { deps: [location.pathname], behavior: 'auto' });
+
+  useScroll(null, {
+    deps: [location.pathname],
+    behavior: 'auto',
+  });
+
   useClearSessionStorageOnRouteChange();
 
   return (
     <Routes>
       <Route path='/' element={<HomeView />} />
-      <Route
-        path='/sign-up'
-        element={
-          <PublicRoute>
-            <SignUpView />
-          </PublicRoute>
-        }
-      />
       <Route
         path='/sign-in'
         element={
@@ -50,6 +48,7 @@ const AppRouter: React.FC = () => {
       <Route path='/contact' element={<ContactView />} />
       <Route path='/artist' element={<ArtistList />} />
       <Route path='/artist/:id' element={<ArtistView />} />
+      <Route path='/search' element={<SearchResultsView />} />
 
       <Route
         path='/admin/admin-profile'
@@ -76,6 +75,7 @@ const AppRouter: React.FC = () => {
         <Route path='artist-form' element={<CreateArtist />} />
         <Route path='artists-management' element={<ArtistManagementTable />} />
         <Route path='users-management' element={<UserManagementTable />} />
+        <Route path='user-form' element={<SignUpForm />} />
         <Route path='users-data' element={<DashboardUserDetails />} />
       </Route>
     </Routes>

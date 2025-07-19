@@ -103,7 +103,7 @@ export interface AlbumGenreSelectorProps {
 }
 
 export interface AlbumSongInputsProps extends OptionalStepNavigation {
-  listOfSongs: { name: string; duration: string }[];
+  listOfSongs: { title: string; duration: string }[];
   handleChange: (e: any) => void;
   isEditMode: boolean;
 }
@@ -152,7 +152,7 @@ export interface AlbumFilterParams {
 export interface AlbumFilterResponse {
   albums: Album[];
   currentPage: number;
-  totalItems: number;
+  totalElements: number;
   totalPages: number;
 }
 
@@ -173,3 +173,16 @@ export interface useManagementAlbumProps {
   searchTerm: string;
 }
 
+export interface SearchAlbumsResultsProps {
+  initialQuery?: string; 
+  pageSize?: number;
+  onAlbumClick?: (id: number) => void;
+}
+
+export interface UseFetchAndSearchAlbumsResult {
+  albums: Album[];
+  totalPages: number;
+  loading: boolean;
+  error: string | null;
+  reload: () => void;
+}

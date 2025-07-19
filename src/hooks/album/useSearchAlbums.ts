@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Album, SearchAlbumsProps } from '../../Interfaces/AlbumInterface';
 import { searchAlbums } from '../../services/albumService';
 import { showErrorAlert } from '../../utils/showAlertUtils';
@@ -6,7 +6,8 @@ import { showErrorAlert } from '../../utils/showAlertUtils';
 export const useSearchAlbums = (
     query: string,
     page: number,
-    pageSize: number
+    pageSize: number,
+    autoFetch = false
 ): SearchAlbumsProps => {
     const [albums, setAlbums] = useState<Album[]>([]);
     const [totalPages, setTotalPages] = useState(0);
@@ -26,7 +27,13 @@ export const useSearchAlbums = (
 
         setIsLoading(true);
         try {
-            const res = await searchAlbums(query.trim(), page, pageSize);
+            // Asegurarse que la página que se envía no sea negativa
+            const safePage = Math.max(0, page);
+
+            // Si el backend usa paginación 1-based, descomenta la siguiente línea
+            // const backendPage = safePage + 1;
+
+            const res = await searchAlbums(query.trim(), safePage, pageSize);
             setAlbums(res.albums);
             setTotalPages(Math.max(1, res.totalPages));
             setCurrentPage(res.currentPage ?? 0);
@@ -44,8 +51,17 @@ export const useSearchAlbums = (
     }, [query, page, pageSize]);
 
     useEffect(() => {
-        fetch();
-    }, [fetch]);
+        if (autoFetch) {
+            fetch();
+        }
+    }, [fetch, autoFetch]);
 
-    return { albums, isLoading, error, totalPages, currentPage, refresh: fetch };
+    return {
+        albums,
+        isLoading,
+        error,
+        totalPages,
+        currentPage,
+        refresh: fetch,
+    };
 };

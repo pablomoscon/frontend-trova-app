@@ -40,6 +40,7 @@ export const useFetchArtists = (page: number, size: number) => {
         isLoading,
         error,
         reloadArtists: loadArtists,
-        currentPage
+        currentPage,
+        setArtists
     };
 };

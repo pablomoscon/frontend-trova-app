@@ -17,14 +17,16 @@ const DashboardSidebarMobile: React.FC = () => {
 
   return (
     <>
-      <div className='md:hidden pt-35 p-1 bg-gray-200'>
+      <div
+        className={`md:hidden flex ${isOpen ? 'justify-end' : 'justify-start'}`}
+      >
         <button
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label='Toggle Sidebar'
-          className='text-gray-700 hover:text-gray-900 focus:outline-none ps-1'
+          className='text-gray-700 hover:text-gray-900 focus:outline-none'
         >
           {isOpen ? (
-            <XMarkIcon className='h-6 w-6' />
+            <XMarkIcon className='h-6 w-6 mb-5' />
           ) : (
             <Bars3BottomLeftIcon className='h-6 w-6' />
           )}
@@ -32,23 +34,17 @@ const DashboardSidebarMobile: React.FC = () => {
       </div>
 
       {isOpen && (
-        <aside className='block bg-gray-200 p-2 md:hidden pt-40 border-e border-gray-300'>
-          <div className='mb-4 px-4'>
-            <h2 className='text-base font-semibold text-blue-gray-800 pb-6'>
-              Panel
-            </h2>
-          </div>
-
-          <ul>
+        <aside className='block bg-gray-200 '>
+          <ul className='bg-gray-200'>
             {menuItems.map(({ label, icon: Icon, key, href, subitems }) => (
               <li key={key}>
                 {subitems ? (
                   <>
                     <button
                       onClick={() => toggleSubMenu(key)}
-                      className='w-full flex items-center justify-between text-left py-2 px-4 hover:bg-gray-100 rounded-md text-sm'
+                      className='w-full flex items-start justify-between text-left py-2 px-4 hover:bg-gray-100 rounded-md text-sm'
                     >
-                      <span className='flex items-center gap-2'>
+                      <span className='flex items-center gap-2 hover:bg-gray-100 '>
                         <Icon className='h-5 w-5' />
                         <span>{label}</span>
                       </span>

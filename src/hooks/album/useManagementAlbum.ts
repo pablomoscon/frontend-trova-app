@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { Album } from '../../Interfaces/AlbumInterface';
 import { usePageAndSearch } from '../shared/usePageAndSearch';
 import { useFetchAlbums } from './useFetchAlbums';
 import { useSearchAlbums } from './useSearchAlbums';
 import { useDeleteAlbum } from './useDeleteAlbum';
-import { editAlbum } from '../../services/albumService';
+import { useToggleAlbumStatus } from './useToggleAlbumStatus';
 import { useScroll } from '../shared/useScroll';
-import { showErrorAlert, showSuccessAlert } from '../../utils/showAlertUtils';
+import { showErrorAlert } from '../../utils/showAlertUtils';
 
 export const useManagementAlbum = (pageSizeInitial = 15, pageKey = 'albumsPage') => {
     const {
@@ -24,7 +23,7 @@ export const useManagementAlbum = (pageSizeInitial = 15, pageKey = 'albumsPage')
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const offset = window.innerWidth < 640 ? 90 : 240;
-    useScroll(scrollRef, { deps: [page], behavior: 'smooth', offset });
+    useScroll(scrollRef, { deps: [page], behavior: 'auto', offset });
 
     const {
         albums: backendAlbums,
@@ -40,7 +39,7 @@ export const useManagementAlbum = (pageSizeInitial = 15, pageKey = 'albumsPage')
         error: errorSearch,
         totalPages: totalPagesSearch,
         refresh: refreshSearch,
-    } = useSearchAlbums(searchTerm, page, pageSize);
+    } = useSearchAlbums(searchTerm, page - 1, pageSize, searching);
 
     const albums = searching ? searchAlbumsList : backendAlbums;
     const isLoading = searching ? loadingSearch : loadingBackend;
@@ -55,16 +54,8 @@ export const useManagementAlbum = (pageSizeInitial = 15, pageKey = 'albumsPage')
 
     const { handleDelete } = useDeleteAlbum(searching ? refreshSearch : reloadAlbums);
 
-    const toggleStatus = async (album: Album) => {
-        const newStatus = (album.status ?? 'ACTIVE') === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
-        try {
-            await editAlbum(album.id, { status: newStatus });
-            showSuccessAlert('Estado actualizado', `El álbum fue ${newStatus === 'SUSPENDED' ? 'suspendido' : 'activado'}.`);
-            searching ? await refreshSearch() : await reloadAlbums();
-        } catch {
-            showErrorAlert('Error', 'No se pudo cambiar el estado.');
-        }
-    };
+    // Aquí usamos useToggleAlbumStatus, pasando la función de recarga correcta
+    const { toggleStatus } = useToggleAlbumStatus(searching ? refreshSearch : reloadAlbums);
 
     const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);

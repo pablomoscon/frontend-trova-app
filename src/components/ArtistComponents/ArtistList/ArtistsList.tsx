@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Spinner from '../../shared/Spinner';
 import PaginationControls from '../../shared/PaginationControls';
@@ -9,33 +9,23 @@ import { useScroll } from '../../../hooks/shared/useScroll';
 const ArtistList: React.FC = () => {
   const { page, setPage } = usePageAndSearch('artistPage');
   const pageSize = 8;
+
   const { artists, totalPages, isLoading, error } = useFetchArtists(
     page - 1,
     pageSize
   );
 
   const topRef = useRef<HTMLDivElement>(null);
-  const offset = window.innerWidth < 640 ? 90 : 240;
 
-  const [shouldScroll, setShouldScroll] = useState(false);
-  
   useScroll(topRef, {
-    deps: [page],
-    behavior: 'smooth',
-    offset,
-    enabled: true,
+    deps: [page, isLoading],
+    behavior: 'instant',
+    offset: 0,
+    enabled: !isLoading,
   });
-
-  React.useEffect(() => {
-    if (shouldScroll) {
-      const t = setTimeout(() => setShouldScroll(false), 300);
-      return () => clearTimeout(t);
-    }
-  }, [shouldScroll]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    setShouldScroll(true);
   };
 
   if (isLoading)
@@ -50,7 +40,6 @@ const ArtistList: React.FC = () => {
   return (
     <>
       <div ref={topRef} />
-
       <div className='bg-[#E5E6E4] min-h-screen py-50'>
         <div className='mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8'>
           <h2 className='sr-only'>Artists</h2>
