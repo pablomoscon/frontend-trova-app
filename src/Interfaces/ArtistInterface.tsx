@@ -1,4 +1,5 @@
 import { Album } from './AlbumInterface';
+import { SortOption } from './SharedInterface';
 
 export interface Artist {
   id?: number;
@@ -62,6 +63,10 @@ export interface ArtistAlbumSectionProps {
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (size: number) => void;
+  sortOptions: SortOption[];
+  selectedSort: 'asc' | 'desc';
+  setSelectedSort: (value: 'asc' | 'desc') => void;
+  albumsLoading: boolean;
 }
 
 export interface ArtistEditModalProps {

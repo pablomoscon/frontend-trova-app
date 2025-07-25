@@ -32,7 +32,12 @@ const ArtistManagementTable: React.FC = () => {
   } = useManagementArtists();
 
   if (isLoading) return <Spinner />;
-  if (error) return <p className='text-red-500 text-center mt-4'>{error}</p>;
+  if (error)
+    return (
+      <p className='text-red-500 text-center mt-4 text-xs sm:text-sm md:text-base'>
+        {error}
+      </p>
+    );
 
   return (
     <div
@@ -40,28 +45,38 @@ const ArtistManagementTable: React.FC = () => {
       className='min-h-screen bg-[#E5E6E4] flex-1 overflow-y-auto'
     >
       <div className='flex flex-col w-full mt-10 px-4 sm:px-8 md:px-16 pt-30 pb-6'>
-        <h2 className='text-xl font-semibold mb-4 text-center'>Artistas</h2>
+        <h2 className='text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-center'>
+          Artistas
+        </h2>
 
-        <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-2'>
+        <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4'>
           <SearchInput
             placeholder='Buscar artistas'
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             onEnter={onSearchKeyDown}
-            className='w-full md:w-96 mb-4'
+            className='w-full sm:w-80 mb-4 text-sm sm:text-sm md:text-base bg-gray-100'
           />
 
           <PageSizeSelector pageSize={pageSize} onChange={setPageSize} />
         </div>
 
         <div className='overflow-x-auto w-full pb-12'>
-          <table className='min-w-full table-auto text-center border border-gray-300'>
-            <thead className='bg-gray-200'>
+          <table className='min-w-full table-auto text-left border border-gray-300'>
+            <thead className='bg-gray-200 text-center'>
               <tr>
-                <th className='px-4 py-2'>Nombre</th>
-                <th className='px-4 py-2'>País</th>
-                <th className='px-4 py-2'>Estado</th>
-                <th className='px-4 py-2'>Acciones</th>
+                <th className='px-3 py-2 text-xs sm:text-sm md:text-base'>
+                  Nombre
+                </th>
+                <th className='px-3 py-2 text-xs sm:text-sm md:text-base'>
+                  País
+                </th>
+                <th className='px-3 py-2 text-xs sm:text-sm md:text-base'>
+                  Estado
+                </th>
+                <th className='px-3 py-2 text-xs sm:text-sm md:text-base'>
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -77,7 +92,10 @@ const ArtistManagementTable: React.FC = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className='py-4 text-gray-500'>
+                  <td
+                    colSpan={4}
+                    className='text-center py-4 text-gray-500 text-xs sm:text-sm md:text-base'
+                  >
                     {searching
                       ? 'No se encontraron artistas para esa búsqueda.'
                       : 'No hay artistas cargados.'}

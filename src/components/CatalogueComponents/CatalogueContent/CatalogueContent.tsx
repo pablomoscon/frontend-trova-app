@@ -24,6 +24,8 @@ const CatalogueContent: React.FC = () => {
     totalPages,
     pageSize,
     setPageSize,
+    sortOrder,
+    setSortOrder,
   } = useFilteredAlbums();
 
   const { album: selectedAlbum, isLoading: isAlbumLoading } =
@@ -46,7 +48,7 @@ const CatalogueContent: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className='flex justify-center items-center h-screen'>
+      <div className='flex justify-center items-center min-h-screen bg-[#E6E7D9]'>
         <Spinner />
       </div>
     );
@@ -61,19 +63,21 @@ const CatalogueContent: React.FC = () => {
         selectedFilters={selectedFilters}
         onFilterChange={handleFilterChange}
       />
-      <CatalogueHeader onMobileFiltersOpen={() => setMobileFiltersOpen(true)} />
-
-      <section aria-labelledby='albums-heading' className='pt-4 pb-24'>
-        <h2 id='albums-heading' className='sr-only'>
-          Albums
-        </h2>
-
+      <CatalogueHeader
+        onMobileFiltersOpen={() => setMobileFiltersOpen(true)}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+      />
+      <section
+        aria-labelledby='albums-heading'
+        className='pt-4 pb-24 min-h-screen bg-[#E5E6E4] '
+      >
         <div className='grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4 px-4'>
           <div className='hidden lg:block'>
             <CatalogueFilterSidebar
               filters={filters}
               selectedFilters={selectedFilters}
-              onFilterChange={handleFilterChange}  
+              onFilterChange={handleFilterChange}
             />
           </div>
           <div className='lg:col-span-3'>
@@ -85,6 +89,7 @@ const CatalogueContent: React.FC = () => {
               setPage={setPage}
               pageSize={pageSize}
               setPageSize={setPageSize}
+              albumsLoading={isLoading}
             />
           </div>
         </div>

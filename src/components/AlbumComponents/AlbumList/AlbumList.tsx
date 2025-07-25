@@ -3,6 +3,7 @@ import type { AlbumListProps } from '../../../Interfaces/AlbumInterface';
 import AlbumCard from '../AlbumCard/AlbumCard';
 import PaginationControls from '../../shared/PaginationControls';
 import { useScroll } from '../../../hooks/shared/useScroll';
+import Spinner from '../../shared/Spinner';
 
 const AlbumList: React.FC<AlbumListProps> = ({
   albums,
@@ -10,10 +11,10 @@ const AlbumList: React.FC<AlbumListProps> = ({
   page,
   totalPages,
   setPage,
+  albumsLoading = false,
 }) => {
   const listTopRef = useRef<HTMLDivElement>(null);
-const offset = window.innerWidth < 640 ? 140 : 200;
-
+  const offset = window.innerWidth < 640 ? 140 : 200;
   const [shouldScroll, setShouldScroll] = useState(false);
 
   useScroll(shouldScroll ? listTopRef : null, {
@@ -28,15 +29,24 @@ const offset = window.innerWidth < 640 ? 140 : 200;
     setPage(newPage);
   };
 
+  if (albumsLoading) {
+    return (
+      <div className='flex justify-center mt-10'>
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <>
       <div ref={listTopRef} />
+
       <div className='flex justify-center'>
-        <div className='grid auto-rows-auto grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-6 justify-center px-4 py-6 max-w-[1100px]'>
+        <div className='flex flex-wrap justify-center gap-6 px-4 py-6 max-w-[1100px] w-full'>
           {albums.map((album) => (
             <div
               key={album.id}
-              className='w-full max-w-[350px] md:max-w-[250px] mx-auto'
+              className='w-full max-w-[350px] sm:w-[calc((100%/2)-1.5rem)] lg:w-[calc((100%/3)-1.5rem)]'
             >
               <AlbumCard album={album} onClick={() => onClick?.(album.id)} />
             </div>
@@ -45,7 +55,7 @@ const offset = window.innerWidth < 640 ? 140 : 200;
       </div>
 
       {totalPages > 1 && (
-        <div className='mt-8 w-full flex justify-center'>
+        <div className='mt-8 w-full flex justify-center px-4'>
           <PaginationControls
             page={page}
             totalPages={totalPages}

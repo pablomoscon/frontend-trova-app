@@ -44,7 +44,22 @@ export interface useScrollOptions {
   enabled?: boolean;
 }
 
+export interface SortOption {
+  name: string;
+  value: string;
+}
+export interface SortMenuProps {
+  sortOptions: SortOption[];
+  selectedSort: 'asc' | 'desc' | ''; 
+  setSelectedSort: (value: 'asc' | 'desc' | '') => void;
+}
+
 export type ScrollTarget =
   | RefObject<HTMLElement | null>
   | (() => { top: number; left: number })
   | null;
+
+  export interface PageSizeSelectorProps {
+  pageSize: number;
+  onChange: (value: number) => void;
+}

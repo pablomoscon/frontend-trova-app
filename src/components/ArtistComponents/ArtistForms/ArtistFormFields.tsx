@@ -13,7 +13,7 @@ const ArtistFormFields: React.FC<{
   const [selectedFileName, setSelectedFileName] = useState('');
 
   return (
-    <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 max-w-4xl mx-auto'>
+    <div className='mt-8 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6 max-w-[90%] sm:max-w-4xl mx-auto'>
       <TextInput
         label='Nombre del artista'
         name='name'

@@ -8,9 +8,16 @@ import { useFetchAlbumsByArtist } from '../../../hooks/album/useFetchAlbumsByArt
 import { Album } from '../../../Interfaces/AlbumInterface';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 
+const sortOptions = [
+  { name: 'Más reciente', value: 'desc' },
+  { name: 'Más antiguo', value: 'asc' },
+];
+
 const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const {
     artist,
@@ -26,8 +33,8 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
     error: albumsError,
     totalPages,
     pageSize,
-    setPageSize,
-  } = useFetchAlbumsByArtist(artistId, page);
+    setPageSize
+  } = useFetchAlbumsByArtist(artistId, page, sortOrder);
 
   if (artistLoading || albumsLoading)
     return (
@@ -54,7 +61,7 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
   };
 
   return (
-    <div className='bg-[#E5E6E4] px-6 pt-40 lg:px-0'>
+    <div className='bg-[#E5E6E4] px-6 pt-50 lg:px-0'>
       <ArtistHeader artist={artist} />
 
       <ArtistAlbumsSection
@@ -66,6 +73,10 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
         setPage={setPage}
         pageSize={pageSize}
         setPageSize={setPageSize}
+        sortOptions={sortOptions}
+        selectedSort={sortOrder}
+        setSelectedSort={setSortOrder}
+        albumsLoading={albumsLoading}
       />
 
       {selectedAlbum && (

@@ -24,20 +24,15 @@ export const fetchAlbumById = async (id: number): Promise<Album> => {
 
 export const fetchAlbumsByArtist = async (
   artistId: number,
-  page: number = 1,
-  size: number = 15
-): Promise<AlbumsData> => {
-  try {
-    const { data } = await axios.get<AlbumsData>(
-      `http://localhost:8081/albums/by-artist/${artistId}?page=${
-        page - 1
-      }&size=${size}`
-    );
-    return data;
-  } catch (error) {
-    console.error('Error fetching albums by artist', error);
-    throw error;
-  }
+  page: number,
+  size: number,
+  sortOrder: 'asc' | 'desc' = 'asc'
+) => {
+  const response = await fetch(
+    `http://localhost:8081/albums/by-artist/${artistId}?page=${page}&size=${size}&sort=${sortOrder}`
+  );
+  if (!response.ok) throw new Error('Error fetching albums by artist');
+  return response.json();
 };
 
 export async function fetchFilteredAlbums(params: AlbumFilterParams): Promise<AlbumFilterResponse> {
@@ -111,7 +106,7 @@ export const editAlbum = async (
         (value as string[]).forEach((g) => form.append('genres', g));
       } else if (key === 'listOfSongs') {
         (value as Song[]).forEach((s, idx) =>
-          form.append(`listOfSongs[${idx}].name`, s.title)
+          form.append(`listOfSongs[${idx}].name`, s.name)
         );
       } else if (key === 'photo') {
         form.append('photo', value as File);

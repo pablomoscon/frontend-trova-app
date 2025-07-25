@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { UserDetailModalProps } from '../../../Interfaces/UserInterface';
+import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
 
 const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, onClose }) => {
   const [showAllActivities, setShowAllActivities] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useCloseOnOutside(modalRef, onClose);
 
   const avatarUrl = `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(
     user.username || user.email || 'user'
@@ -15,10 +19,14 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, onClose }) => {
 
   return (
     <div className='fixed inset-0 backdrop-blur-lg flex items-center justify-center z-50 px-2'>
-      <div className='bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative border border-gray-200'>
+      <div
+        ref={modalRef}
+        className='bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative border border-gray-200'
+      >
         <button
           onClick={onClose}
           className='absolute top-3 right-3 text-gray-400 hover:text-black text-2xl'
+          aria-label='Cerrar modal'
         >
           ×
         </button>

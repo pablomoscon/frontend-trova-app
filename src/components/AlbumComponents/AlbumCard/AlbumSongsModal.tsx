@@ -25,7 +25,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
       >
         <div className='flex justify-between items-center'>
           <h3 className='text-2xl font-bold text-gray-900'>
-            {isLoading ? 'Cargando...' : album?.title || 'Álbum'}
+            {isLoading ? 'Cargando...' : album?.name || 'Álbum'}
           </h3>
           <button
             onClick={onClose}
@@ -62,7 +62,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
                 >
                   <div className='flex min-w-0 flex-col text-start'>
                     <p className='text-sm font-semibold text-gray-900'>
-                      {song.title}
+                      {song.name}
                     </p>
                     <p className='mt-1 text-xs text-gray-500'>
                       {song.artistName}

@@ -50,6 +50,7 @@ export interface AlbumsData {
 export interface AlbumCardProps {
   album: Album;
   onClick?: (albumId: number) => void;
+  onImageLoad?: () => void;
 }
 
 export interface AlbumListProps {
@@ -60,6 +61,7 @@ export interface AlbumListProps {
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (size: number) => void;
+  albumsLoading?: boolean;
 }
 
 export interface EditAlbumProps {
@@ -103,7 +105,7 @@ export interface AlbumGenreSelectorProps {
 }
 
 export interface AlbumSongInputsProps extends OptionalStepNavigation {
-  listOfSongs: { title: string; duration: string }[];
+  listOfSongs: { name: string; duration: string }[];
   handleChange: (e: any) => void;
   isEditMode: boolean;
 }
@@ -147,6 +149,7 @@ export interface AlbumFilterParams {
   artistName?: string [];
   year?: number[]; 
   genre?: string[];
+  sort?: 'asc' | 'desc'; 
 }
 
 export interface AlbumFilterResponse {

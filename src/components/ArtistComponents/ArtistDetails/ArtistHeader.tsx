@@ -10,7 +10,7 @@ const ArtistHeader: React.FC<ArtistObjectProps> = ({ artist }) => {
             <p className='text-base/7 font-semibold text-indigo-600'>
               Artista Destacado
             </p>
-            <h1 className='mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl'>
+            <h1 className='mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl pb-6 lg:pb-0'>
               {artist.name}
             </h1>
             <div className='mt-6 block lg:hidden flex justify-center'>

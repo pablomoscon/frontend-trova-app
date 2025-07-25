@@ -9,33 +9,38 @@ const AlbumRow: React.FC<AlbumRowProps> = ({
   onDelete,
   onToggleStatus,
 }) => {
-  
   const isActive = (album.status ?? '').toUpperCase() === 'ACTIVE';
-  
+
   return (
-    <tr key={album.id} className='border-b text-center'>
-      <td className='px-4 py-2'>{album.title}</td>
-      <td className='px-4 py-2'>{album.artistName}</td>
-      <td className='px-4 py-2'>
+    <tr className='border-b text-left'>
+      <td className='px-3 py-2 text-xs sm:text-sm md:text-base'>
+        {album.title}
+      </td>
+      <td className='px-3 py-2 text-xs sm:text-sm md:text-base'>
+        {album.artistName}
+      </td>
+      <td className='px-3 py-2 flex justify-center'>
         <ToggleSwitch
           enabled={isActive}
           onToggle={() => onToggleStatus(album)}
           ariaLabel={`Cambiar estado de ${album.title}`}
         />
       </td>
-      <td className='px-4 py-2'>
-        <div className='flex justify-center space-x-4'>
-          <button className='cursor-pointer'
+      <td className='px-3 py-2'>
+        <div className='flex justify-start space-x-3'>
+          <button
             onClick={() => album.id && onEdit(album.id)}
             aria-label='Editar álbum'
+            className='text-gray-800 hover:text-gray-600'
           >
-            <PencilIcon className='w-5 h-5 text-gray-800' />
+            <PencilIcon className='w-4 h-4 sm:w-5 sm:h-5' />
           </button>
-          <button className='cursor-pointer'
+          <button
             onClick={() => album.id && onDelete(album.id)}
             aria-label='Eliminar álbum'
+            className='text-gray-600 hover:text-gray-400'
           >
-            <TrashIcon className='w-5 h-5 text-gray-600' />
+            <TrashIcon className='w-4 h-4 sm:w-5 sm:h-5' />
           </button>
         </div>
       </td>

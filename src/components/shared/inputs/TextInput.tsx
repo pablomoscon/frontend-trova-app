@@ -6,7 +6,7 @@ const TextInput: React.FC<TextInputProps> = ({
   name,
   value,
   onChange,
-  placeholder = '',
+  placeholder = 'CD 1000',
   colSpan = 'sm:col-span-10',
   wrapperClass = '',
   type = 'text',

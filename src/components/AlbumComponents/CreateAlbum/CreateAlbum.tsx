@@ -1,3 +1,4 @@
+import React from 'react';
 import Spinner from '../../shared/Spinner';
 import NewArtistModal from '../../artistComponents/ArtistForms/NewArtistModal';
 import { createNewArtist } from '../../../utils/createNewArtistUtils';
@@ -48,12 +49,12 @@ const CreateAlbum: React.FC = () => {
   }
 
   return (
-    <div className='bg-[#E5E6E4] min-h-screen w-full mt-20 overflow-x-hidden py-10 px-4 sm:px-6 lg:px-20'>
-      <div className='mx-auto max-w-full px-6 lg:px-8'>
-        <form onSubmit={handleSubmit} className='py-10'>
-          <div className='border border-gray-900/10 p-6 bg-[#FEFEFE] rounded-xl py-10 sm:py-20'>
-            <h2 className='text-xl sm:text-2xl font-semibold leading-7 text-gray-900'>
-              Album Info
+    <div className='bg-[#E5E6E4] min-h-screen w-full mt-20 overflow-x-hidden py-8 px-4 sm:px-6 lg:px-20'>
+      <div className='mx-auto w-full max-w-5xl'>
+        <form onSubmit={handleSubmit} className='py-6 sm:py-10'>
+          <div className='border border-gray-300 bg-white p-4 sm:p-6 rounded-xl shadow-sm pb-10'>
+            <h2 className='text-lg sm:text-2xl font-semibold text-gray-900 py-4 sm:py-10'>
+            Crear Album
             </h2>
 
             <AlbumFormFields
@@ -68,27 +69,26 @@ const CreateAlbum: React.FC = () => {
               imagePreview={imagePreview}
             />
 
-            <div className='mt-4 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-y-2 sm:gap-x-6'>
+            <div className='mt-6 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6'>
               <button
                 type='button'
                 onClick={resetForm}
-                className='text-xs sm:text-sm font-semibold text-gray-900 w-full sm:w-auto'
+                className='text-sm sm:text-base font-semibold text-gray-900 w-full sm:w-auto cursor-pointer sm:py-4'
               >
                 Cancelar
               </button>
               <button
                 type='submit'
-                className='bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-400 transition text-md'
+                className='bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base px-5 py-2 sm:px-6 sm:py-2.5 rounded-md transition disabled:opacity-60 disabled:cursor-not-allowed w-auto sm:w-auto'
                 disabled={isLoading}
               >
-                {isLoading ? 'Guardando ' : 'Guardar álbum'}
+                {isLoading ? 'Guardando' : 'Guardar álbum'}
                 {isLoading && <LoadingDots />}
               </button>
             </div>
           </div>
         </form>
       </div>
-
 
       {showArtistModal && (
         <NewArtistModal

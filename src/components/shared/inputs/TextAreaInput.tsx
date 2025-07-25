@@ -22,6 +22,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
       value={value}
       onChange={onChange}
       rows={rows}
+      placeholder='Escribe aquí los detalles...'
       className='mt-1 block w-full rounded-md border border-gray-300 px-2 py-2 sm:text-sm text-gray-600 text-xs'
     />
   </div>

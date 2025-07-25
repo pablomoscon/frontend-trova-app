@@ -40,7 +40,7 @@ const AlbumDetailsModal: React.FC<AlbumDetailsModalProps> = ({
                 console.log('Song:', song);
                 return (
                   <li key={idx}>
-                    {idx + 1}. {song.title} — {song.duration}
+                    {idx + 1}. {song.name} — {song.duration}
                   </li>
                 );
               })}

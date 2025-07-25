@@ -1,30 +1,22 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { PaginationControlsProps } from '../../Interfaces/SharedInterface';
+import { getPaginationRange } from '../../utils/paginationUtils';
 
 const PaginationControls: React.FC<PaginationControlsProps> = ({
   page,
   totalPages,
   setPage,
-  onPageChangeComplete
+  onPageChangeComplete,
 }) => {
-  const maxButtons = 5;
-
   const handlePageChange = (newPage: number) => {
     if (newPage !== page && newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
-      if (onPageChangeComplete) {
-        onPageChangeComplete();
-      }
+      onPageChangeComplete?.();
     }
   };
 
-  let startPage = Math.max(1, page - 2);
-  let endPage = Math.min(totalPages, page + 2);
-
-  if (page <= 3) endPage = Math.min(totalPages, maxButtons);
-  if (page >= totalPages - 2)
-    startPage = Math.max(1, totalPages - (maxButtons - 1));
+  const [startPage, endPage] = getPaginationRange(page, totalPages);
 
   const buttons: React.ReactNode[] = [];
 
@@ -33,16 +25,22 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       <button
         key={1}
         onClick={() => handlePageChange(1)}
-        className={`rounded-lg px-3 py-1 transition ${
+        className={`px-3 py-1 rounded-xl text-sm font-medium transition ${
           page === 1
             ? 'bg-gray-600 text-white'
-            : 'bg-white hover:bg-gray-100 text-gray-800 border'
+            : 'bg-gray-50 border hover:bg-white text-gray-800'
         }`}
       >
         1
       </button>
     );
-    if (startPage > 2) buttons.push(<span key='start-ellipsis'>…</span>);
+    if (startPage > 2) {
+      buttons.push(
+        <span key='start-ellipsis' className='px-2 text-gray-400'>
+          …
+        </span>
+      );
+    }
   }
 
   for (let p = startPage; p <= endPage; p++) {
@@ -50,10 +48,10 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       <button
         key={p}
         onClick={() => handlePageChange(p)}
-        className={`rounded-lg px-3 py-1 transition ${
+        className={`px-3 py-1 rounded-xl text-sm font-medium transition ${
           p === page
             ? 'bg-gray-600 text-white'
-            : 'bg-white hover:bg-gray-100 text-gray-800 border'
+            : 'bg-gray-50 border hover:bg-white text-gray-800'
         }`}
       >
         {p}
@@ -61,46 +59,38 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
     );
   }
 
-  if (endPage < totalPages) {
-    if (endPage < totalPages - 1)
-      buttons.push(<span key='end-ellipsis'>…</span>);
+  if (endPage < totalPages - 1) {
     buttons.push(
-      <button
-        key={totalPages}
-        onClick={() => handlePageChange(totalPages)}
-        className={`rounded-lg px-3 py-1 transition ${
-          page === totalPages
-            ? 'bg-gray-600 text-white'
-            : 'bg-white hover:bg-gray-100 text-gray-800 border'
-        }`}
-      >
-        {totalPages}
-      </button>
+      <span key='end-ellipsis' className='px-2 text-gray-400'>
+        …
+      </span>
     );
   }
 
   return (
-    <div className='flex justify-center items-center gap-2 pt-4 pb-14'>
+    <div className='flex justify-center items-center gap-2 pt-6 pb-16'>
       <button
         onClick={() => handlePageChange(page - 1)}
         disabled={page === 1}
-        className={`p-2 border rounded-full text-gray-700 hover:bg-gray-100 transition ${
-          page === 1 ? 'opacity-50 cursor-not-allowed' : ''
+        className={`p-2 rounded-full border transition bg-neutral-50 hover:bg-gray-100 ${
+          page === 1 ? 'opacity-40 cursor-not-allowed' : 'text-gray-700'
         }`}
-        aria-label='Anterior'
+        aria-label='Página anterior'
       >
         <ChevronLeft size={20} />
       </button>
 
-      {buttons}
+      <div className='flex items-center gap-1'>{buttons}</div>
 
       <button
         onClick={() => handlePageChange(page + 1)}
         disabled={page === totalPages}
-        className={`p-2 border rounded-full text-gray-700 hover:bg-gray-100 transition ${
-          page === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+        className={`p-2 rounded-full border transition bg-neutral-50 hover:bg-gray-100 ${
+          page === totalPages
+            ? 'opacity-40 cursor-not-allowed'
+            : 'text-gray-700'
         }`}
-        aria-label='Siguiente'
+        aria-label='Página siguiente'
       >
         <ChevronRight size={20} />
       </button>

@@ -31,7 +31,7 @@ const EditAlbumSongsModal: React.FC<EditAlbumSongsModalProps> = ({
         songsData.map((song) => {
           if (song.id !== undefined) {
             return editSongs(song.id, {
-              title: song.title,
+              name: song.name,
               duration: song.duration,
             });
           } else {
@@ -91,7 +91,7 @@ const EditAlbumSongsModal: React.FC<EditAlbumSongsModalProps> = ({
                 <input
                   type='text'
                   name='name'
-                  value={song.title}
+                  value={song.name}
                   onChange={(e) => handleSongChange(e, index)}
                   placeholder='Nombre'
                   className='flex-grow p-1 px-3 border rounded text-sm'

@@ -15,7 +15,7 @@ const CatalogueMobileFilterDialog: React.FC<MobileFilterDialogProps> = ({
     <DialogBackdrop className='fixed inset-0 bg-black/25' />
 
     <div className='fixed inset-0 z-40 flex'>
-      <DialogPanel className='ml-auto w-full max-w-xs transform bg-white shadow-xl transition-all flex flex-col relative'>
+      <DialogPanel className='ml-auto w-full max-w-sm transform bg-white shadow-xl transition-all flex flex-col relative'>
         <button
           type='button'
           onClick={onClose}

@@ -15,7 +15,7 @@ export interface MobileFilterDialogProps {
   open: boolean;
   onClose: () => void;
   filters: FilterSection[];
-  selectedFilters: SelectedFilters; // ⬅️ agregado
+  selectedFilters: SelectedFilters; 
   onFilterChange: (selectedFilters: SelectedFilters) => void;
 }
 
@@ -25,16 +25,8 @@ export interface FilterSidebarProps {
   onFilterChange: (filters: Record<string, string[]>) => void;
 }
 
-export interface SortOption {
-  name: string;
-  href: string;
-  current: boolean;
-}
-
-export interface SortMenuProps {
-  sortOptions: SortOption[];
-}
-
 export interface CatalogueHeaderProps {
   onMobileFiltersOpen: () => void;
+  sortOrder: 'asc' | 'desc' | '';
+  setSortOrder: (order: 'asc' | 'desc' | '') => void;
 }

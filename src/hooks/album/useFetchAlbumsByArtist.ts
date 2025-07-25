@@ -4,7 +4,8 @@ import { fetchAlbumsByArtist } from '../../services/albumService';
 
 export const useFetchAlbumsByArtist = (
     artistId: number | null,
-    page: number
+    page: number,
+    sortOrder: 'asc' | 'desc' = 'asc' 
 ) => {
     const [albums, setAlbums] = useState<Album[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -24,12 +25,11 @@ export const useFetchAlbumsByArtist = (
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Cada vez que cambian artistId, page o pageSize, hacemos fetch
     useEffect(() => {
         if (artistId === null) return;
 
         setLoading(true);
-        fetchAlbumsByArtist(artistId, page, pageSize)
+        fetchAlbumsByArtist(artistId, page - 1, pageSize, sortOrder)
             .then((data: AlbumsData) => {
                 setAlbums(data.albums);
                 setTotalPages(data.totalPages);
@@ -39,7 +39,7 @@ export const useFetchAlbumsByArtist = (
                 setError('Error fetching albums by artist');
             })
             .finally(() => setLoading(false));
-    }, [artistId, page, pageSize]);
+    }, [artistId, page, pageSize, sortOrder]); // también escuchar cambios en sortOrder
 
     return {
         albums,

@@ -20,10 +20,10 @@ const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
   const [selectedFileName, setSelectedFileName] = useState('');
 
   return (
-    <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 max-w-4xl mx-auto'>
+    <div className='mt-8 grid grid-cols-1 sm:grid-cols-6 gap-y-6 gap-x-4 w-full'>
       <TextInput
         label='Título del álbum'
-        name='title'
+        name='name'
         value={formData.title}
         onChange={handleChange}
         colSpan='sm:col-span-3'
@@ -82,12 +82,14 @@ const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
         placeholder='Ej: 2001'
       />
 
-      <ImageFileUpload
-        handleFileChange={handleFileChange}
-        selectedFileName={selectedFileName}
-        setSelectedFileName={setSelectedFileName}
-        imagePreview={imagePreview}
-      />
+      <div className='sm:col-span-6 '>
+        <ImageFileUpload
+          handleFileChange={handleFileChange}
+          selectedFileName={selectedFileName}
+          setSelectedFileName={setSelectedFileName}
+          imagePreview={imagePreview}
+        />
+      </div>
     </div>
   );
 };

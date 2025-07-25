@@ -55,12 +55,12 @@ const CreateArtist: React.FC = () => {
   }
 
   return (
-    <div className='bg-[#E5E6E4] min-h-screen w-full mt-20 overflow-x-hidden py-10 px-4 sm:px-6 lg:px-20'>
-      <div className='mx-auto max-w-full px-6 lg:px-8'>
-        <form onSubmit={handleSubmit} className='py-10'>
-          <div className='border border-gray-900/10 p-6 bg-[#FEFEFE] rounded-xl py-10 sm:py-20'>
-            <h2 className='text-xl sm:text-2xl font-semibold leading-7 text-gray-900'>
-              Artista Info
+    <div className='bg-[#E5E6E4] min-h-screen w-full mt-20 overflow-x-hidden py-8 px-4 sm:px-6 lg:px-20'>
+      <div className='mx-auto w-full max-w-5xl'>
+        <form onSubmit={handleSubmit} className='py-6 sm:py-10'>
+          <div className='border border-gray-900/10 p-4 sm:p-6 bg-[#FEFEFE] rounded-xl py-8 sm:py-16'>
+            <h2 className='text-lg sm:text-xl md:text-2xl font-semibold leading-7 text-gray-900 mb-4 sm:mb-6'>
+              Crear Artista
             </h2>
 
             <ArtistFormFields
@@ -74,7 +74,7 @@ const CreateArtist: React.FC = () => {
               </p>
             )}
 
-            <div className='mt-4 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-y-2 sm:gap-x-6'>
+            <div className='mt-4 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-y-3 sm:gap-x-6'>
               <button
                 type='button'
                 onClick={() =>
@@ -85,13 +85,13 @@ const CreateArtist: React.FC = () => {
                     photo: undefined,
                   })
                 }
-                className='text-xs sm:text-sm font-semibold text-gray-900 w-full sm:w-auto'
+                className='text-sm font-semibold text-gray-900 w-[60%] sm:w-auto text-center'
               >
                 Cancelar
               </button>
               <button
                 type='submit'
-                className='bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-400 transition text-md'
+                className='bg-gray-500 text-white text-sm md:text-base px-3 sm:px-4 py-2 rounded-md hover:bg-gray-400 transition w-[60%] sm:w-auto text-center'
                 disabled={isLoading}
               >
                 {isLoading ? 'Guardando ' : 'Guardar artista'}

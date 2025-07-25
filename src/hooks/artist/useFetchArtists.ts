@@ -13,7 +13,22 @@ export const useFetchArtists = (page: number, size: number) => {
         setIsLoading(true);
         try {
             const res: ArtistsData = await fetchArtists(page, size);
-            setArtists(res.content || []);
+            const artistList = res.content || [];
+
+            // Wait for all artist images to load
+            await Promise.all(
+                artistList.map((artist) => {
+                    return new Promise<void>((resolve) => {
+                        if (!artist.photo) return resolve();
+                        const img = new Image();
+                        img.src = artist.photo;
+                        img.onload = () => resolve();
+                        img.onerror = () => resolve(); // still resolve on error
+                    });
+                })
+            );
+
+            setArtists(artistList);
             setTotalPages(Math.max(1, res.totalPages));
             setCurrentPage(res.number ?? 0);
             setError(null);

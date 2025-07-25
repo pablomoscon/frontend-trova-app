@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSearchAlbums } from '../../hooks/album/useSearchAlbums';
-import { usePageAndSearch } from '../../hooks/shared/usePageAndSearch';
+import { useSearchAlbums } from './useSearchAlbums';
+import { usePageAndSearch } from '../shared/usePageAndSearch';
 
-export const useSearchResults = (
+export const useSearchAlbumsResults = (
     initialQuery: string,
     pageSize: number,
     pageKey = 'searchResultsPage'
@@ -17,12 +17,10 @@ export const useSearchResults = (
 
     const [hasSearched, setHasSearched] = useState(!!initialQuery);
 
-    // Sincronizar searchTerm con initialQuery si cambia externamente
     useEffect(() => {
-        // Solo actualizar si el valor es distinto para evitar loops
         if (initialQuery !== searchTerm) {
             setSearchTerm(initialQuery);
-            setPage(1);  // Resetea página al cambiar búsqueda externa
+            setPage(1);
         }
     }, [initialQuery]);
 

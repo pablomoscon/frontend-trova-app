@@ -28,9 +28,11 @@ const ChartSection: React.FC<DashboardChartSectionProps> = ({
   );
 
   return (
-    <div className='bg-white p-6 rounded-lg shadow-md'>
-      <div className='flex justify-between items-center mb-4'>
-        <h3 className='text-xl font-semibold text-gray-800'>{title}</h3>
+    <div className='bg-white p-4 sm:p-6 rounded-lg shadow-md'>
+      <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4'>
+        <h3 className='text-lg sm:text-xl font-semibold text-gray-800'>
+          {title}
+        </h3>
       </div>
 
       {data.length === 0 ? (
@@ -39,12 +41,12 @@ const ChartSection: React.FC<DashboardChartSectionProps> = ({
         <div className='overflow-x-auto'>
           <ResponsiveContainer
             width='100%'
-            height={Math.max(300, visibleData.length * 40)}
+            height={Math.max(300, visibleData.length * 36)}
           >
             <BarChart
               layout='vertical'
               data={visibleData}
-              margin={{ top: 10, right: 30, left: 100, bottom: 10 }}
+              margin={{ top: 10, right: 20, left: 60, bottom: 10 }}
             >
               <CartesianGrid strokeDasharray='3 3' />
               <XAxis type='number' />
@@ -76,7 +78,7 @@ const ChartSection: React.FC<DashboardChartSectionProps> = ({
       )}
 
       {data.length > 10 && (
-        <div className='flex justify-end mt-8'>
+        <div className='flex justify-end mt-6'>
           <button
             onClick={() => setExpanded((prev) => !prev)}
             className='text-sm text-blue-800 hover:underline cursor-pointer'

@@ -51,7 +51,7 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
                 setFormData(loadedData);
                 setInitialData(loadedData);
                 setSongsInput(
-                    (album.listOfSongs ?? []).map((s) => s.title).join(", ")
+                    (album.listOfSongs ?? []).map((s) => s.name).join(", ")
                 );
                 setArtists(artistList);              
             } catch (error) {

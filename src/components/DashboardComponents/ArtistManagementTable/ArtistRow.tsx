@@ -9,35 +9,38 @@ const ArtistRow: React.FC<ArtistRowProps> = ({
   onToggleStatus,
   onEdit,
 }) => {
-
-const isActive = (artist.status ?? '').toUpperCase() === 'ACTIVE';
+  const isActive = (artist.status ?? '').toUpperCase() === 'ACTIVE';
 
   return (
-    <tr className='border-b text-center'>
-      <td className='px-4 py-2'>{artist.name}</td>
-      <td className='px-4 py-2'>{artist.nationality}</td>
-      <td className='px-4 py-2'>
+    <tr className='border-b text-left'>
+      <td className='px-3 py-2 text-xs sm:text-sm md:text-base'>
+        {artist.name}
+      </td>
+      <td className='px-3 py-2 text-xs sm:text-sm md:text-base'>
+        {artist.nationality}
+      </td>
+      <td className='px-3 py-2 flex justify-center'>
         <ToggleSwitch
           enabled={isActive}
           onToggle={() => onToggleStatus(artist)}
           ariaLabel={`Cambiar estado de ${artist.name}`}
         />
       </td>
-      <td className='px-4 py-2'>
-        <div className='flex justify-center space-x-4'>
+      <td className='px-3 py-2'>
+        <div className='flex justify-start space-x-3'>
           <button
-            className='cursor-pointer'
             onClick={() => artist.id != null && onEdit(artist.id)}
             aria-label='Editar artista'
+            className='text-gray-800 hover:text-gray-600'
           >
-            <PencilIcon className='w-5 h-5 text-gray-800' />
+            <PencilIcon className='w-4 h-4 sm:w-5 sm:h-5' />
           </button>
           <button
-            className='cursor-pointer'
             onClick={() => artist.id != null && onDelete(artist.id)}
             aria-label='Eliminar artista'
+            className='text-gray-600 hover:text-gray-400'
           >
-            <TrashIcon className='w-5 h-5 text-gray-600' />
+            <TrashIcon className='w-4 h-4 sm:w-5 sm:h-5' />
           </button>
         </div>
       </td>

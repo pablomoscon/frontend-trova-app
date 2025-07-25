@@ -1,4 +1,3 @@
-// src/hooks/album/useFilteredAlbums.ts
 import { useState, useEffect, useCallback } from 'react';
 import { fetchFilteredAlbums } from '../../services/albumService';
 import {
@@ -13,38 +12,37 @@ import { groupAlbumsByArtist } from '../../utils/groupAlbumsByArtistUtils';
 const buildFilterParams = (
   filters: Record<string, string[]>,
   page: number,
-  size: number
+  size: number,
+  sortOrder: 'asc' | 'desc' | ''
 ): AlbumFilterParams => {
   const params: AlbumFilterParams = { page: page - 1, size };
 
   if (filters.artistName?.length) params.artistName = filters.artistName;
-
   if (filters.year?.length) params.year = filters.year.map(Number);
-
   if (filters.genre?.length) params.genre = filters.genre;
+
+  // Solo setear 'sort' si sortOrder es 'asc' o 'desc'
+  if (sortOrder === 'asc' || sortOrder === 'desc') {
+    params.sort = sortOrder;
+  }
 
   return params;
 };
 
-
 export function useFilteredAlbums(initialSize = 9) {
-
-    const [albums, setAlbums] = useState<Album[]>([]);
-  const [groupedAlbums, setGroupedAlbums] = useState<Record<string, Album[]>>(
-    {}
-  );
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [groupedAlbums, setGroupedAlbums] = useState<Record<string, Album[]>>({});
   const [allAlbums, setAllAlbums] = useState<Album[]>([]);
 
   const [filters, setFilters] = useState<FilterSection[]>([]);
-  const [selectedFilters, setSelectedFilters] = useState<
-    Record<string, string[]>
-  >({});
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(initialSize);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | ''>('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -53,7 +51,7 @@ export function useFilteredAlbums(initialSize = 9) {
       try {
         const { albums: all } = await fetchFilteredAlbums({
           page: 0,
-          size: 9999, 
+          size: 9999,
         });
 
         const sorted = [...all].sort((a, b) =>
@@ -76,21 +74,23 @@ export function useFilteredAlbums(initialSize = 9) {
     setIsLoading(true);
     setError(null);
 
-    const params = buildFilterParams(selectedFilters, page, pageSize);
+    const params = buildFilterParams(selectedFilters, page, pageSize, sortOrder);
 
     try {
       const data: AlbumsData = await fetchFilteredAlbums(params);
 
-      const sorted = [...data.albums].sort((a, b) =>
-        (a.artistName || '').localeCompare(b.artistName || '')
-      );
+      const sorted = data.albums;
 
       setAlbums(sorted);
-      setGroupedAlbums(groupAlbumsByArtist(sorted));
+
+      if (!sortOrder) {
+        setGroupedAlbums(groupAlbumsByArtist(sorted));
+      } else {
+        setGroupedAlbums({ all: sorted });
+      }
 
       setTotalPages(data.totalPages);
       setTotalItems(data.totalElements);
-
       setPage(data.currentPage ? data.currentPage + 1 : 1);
     } catch (err) {
       console.error('Error loading albums:', err);
@@ -102,7 +102,7 @@ export function useFilteredAlbums(initialSize = 9) {
     } finally {
       setIsLoading(false);
     }
-  }, [page, pageSize, selectedFilters]);
+  }, [page, pageSize, selectedFilters, sortOrder]);
 
   useEffect(() => {
     loadAlbums();
@@ -113,13 +113,11 @@ export function useFilteredAlbums(initialSize = 9) {
   }, [selectedFilters]);
 
   return {
-
-    albums,          
-    groupedAlbums,  
+    albums,
+    groupedAlbums,
     filters,
     selectedFilters,
     setSelectedFilters,
-
     isLoading,
     error,
     page,
@@ -128,8 +126,9 @@ export function useFilteredAlbums(initialSize = 9) {
     totalItems,
     pageSize,
     setPageSize,
-
+    sortOrder,
+    setSortOrder,
     reloadAlbums: loadAlbums,
-    allAlbums,       
+    allAlbums,
   };
 }

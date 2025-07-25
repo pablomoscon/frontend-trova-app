@@ -1,11 +1,11 @@
 import React from 'react';
 
 const PlatformsSection: React.FC = () => (
-  <div className='flex flex-col items-center bg-[#E5E6E4] text-gray-900 py-20 px-4'>
-    <h2 className='text-3xl sm:text-3xl md:text-4xl font-bold text-center mb-6'>
-      Escuchá nuestra música en plataformas digitales
+  <div className='bg-[#E5E6E4] flex flex-col items-center text-gray-900 py-30 px-4'>
+    <h2 className='text-3xl sm:text-3xl md:text-4xl font-bold text-center mb-12'>
+      Escuchá toda nuestra música en plataformas digitales
     </h2>
-    <p className='text-xl sm:text-xlg md:text-xl text-gray-700 text-center max-w-3xl mb-12'>
+    <p className='text-lg sm:text-xlg md:text-xl text-gray-700 text-center max-w-3xl mb-16'>
       Nuestro catálogo también está disponible en las principales plataformas de
       streaming.
     </p>
