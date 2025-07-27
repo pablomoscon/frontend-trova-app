@@ -12,7 +12,7 @@ const ArtistRow: React.FC<ArtistRowProps> = ({
   const isActive = (artist.status ?? '').toUpperCase() === 'ACTIVE';
 
   return (
-    <tr className='border-b text-left'>
+    <tr className='border-b text-center'>
       <td className='px-3 py-2 text-xs sm:text-sm md:text-base'>
         {artist.name}
       </td>
@@ -27,18 +27,18 @@ const ArtistRow: React.FC<ArtistRowProps> = ({
         />
       </td>
       <td className='px-3 py-2'>
-        <div className='flex justify-start space-x-3'>
+        <div className='flex justify-center space-x-3'>
           <button
             onClick={() => artist.id != null && onEdit(artist.id)}
             aria-label='Editar artista'
             className='text-gray-800 hover:text-gray-600'
           >
-            <PencilIcon className='w-4 h-4 sm:w-5 sm:h-5' />
+            <PencilIcon className='w-4 h-4 sm:w-5 sm:h-5 cursor-pointer' />
           </button>
           <button
             onClick={() => artist.id != null && onDelete(artist.id)}
             aria-label='Eliminar artista'
-            className='text-gray-600 hover:text-gray-400'
+            className='text-gray-600 hover:text-gray-400 cursor-pointer'
           >
             <TrashIcon className='w-4 h-4 sm:w-5 sm:h-5' />
           </button>

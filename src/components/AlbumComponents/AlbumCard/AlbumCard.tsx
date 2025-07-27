@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlbumCardProps } from '../../../Interfaces/AlbumInterface';
-import { FaSpotify, FaYoutube, FaAmazon, FaApple } from 'react-icons/fa';
+import AlbumPlatformLinks from '../../shared/AlbumPlatformLinks';
 
 const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => (
   <div className='w-full border border-gray-300 p-4 rounded shadow flex flex-col items-center justify-between min-h-[380px] sm:min-h-[400px]'>
@@ -19,30 +19,12 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => (
       {album.displayArtistName}
     </p>
     <p className='text-sm text-gray-500 text-center'>{album.year}</p>
-    <div className='flex justify-center space-x-4 mt-2 text-lg sm:text-xl text-gray-600 pt-2'>
-      <a href='' target='_blank' rel='noopener noreferrer' aria-label='Spotify'>
-        <FaSpotify className='hover:text-green-500 transition' />
-      </a>
-      <a href='' target='_blank' rel='noopener noreferrer' aria-label='Youtube'>
-        <FaYoutube className='hover:text-red-500 transition' />
-      </a>
-      <a
-        href=''
-        target='_blank'
-        rel='noopener noreferrer'
-        aria-label='AmazonMusic'
-      >
-        <FaAmazon className='hover:text-yellow-500 transition' />
-      </a>
-      <a
-        href=''
-        target='_blank'
-        rel='noopener noreferrer'
-        aria-label='AppleMusic'
-      >
-        <FaApple className='hover:text-gray-800 transition' />
-      </a>
-    </div>
+    <AlbumPlatformLinks
+      spotifyLink={album.spotifyLink}
+      /* youtubeLink={album.youtubeLink} */
+      amazonMusicLink={album.amazonMusicLink}
+      appleMusicLink={album.appleMusicLink}
+    />
   </div>
 );
 

@@ -5,13 +5,14 @@ import { fetchAlbumsByArtist } from '../../services/albumService';
 export const useFetchAlbumsByArtist = (
     artistId: number | null,
     page: number,
-    sortOrder: 'asc' | 'desc' = 'asc' 
+    sortOrder: 'asc' | 'desc' = 'asc'
 ) => {
     const [albums, setAlbums] = useState<Album[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [pageSize, setPageSize] = useState<number>(6);
+    const [pageSizeReady, setPageSizeReady] = useState(false);
 
     useEffect(() => {
         function handleResize() {
@@ -19,6 +20,7 @@ export const useFetchAlbumsByArtist = (
             if (width < 640) setPageSize(4);
             else if (width < 1024) setPageSize(6);
             else setPageSize(9);
+            setPageSizeReady(true);
         }
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -27,6 +29,7 @@ export const useFetchAlbumsByArtist = (
 
     useEffect(() => {
         if (artistId === null) return;
+        if (!pageSizeReady) return; // espera a tener pageSize calculado
 
         setLoading(true);
         fetchAlbumsByArtist(artistId, page - 1, pageSize, sortOrder)
@@ -39,7 +42,7 @@ export const useFetchAlbumsByArtist = (
                 setError('Error fetching albums by artist');
             })
             .finally(() => setLoading(false));
-    }, [artistId, page, pageSize, sortOrder]); // también escuchar cambios en sortOrder
+    }, [artistId, page, pageSize, sortOrder, pageSizeReady]);
 
     return {
         albums,

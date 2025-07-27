@@ -8,7 +8,7 @@ const ArtistHeader: React.FC<ArtistObjectProps> = ({ artist }) => {
         <div className='lg:mx-auto lg:flex lg:flex-col lg:items-center lg:text-center'>
           <div className='lg:max-w-lg'>
             <p className='text-base/7 font-semibold text-indigo-600'>
-              Artista Destacado
+              Artista
             </p>
             <h1 className='mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl pb-6 lg:pb-0'>
               {artist.name}

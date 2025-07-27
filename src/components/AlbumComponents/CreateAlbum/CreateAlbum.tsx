@@ -54,7 +54,7 @@ const CreateAlbum: React.FC = () => {
         <form onSubmit={handleSubmit} className='py-6 sm:py-10'>
           <div className='border border-gray-300 bg-white p-4 sm:p-6 rounded-xl shadow-sm pb-10'>
             <h2 className='text-lg sm:text-2xl font-semibold text-gray-900 py-4 sm:py-10'>
-            Crear Album
+            Datos del Album
             </h2>
 
             <AlbumFormFields

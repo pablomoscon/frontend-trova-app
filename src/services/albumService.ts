@@ -132,6 +132,29 @@ export const editAlbum = async (
     throw error;
   }
 };
+
+export const addSongsToAlbum = async (
+  albumId: number,
+  songs: Song[]
+): Promise<Song[]> => {
+  try {
+    const response = await axiosInstance.post(
+      `http://localhost:8081/albums/${albumId}/add-songs`,
+      songs,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error('Error creating songs:', error);
+    throw new Error(error.response?.data?.message || 'Error creating songs');
+  }
+};
+
+
 export const deleteAlbum = async (id: number): Promise<void> => {
   await axiosInstance.delete(`http://localhost:8081/albums/${id}`);
 };

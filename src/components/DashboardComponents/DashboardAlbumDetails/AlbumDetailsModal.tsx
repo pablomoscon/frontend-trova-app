@@ -71,6 +71,47 @@ const AlbumDetailsModal: React.FC<AlbumDetailsModalProps> = ({
               'No especificados'
             )}
           </div>
+          <div className='mt-4 flex flex-col gap-2 text-sm text-gray-700 justify-center'>
+            <strong>Enlaces a plataformas:</strong>{' '}
+            {album.amazonMusicLink ||
+            album.spotifyLink ||
+            album.appleMusicLink ? (
+              <div className='inline-flex flex-wrap gap-2 mt-1 justify-center'>
+                {album.amazonMusicLink && (
+                  <a
+                    href={album.amazonMusicLink}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='bg-yellow-100 text-yellow-800 text-xs font-medium px-3 py-1 rounded-full hover:underline'
+                  >
+                    Amazon Music
+                  </a>
+                )}
+                {album.spotifyLink && (
+                  <a
+                    href={album.spotifyLink}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='bg-green-100 text-green-800 text-xs font-medium px-3 py-1 rounded-full hover:underline'
+                  >
+                    Spotify
+                  </a>
+                )}
+                {album.appleMusicLink && (
+                  <a
+                    href={album.appleMusicLink}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='bg-gray-100 text-gray-800 text-xs font-medium px-3 py-1 rounded-full hover:underline'
+                  >
+                    Apple Music
+                  </a>
+                )}
+              </div>
+            ) : (
+              'No hay enlaces disponibles'
+            )}
+          </div>
         </div>
       </div>
     </div>

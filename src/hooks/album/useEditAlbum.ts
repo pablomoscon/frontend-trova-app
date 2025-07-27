@@ -46,6 +46,10 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
                     genres: album.genres ?? [],
                     listOfSongs: album.listOfSongs ?? [],  
                     displayArtistName: album.displayArtistName,
+                    appleMusicLink: album.appleMusicLink ?? '',
+                    spotifyLink: album.spotifyLink ?? '',
+                    amazonMusicLink: album.amazonMusicLink ?? '',
+
                 };
 
                 setFormData(loadedData);

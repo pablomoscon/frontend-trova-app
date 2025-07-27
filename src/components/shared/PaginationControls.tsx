@@ -25,7 +25,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       <button
         key={1}
         onClick={() => handlePageChange(1)}
-        className={`px-3 py-1 rounded-xl text-sm font-medium transition ${
+        className={`px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm md:text-base font-medium transition ${
           page === 1
             ? 'bg-gray-600 text-white'
             : 'bg-gray-50 border hover:bg-white text-gray-800'
@@ -36,7 +36,10 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
     );
     if (startPage > 2) {
       buttons.push(
-        <span key='start-ellipsis' className='px-2 text-gray-400'>
+        <span
+          key='start-ellipsis'
+          className='px-1 text-gray-400 text-xs sm:text-sm md:text-base'
+        >
           …
         </span>
       );
@@ -48,7 +51,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       <button
         key={p}
         onClick={() => handlePageChange(p)}
-        className={`px-3 py-1 rounded-xl text-sm font-medium transition ${
+        className={`px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm md:text-base font-medium transition ${
           p === page
             ? 'bg-gray-600 text-white'
             : 'bg-gray-50 border hover:bg-white text-gray-800'
@@ -61,23 +64,26 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
 
   if (endPage < totalPages - 1) {
     buttons.push(
-      <span key='end-ellipsis' className='px-2 text-gray-400'>
+      <span
+        key='end-ellipsis'
+        className='px-1 text-gray-400 text-xs sm:text-sm md:text-base'
+      >
         …
       </span>
     );
   }
 
   return (
-    <div className='flex justify-center items-center gap-2 pt-6 pb-16'>
+    <div className='flex justify-center items-center gap-1 pt-4 pb-10'>
       <button
         onClick={() => handlePageChange(page - 1)}
         disabled={page === 1}
-        className={`p-2 rounded-full border transition bg-neutral-50 hover:bg-gray-100 ${
+        className={`p-1.5 sm:p-2 rounded-full border transition bg-neutral-50 hover:bg-gray-100 ${
           page === 1 ? 'opacity-40 cursor-not-allowed' : 'text-gray-700'
         }`}
         aria-label='Página anterior'
       >
-        <ChevronLeft size={20} />
+        <ChevronLeft size={18} className='sm:size-4 md:size-5' />
       </button>
 
       <div className='flex items-center gap-1'>{buttons}</div>
@@ -85,14 +91,14 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       <button
         onClick={() => handlePageChange(page + 1)}
         disabled={page === totalPages}
-        className={`p-2 rounded-full border transition bg-neutral-50 hover:bg-gray-100 ${
+        className={`p-1.5 sm:p-2 rounded-full border transition bg-neutral-50 hover:bg-gray-100 ${
           page === totalPages
             ? 'opacity-40 cursor-not-allowed'
             : 'text-gray-700'
         }`}
         aria-label='Página siguiente'
       >
-        <ChevronRight size={20} />
+        <ChevronRight size={18} className='sm:size-4 md:size-5' />
       </button>
     </div>
   );

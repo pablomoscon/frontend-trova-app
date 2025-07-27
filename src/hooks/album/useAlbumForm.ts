@@ -5,13 +5,16 @@ export const useAlbumForm = () => {
     const [formData, setFormData] = useState<AlbumFormData>({
         title: '',
         artistId: 0,
-        listOfSongs: [{ name: '', duration: '' }],
+        listOfSongs: [{ name: '', duration: '' , id: 0 }],
         details: '',
         genres: [],
         cdNumber: '',
         year: undefined,
         photo: undefined,
         displayArtistName: '',
+        appleMusicLink: '',
+        spotifyLink: '',
+        amazonMusicLink: '',
     });
 
     const [songsInput, setSongsInput] = useState<string>('');
@@ -59,8 +62,11 @@ export const useAlbumForm = () => {
             cdNumber: '',
             year: undefined,
             photo: undefined,
-            listOfSongs: [{ name: '', duration: '' }],
+            listOfSongs: [{ name: '', duration: '', id: 0 }],
             displayArtistName: '',
+            appleMusicLink: '',
+            spotifyLink: '',
+            amazonMusicLink: '',
         });
         setSongsInput('');
         setImagePreview(null);

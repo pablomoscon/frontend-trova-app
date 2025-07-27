@@ -3,7 +3,7 @@ import AlbumFormFields from '../../albumComponents/AlbumFormFields/AlbumFormFiel
 import { useEditAlbum } from '../../../hooks/album/useEditAlbum';
 import { EditAlbumProps } from '../../../Interfaces/AlbumInterface';
 import Spinner from '../../shared/Spinner';
-import EditAlbumSongsModal from './EditAlbumSongsModal';
+import EditAlbumSongsModal from './EditAlbumSongsModal/EditAlbumSongsModal';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
 
 const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
@@ -29,7 +29,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
   const goBackToMain = () => setStep('main');
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-20'>
+    <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-6 sm:p-10'>
       {loading && (
         <div className='fixed inset-0 flex items-center justify-center bg-blur bg-opacity-40 z-50'>
           <Spinner />
@@ -37,7 +37,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
       )}
       <div
         ref={modalRef}
-        className='bg-white rounded-lg shadow-lg w-full max-w-3xl p-6 h-auto max-h-[90vh] overflow-y-auto relative mt-12 mb-12'
+        className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-3xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative my-6'
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -49,7 +49,9 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
 
         {step === 'main' && (
           <>
-            <h2 className='text-lg font-semibold mb-4'>Editar Álbum</h2>
+            <h2 className='text-xl font-semibold mb-4 text-center text-gray-800'>
+              Editar Álbum
+            </h2>
             <form onSubmit={handleSubmit}>
               <AlbumFormFields
                 formData={formData}
@@ -63,17 +65,17 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
                 imagePreview={imagePreview}
                 handleFileChange={handleFileChange}
               />
-              <div className='mt-6 flex justify-center gap-3'>
+              <div className='mt-6 flex flex-col sm:flex-row justify-center gap-3'>
                 <button
                   type='button'
                   onClick={onClose}
-                  className='px-3 py-1.5 text-md text-gray-600 hover:text-gray-800'
+                  className='w-full sm:w-auto px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 border border-gray-300 rounded-md'
                 >
                   Cancelar
                 </button>
                 <button
                   type='submit'
-                  className='px-3 py-1.5 bg-gray-500 text-white text-sm rounded hover:bg-gray-500'
+                  className='w-full sm:w-auto px-4 py-2 bg-gray-600 text-white text-sm rounded-md hover:bg-gray-800 transition-colors'
                 >
                   Guardar Cambios
                 </button>
@@ -84,6 +86,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
 
         {step === 'songs' && (
           <EditAlbumSongsModal
+            albumId={albumId}
             songsInput={songsInput}
             setSongsInput={setSongsInput}
             goBack={goBackToMain}

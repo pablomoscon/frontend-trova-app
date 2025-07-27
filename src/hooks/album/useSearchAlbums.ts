@@ -27,12 +27,7 @@ export const useSearchAlbums = (
 
         setIsLoading(true);
         try {
-            // Asegurarse que la página que se envía no sea negativa
             const safePage = Math.max(0, page);
-
-            // Si el backend usa paginación 1-based, descomenta la siguiente línea
-            // const backendPage = safePage + 1;
-
             const res = await searchAlbums(query.trim(), safePage, pageSize);
             setAlbums(res.albums);
             setTotalPages(Math.max(1, res.totalPages));

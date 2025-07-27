@@ -22,8 +22,8 @@ const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
   return (
     <div className='mt-8 grid grid-cols-1 sm:grid-cols-6 gap-y-6 gap-x-4 w-full'>
       <TextInput
-        label='Título del álbum'
-        name='name'
+        label='Título del album'
+        name='title'
         value={formData.title}
         onChange={handleChange}
         colSpan='sm:col-span-3'
@@ -82,7 +82,35 @@ const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
         placeholder='Ej: 2001'
       />
 
-      <div className='sm:col-span-6 '>
+      {/* Inputs para los links de música */}
+      <TextInput
+        label='Link Apple Music'
+        name='appleMusicLink'
+        value={formData.appleMusicLink}
+        onChange={handleChange}
+        colSpan='sm:col-span-6'
+        placeholder='Ej: https://music.apple.com/album/...'
+      />
+
+      <TextInput
+        label='Link Spotify'
+        name='spotifyLink'
+        value={formData.spotifyLink}
+        onChange={handleChange}
+        colSpan='sm:col-span-6'
+        placeholder='Ej: https://open.spotify.com/album/...'
+      />
+
+      <TextInput
+        label='Link Amazon Music'
+        name='amazonMusicLink'
+        value={formData.amazonMusicLink}
+        onChange={handleChange}
+        colSpan='sm:col-span-6'
+        placeholder='Ej: https://music.amazon.com/albums/...'
+      />
+
+      <div className='sm:col-span-6'>
         <ImageFileUpload
           handleFileChange={handleFileChange}
           selectedFileName={selectedFileName}

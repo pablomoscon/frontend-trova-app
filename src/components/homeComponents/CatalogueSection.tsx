@@ -4,6 +4,13 @@ import { Link } from 'react-router-dom';
 const CatalogueSection: React.FC = () => (
   <section className='bg-[#E5E6E4] text-gray-900 px-6 sm:px-12 py-32'>
     <div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center'>
+      <div className='order-2 md:order-1 w-full flex justify-center hidden md:flex'>
+        <img
+          src='/src/assets/catalogo_trova.png'
+          alt='Colección Trova'
+          className='rounded-3xl shadow-xl object-cover transition-transform duration-700 w-full h-auto max-w-4xl lg:max-w-6xl'
+        />
+      </div>
       <div className='flex flex-col gap-8 justify-start items-center md:items-start text-center md:text-left order-1'>
         <h2 className='mt-0 text-4xl md:text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight text-center'>
           Explorá nuestra colección musical
@@ -30,14 +37,6 @@ const CatalogueSection: React.FC = () => (
             Ver Catálogo
           </Link>
         </div>
-      </div>
-
-      <div className='order-2 md:order-1 w-full flex justify-center hidden md:flex'>
-        <img
-          src='/src/assets/catalogo_trova.png'
-          alt='Colección Trova'
-          className='rounded-3xl shadow-xl object-cover transition-transform duration-700 w-full h-auto max-w-4xl lg:max-w-6xl'
-        />
       </div>
     </div>
   </section>

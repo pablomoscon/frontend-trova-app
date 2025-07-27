@@ -7,26 +7,27 @@ import CatalogueHeader from '../CatalogueHeader/CatalogueHeader';
 import { useFilteredAlbums } from '../../../hooks/album/useFilteredAlbums';
 import AlbumSongsModal from '../../albumComponents/AlbumCard/AlbumSongsModal';
 import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
+import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 
 const CatalogueContent: React.FC = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const {
-    albums,
-    filters,
-    selectedFilters,
-    setSelectedFilters,
-    isLoading,
-    page,
-    setPage,
-    totalPages,
-    pageSize,
-    setPageSize,
-    sortOrder,
-    setSortOrder,
-  } = useFilteredAlbums();
+  const { page, setPage } = usePageAndSearch('cataloguePage'); 
+
+const {
+  albums,
+  filters,
+  selectedFilters,
+  setSelectedFilters,
+  isLoading,
+  totalPages,
+  pageSize,
+  setPageSize,
+  sortOrder,
+  setSortOrder,
+} = useFilteredAlbums(9, page, setPage);
 
   const { album: selectedAlbum, isLoading: isAlbumLoading } =
     useFetchAlbumById(selectedAlbumId);
@@ -70,7 +71,7 @@ const CatalogueContent: React.FC = () => {
       />
       <section
         aria-labelledby='albums-heading'
-        className='pt-4 pb-24 min-h-screen bg-[#E5E6E4] '
+        className='pt-4 pb-24 min-h-screen bg-[#E5E6E4]'
       >
         <div className='grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4 px-4'>
           <div className='hidden lg:block'>

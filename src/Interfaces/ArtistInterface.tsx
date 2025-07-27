@@ -87,3 +87,10 @@ export interface ArtistDetailsModalProps {
   artist: Artist;
   onClose: () => void;
 }
+
+
+export interface ArtistInputProps {
+  artistName: string;
+  onChangeArtist: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled: boolean;
+}

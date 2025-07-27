@@ -21,7 +21,6 @@ const buildFilterParams = (
   if (filters.year?.length) params.year = filters.year.map(Number);
   if (filters.genre?.length) params.genre = filters.genre;
 
-  // Solo setear 'sort' si sortOrder es 'asc' o 'desc'
   if (sortOrder === 'asc' || sortOrder === 'desc') {
     params.sort = sortOrder;
   }
@@ -29,7 +28,11 @@ const buildFilterParams = (
   return params;
 };
 
-export function useFilteredAlbums(initialSize = 9) {
+export function useFilteredAlbums(
+  initialSize = 9,
+  externalPage?: number,
+  externalSetPage?: (p: number) => void
+) {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [groupedAlbums, setGroupedAlbums] = useState<Record<string, Album[]>>({});
   const [allAlbums, setAllAlbums] = useState<Album[]>([]);
@@ -37,7 +40,12 @@ export function useFilteredAlbums(initialSize = 9) {
   const [filters, setFilters] = useState<FilterSection[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
 
-  const [page, setPage] = useState(1);
+  const [internalPage, internalSetPage] = useState(1);
+  const [resetPageTrigger, setResetPageTrigger] = useState(false);
+
+  const page = externalPage !== undefined ? externalPage : internalPage;
+  const setPage = externalSetPage ?? internalSetPage;
+
   const [pageSize, setPageSize] = useState(initialSize);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -46,18 +54,14 @@ export function useFilteredAlbums(initialSize = 9) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch all albums to build filters
   useEffect(() => {
     const fetchAllAlbums = async () => {
       try {
-        const { albums: all } = await fetchFilteredAlbums({
-          page: 0,
-          size: 9999,
-        });
-
+        const { albums: all } = await fetchFilteredAlbums({ page: 0, size: 9999 });
         const sorted = [...all].sort((a, b) =>
           (a.artistName || '').localeCompare(b.artistName || '')
         );
-
         setAllAlbums(sorted);
         setFilters(generateFiltersFromAlbums(sorted));
       } catch (err) {
@@ -67,6 +71,14 @@ export function useFilteredAlbums(initialSize = 9) {
 
     fetchAllAlbums();
   }, []);
+
+  // Reset page to 1 when triggered
+  useEffect(() => {
+    if (resetPageTrigger) {
+      setPage(1);
+      setResetPageTrigger(false);
+    }
+  }, [resetPageTrigger, setPage]);
 
   const loadAlbums = useCallback(async () => {
     if (!pageSize) return;
@@ -78,11 +90,9 @@ export function useFilteredAlbums(initialSize = 9) {
 
     try {
       const data: AlbumsData = await fetchFilteredAlbums(params);
-
       const sorted = data.albums;
 
       setAlbums(sorted);
-
       if (!sortOrder) {
         setGroupedAlbums(groupAlbumsByArtist(sorted));
       } else {
@@ -91,7 +101,6 @@ export function useFilteredAlbums(initialSize = 9) {
 
       setTotalPages(data.totalPages);
       setTotalItems(data.totalElements);
-      setPage(data.currentPage ? data.currentPage + 1 : 1);
     } catch (err) {
       console.error('Error loading albums:', err);
       setAlbums([]);
@@ -104,13 +113,12 @@ export function useFilteredAlbums(initialSize = 9) {
     }
   }, [page, pageSize, selectedFilters, sortOrder]);
 
+  // Load albums unless we're resetting page
   useEffect(() => {
-    loadAlbums();
-  }, [loadAlbums]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [selectedFilters]);
+    if (!resetPageTrigger) {
+      loadAlbums();
+    }
+  }, [loadAlbums, resetPageTrigger]);
 
   return {
     albums,
@@ -130,5 +138,6 @@ export function useFilteredAlbums(initialSize = 9) {
     setSortOrder,
     reloadAlbums: loadAlbums,
     allAlbums,
+    triggerPageReset: () => setResetPageTrigger(true), // 👉 Usalo en lugar de setPage(1)
   };
 }

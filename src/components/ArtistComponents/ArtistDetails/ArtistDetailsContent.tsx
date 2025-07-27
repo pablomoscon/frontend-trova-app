@@ -17,7 +17,7 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const {
     artist,

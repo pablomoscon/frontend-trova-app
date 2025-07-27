@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import { FaAmazon, FaApple, FaSpotify, FaYoutube } from 'react-icons/fa';
 import { Loader } from 'lucide-react';
 import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
 import { AlbumSongsModalProps } from '../../../Interfaces/AlbumInterface';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
+import AlbumPlatformLinks from '../../shared/AlbumPlatformLinks';
 
 const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
   isOpen,
@@ -25,7 +25,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
       >
         <div className='flex justify-between items-center'>
           <h3 className='text-2xl font-bold text-gray-900'>
-            {isLoading ? 'Cargando...' : album?.name || 'Álbum'}
+            {isLoading ? 'Cargando...' : album?.title || 'Álbum'}
           </h3>
           <button
             onClick={onClose}
@@ -44,14 +44,26 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
 
         {!isLoading && album?.listOfSongs && (
           <>
-            <div className='text-start border-b pb-4 mb-4 mt-4 flex space-x-4 text-gray-600 pt-2 text-xl items-center'>
-              <p className='text-sm text-gray-500'>
-                🔊 ¡Encontralo en tu plataforma preferida!
-              </p>
-              <FaSpotify className='text-green-500 transition hover:scale-125 cursor-pointer' />
-              <FaYoutube className='text-red-500 transition hover:scale-125 cursor-pointer' />
-              <FaAmazon className='text-blue-800 transition hover:scale-125 cursor-pointer' />
-              <FaApple className='text-gray-700 transition hover:scale-125 cursor-pointer' />
+            <div className='text-start border-b pb-4 mb-4 mt-4'>
+              {(album.spotifyLink ||
+                /* album.youtubeLink || */
+                album.amazonMusicLink ||
+                album.appleMusicLink) && (
+                <div className='flex items-center space-x-3'>
+                  <p className='text-sm text-gray-500 flex-shrink-0'>
+                    🔊 ¡Encontralo en tu plataforma preferida!
+                  </p>
+                  <AlbumPlatformLinks
+                    spotifyLink={album.spotifyLink}
+                    /* youtubeLink={album.youtubeLink} */
+                    amazonMusicLink={album.amazonMusicLink}
+                    appleMusicLink={album.appleMusicLink}
+                    variant='colored'
+                    iconSize='text-xl'
+                    spacing='space-x-4'
+                  />
+                </div>
+              )}
             </div>
 
             <ul role='list' className='divide-y divide-gray-100'>

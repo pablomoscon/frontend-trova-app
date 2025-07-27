@@ -1,5 +1,5 @@
-import { Artist } from './ArtistInterface';
-import { Song } from './SongInterface';
+import type { Artist } from './ArtistInterface';
+import type { Song } from './SongInterface';
 
 export type Status = 'ACTIVE' | 'SUSPENDED';
 
@@ -15,7 +15,16 @@ export interface OptionalStepNavigation {
 export interface ArtistModalControl {
   setShowArtistModal?: (show: boolean) => void;
 }
-export interface Album {
+
+// Base interface with common Album link fields
+interface AlbumLinks {
+  appleMusicLink: string;
+  spotifyLink: string;
+  amazonMusicLink: string;
+}
+
+// Album main interface
+export interface Album extends AlbumLinks {
   id: number;
   title: string;
   details: string;
@@ -29,7 +38,9 @@ export interface Album {
   createdAt: Date;
   status?: Status;
 }
-export interface AlbumFormData {
+
+// Album form data (for create/update)
+export interface AlbumFormData extends AlbumLinks {
   title: string;
   artistId: number;
   details: string;
@@ -41,12 +52,15 @@ export interface AlbumFormData {
   listOfSongs: Song[];
   status?: Status;
 }
+
+// Pagination data for albums
 export interface AlbumsData {
   albums: Album[];
   totalElements: number;
   totalPages: number;
   currentPage: number;
 }
+
 export interface AlbumCardProps {
   album: Album;
   onClick?: (albumId: number) => void;
@@ -75,6 +89,7 @@ export interface AlbumSongsModalProps {
   onClose: () => void;
 }
 
+// Combined Album form fields props, reusing smaller interfaces
 export interface AlbumFormFieldsProps
   extends FileUploadProps,
     OptionalStepNavigation,
@@ -129,6 +144,7 @@ export interface TextAreaInputProps {
   rows?: number;
   colSpan?: string;
 }
+
 export interface AlbumRowProps {
   album: Album;
   onEdit: (id: number) => void;
@@ -146,10 +162,10 @@ export interface EditAlbumSongsModalProps {
 export interface AlbumFilterParams {
   page: number;
   size: number;
-  artistName?: string [];
-  year?: number[]; 
+  artistName?: string[];
+  year?: number[];
   genre?: string[];
-  sort?: 'asc' | 'desc'; 
+  sort?: 'asc' | 'desc';
 }
 
 export interface AlbumFilterResponse {
@@ -166,10 +182,9 @@ export interface SearchAlbumsProps {
   totalPages: number;
   refresh: () => void;
   currentPage: number;
-
 }
 
-export interface useManagementAlbumProps {
+export interface UseManagementAlbumProps {
   page: number;
   setPage: (p: number) => void;
   pageSize: number;
@@ -177,7 +192,7 @@ export interface useManagementAlbumProps {
 }
 
 export interface SearchAlbumsResultsProps {
-  initialQuery?: string; 
+  initialQuery?: string;
   pageSize?: number;
   onAlbumClick?: (id: number) => void;
 }
@@ -188,4 +203,14 @@ export interface UseFetchAndSearchAlbumsResult {
   loading: boolean;
   error: string | null;
   reload: () => void;
+}
+
+export interface AlbumPlatformLinksProps {
+  spotifyLink?: string;
+  youtubeLink?: string;
+  amazonMusicLink?: string;
+  appleMusicLink?: string;
+  iconSize?: string;
+  spacing?: string;
+  variant?: 'default' | 'colored';
 }

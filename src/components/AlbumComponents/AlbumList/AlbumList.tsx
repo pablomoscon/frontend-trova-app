@@ -14,7 +14,7 @@ const AlbumList: React.FC<AlbumListProps> = ({
   albumsLoading = false,
 }) => {
   const listTopRef = useRef<HTMLDivElement>(null);
-  const offset = window.innerWidth < 640 ? 140 : 200;
+  const offset = window.innerWidth < 640 ? 190 : 200;
   const [shouldScroll, setShouldScroll] = useState(false);
 
   useScroll(shouldScroll ? listTopRef : null, {
@@ -39,7 +39,7 @@ const AlbumList: React.FC<AlbumListProps> = ({
 
   return (
     <>
-      <div ref={listTopRef} />
+      <div ref={listTopRef}/>
 
       <div className='flex justify-center'>
         <div className='flex flex-wrap justify-center gap-6 px-4 py-6 max-w-[1100px] w-full'>
