@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const ARTIST_PREFIX = '/artist';
+const ARTIST_PREFIX = '/artistas';
 
 export function useSessionPage(key: string, routeKey = 'ruta'): [number, (p: number) => void] {
     const { pathname } = useLocation();

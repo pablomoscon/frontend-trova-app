@@ -49,18 +49,16 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
                 /* album.youtubeLink || */
                 album.amazonMusicLink ||
                 album.appleMusicLink) && (
-                <div className='flex items-center space-x-3'>
-                  <p className='text-sm text-gray-500 flex-shrink-0'>
+                <div className='flex flex-row items-center space-x-3 sm:space-x-2 gap-y-2 flex-col-xs items-start-xs'>
+                  <p className='text-sm text-gray-500 flex-shrink-0 pr-1'>
                     🔊 ¡Encontralo en tu plataforma preferida!
                   </p>
                   <AlbumPlatformLinks
                     spotifyLink={album.spotifyLink}
-                    /* youtubeLink={album.youtubeLink} */
                     amazonMusicLink={album.amazonMusicLink}
                     appleMusicLink={album.appleMusicLink}
                     variant='colored'
-                    iconSize='text-xl'
-                    spacing='space-x-4'
+                    iconSize='text-lg sm:text-xl text-xl-xs'
                   />
                 </div>
               )}

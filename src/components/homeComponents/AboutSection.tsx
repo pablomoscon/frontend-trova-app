@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AboutSection: React.FC = () => (
-  <section className='bg-[#E6E7D9] text-gray-900 px-6 sm:px-12 py-32'>
+  <section className='bg-[#E6E7D9] text-gray-900 px-6 sm:px-12 py-20 sm:py-30'>
     <div className='max-w-4xl mx-auto flex flex-col gap-12 items-center text-center'>
       <div className='flex items-center gap-6 justify-center w-full'>
         <h2 className='text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight'>

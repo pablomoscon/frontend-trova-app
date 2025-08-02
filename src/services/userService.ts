@@ -5,7 +5,7 @@ export const fetchUsers = async (
   page: number,
   size: number
 ): Promise<UsersData> => {
-  const { data } = await axiosInstance.get<UsersData>('http://localhost:8081/user', {
+  const { data } = await axiosInstance.get<UsersData>('/user', {
     params: { page, size },
   });
   return data;
@@ -13,7 +13,7 @@ export const fetchUsers = async (
 
 export const fetchUserById = async (id: string): Promise<User> => {
   const response = await axiosInstance.get<User>(
-    `http://localhost:8081/user/${id}`
+    `/user/${id}`
   );
   return response.data;
 };
@@ -31,7 +31,7 @@ export const searchUsers = async (
       currentPage: 0
     };
   }
-  const { data } = await axiosInstance.get<UsersData>('http://localhost:8081/user/search', {
+  const { data } = await axiosInstance.get<UsersData>('/user/search', {
     params: { q: query, page, size },
   });
   return data;
@@ -41,15 +41,15 @@ export const editUser = async (
   id: string,
   updateUser: Partial<User>
 ): Promise<User> => {
-  const response = await axiosInstance.patch<User>(`http://localhost:8081/user/${id}`, updateUser);
+  const response = await axiosInstance.patch<User>(`/user/${id}`, updateUser);
   return response.data;
 };
 
 export const suspendUser = async (id: string): Promise<void> => {
-  await axiosInstance.put(`http://localhost:8081/user/suspend/${id}`);
+  await axiosInstance.put(`/user/suspend/${id}`);
 };
 
 export const deleteUser = async (id: string): Promise<void> => {
-  await axiosInstance.delete(`http://localhost:8081/user/${id}`);
+  await axiosInstance.delete(`/user/${id}`);
 };
 

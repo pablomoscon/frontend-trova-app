@@ -2,11 +2,13 @@ import axios from 'axios';
 import { Artist, ArtistsData } from '../Interfaces/ArtistInterface';
 import axiosInstance from '../api/axiosInstance';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL
+
 export const fetchArtists = async (
   page: number,
   size: number
 ): Promise<ArtistsData> => {
-  const { data } = await axios.get<ArtistsData>('http://localhost:8081/artist', {
+  const { data } = await axios.get<ArtistsData>(`${baseURL}/artist`, {
     params: { page, size },
   });
   return data;
@@ -14,7 +16,7 @@ export const fetchArtists = async (
 
 export const fetchArtistById = async (id: number): Promise<Artist> => {
   const response = await axios.get<Artist>(
-    `http://localhost:8081/artist/${id}`,
+    `${baseURL}/artist/${id}`,
     { withCredentials: true }
   );
   return response.data;
@@ -34,7 +36,7 @@ export const searchArtists = async (
 export const createArtist = async (formData: FormData): Promise<Artist> => {
   try {
     const response = await axiosInstance.post<Artist>(
-      'http://localhost:8081/artist',
+      '/artist',
       formData,
       {
         headers: {
@@ -54,7 +56,7 @@ export const editArtist = async (
   formData: FormData
 ): Promise<Artist> => {
   const response = await axiosInstance.patch<Artist>(
-    `http://localhost:8081/artist/${id}`,
+    `/artist/${id}`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   );
@@ -62,11 +64,11 @@ export const editArtist = async (
 };
 
 export const deleteArtist = async (id: number): Promise<void> => {
-  await axiosInstance.delete(`http://localhost:8081/artist/${id}`);
+  await axiosInstance.delete(`/artist/${id}`);
 };
 
 export const fetchArtistsWithAlbums = async (page: number, size: number): Promise<ArtistsData> => {
-  const { data } = await axiosInstance.get<ArtistsData>('http://localhost:8081/artist/with-albums', {
+  const { data } = await axiosInstance.get<ArtistsData>('/artist/with-albums', {
     params: { page, size }
   });
   return data;

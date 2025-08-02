@@ -15,7 +15,7 @@ export interface MobileFilterDialogProps {
   open: boolean;
   onClose: () => void;
   filters: FilterSection[];
-  selectedFilters: SelectedFilters; 
+  selectedFilters: SelectedFilters;
   onFilterChange: (selectedFilters: SelectedFilters) => void;
 }
 
@@ -23,6 +23,8 @@ export interface FilterSidebarProps {
   filters: FilterSection[];
   selectedFilters: Record<string, string[]>;
   onFilterChange: (filters: Record<string, string[]>) => void;
+  onAnyFilterChange?: () => void;
+  scrollContainerRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 export interface CatalogueHeaderProps {

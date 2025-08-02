@@ -19,9 +19,9 @@ const DashboardArtistDetails: React.FC = () => {
 
   return (
     <div className='min-h-full p-8 pt-40 content-center w-full'>
-      <h1 className='text-2xl font-semibold text-gray-800 mb-4 text-center border-b pb-2'>
-        Artistas
-      </h1>
+      <div className='w-full mb-8 bg-gray-100 p-6 shadow-md rounded-lg flex justify-center items-center text-gray-800'>
+        <h1 className='text-2xl font-bold'>Artistas</h1>
+      </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8'>
         {artists.map((artist) => (
           <ArtistCardWithAlbums key={artist.id} artist={artist} />

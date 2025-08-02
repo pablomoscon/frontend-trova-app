@@ -47,6 +47,7 @@ const ImageFileUpload: React.FC<AlbumImageFileUploadProps> = ({
           <img
             src={imagePreview}
             alt='Vista previa'
+            loading='lazy'
             className='max-w-[200px] sm:max-w-xs max-h-30 rounded-md border border-gray-300'
           />
         </div>

@@ -36,11 +36,11 @@ const AdminUserProfile: React.FC = () => {
     <div className='min-h-screen bg-gradient-to-tr from-gray-100 to-gray-200 py-20'>
       <div className='relative bg-white shadow-md'>
         {/* Portada */}
-        <div className='w-full h-60 overflow-hidden rounded-b-2xl'>
+        <div className='w-full h-60 overflow-hidden'>
           <img
-            src='https://trova-app.s3.sa-east-1.amazonaws.com/albums/3f8596d4-8dce-49c3-a782-e15c0c63c5a3_eran-menashri-Ae7pSsfzEHs-unsplash.webp'
+            src='/assets/trova_imagen_user_portada.png'
             alt='Imagen de portada'
-            className='w-full h-100 object-cover transform filter  brightness-75 contrast-90'
+            className='w-full h-full object-cover transform filter  brightness-80 contrast-70'
           />
         </div>
 

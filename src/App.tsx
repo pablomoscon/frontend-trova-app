@@ -7,7 +7,7 @@ import AppRouter from './routes/AppRouter';
 const App: React.FC = () => {
   return (
     <Router>
-      <div className='app-container'>
+      <div className='app-container  min-h-screen w-full flex flex-col bg-[#E6E7D9] text-gray-800'>
         <Navbar />
         <main>
           <AppRouter />

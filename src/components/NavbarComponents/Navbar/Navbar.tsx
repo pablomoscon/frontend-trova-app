@@ -83,26 +83,27 @@ const Navbar: React.FC = () => {
         </div>
 
         {menuOpen && (
-          <NavbarMobileNav
-            isOpen={menuOpen}
-            onClose={() => setMenuOpen(false)}
-            searchValue={searchValue}
-            onSearchChange={handleSearchChange}
-            onSearchEnter={handleSearchEnter}
-            onSearchClick={handleSearchClick}
-          />
+          <div className='w-full overflow-hidden md:hidden'>
+            <NavbarMobileNav
+              isOpen={menuOpen}
+              onClose={() => setMenuOpen(false)}
+              searchValue={searchValue}
+              onSearchChange={handleSearchChange}
+              onSearchEnter={handleSearchEnter}
+              onSearchClick={handleSearchClick}
+            />
+          </div>
+        )}
+
+        {user && userMenuOpen && (
+          <div className='md:hidden bg-[#E6E7D9] px-6 pb-4'>
+            <NavbarMobileUserMenu
+              logout={logout}
+              onClose={() => setUserMenuOpen(false)}
+            />
+          </div>
         )}
       </div>
-
-      {user && userMenuOpen && (
-        <div className='md:hidden bg-[#E6E7D9] px-6 pb-4'>
-          <NavbarMobileUserMenu
-            logout={logout}
-            isOpen={userMenuOpen}
-            onClose={() => setUserMenuOpen(false)}
-          />
-        </div>
-      )}
     </header>
   );
 };

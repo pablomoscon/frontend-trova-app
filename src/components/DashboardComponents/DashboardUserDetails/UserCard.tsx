@@ -18,6 +18,7 @@ const UserCard: React.FC<UserCardProps & { onClick?: () => void }> = ({
       <img
         src={avatarUrl}
         alt={`Avatar de ${user.username}`}
+        loading='lazy'
         className='w-20 h-20 rounded-full mb-4 object-cover shadow-inner bg-gray-100'
       />
       <h2 className='text-lg font-semibold text-gray-800'>{user.username}</h2>

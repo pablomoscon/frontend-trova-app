@@ -2,7 +2,7 @@ import React from 'react';
 
 const PlaylistSection: React.FC = () => {
   return (
-    <section className='bg-[#E6E7D9] text-gray-900 px-6 sm:px-12 py-20'>
+    <section className='bg-[#E6E7D9] text-gray-900 px-6 sm:px-12 py-20 sm:py-30'>
       <div className='max-w-4xl mx-auto flex flex-col gap-12 items-center text-center'>
         <h2 className='text-4xl font-extrabold'>Playlist del Mes</h2>
         <p className='text-lg sm:text-xl text-gray-700 max-w-xl'>

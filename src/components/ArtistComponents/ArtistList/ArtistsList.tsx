@@ -40,45 +40,49 @@ const ArtistList: React.FC = () => {
   return (
     <>
       <div ref={topRef} />
-      <div className='bg-[#E5E6E4] min-h-screen py-50'>
-        <div className='mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8'>
-          <h2 className='sr-only'>Artists</h2>
-
-          <div className='grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 pb-20'>
+      <section className=' bg-[#E5E6E4] min-h-screen pt-40 py-20'>
+        <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+          <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pt-10'>
             {artists.length ? (
               artists.map((artist) => (
                 <Link
                   key={artist.id}
-                  to={`/artist/${artist.id}`}
-                  className='group text-center'
+                  to={`/artistas/${artist.id}`}
+                  className='group flex flex-col items-center text-center hover:scale-[1.02] transition-transform duration-300'
                 >
-                  <img
-                    src={artist.photo}
-                    alt={artist.name}
-                    className='w-56 h-56 bg-gray-200 object-cover group-hover:opacity-75 rounded-full mx-auto'
-                  />
-                  <h3 className='mt-4 text-base text-gray-700'>
+                  <div className='relative w-48 h-48 rounded-full overflow-hidden shadow-lg border border-gray-200 bg-white'>
+                    <img
+                      src={artist.photo}
+                      alt={artist.name}
+                      loading='lazy'
+                      className='object-cover w-full h-full group-hover:opacity-90 transition-opacity duration-300'
+                    />
+                  </div>
+                  <h3 className='mt-4 text-lg font-medium text-gray-800 group-hover:text-black transition-colors duration-200'>
                     {artist.name}
                   </h3>
-                  <p className='mt-1 text-sm text-gray-500'>
+                  <span className='text-sm text-gray-500'>
                     {artist.nationality}
-                  </p>
+                  </span>
                 </Link>
               ))
             ) : (
-              <p className='text-center text-gray-500'>No artists found.</p>
+              <p className='text-center text-gray-500 col-span-full'>
+                No se encontraron artistas.
+              </p>
             )}
           </div>
-
           {totalPages > 1 && (
-            <PaginationControls
-              page={page}
-              totalPages={totalPages}
-              setPage={handlePageChange}
-            />
+            <div className='mt-12'>
+              <PaginationControls
+                page={page}
+                totalPages={totalPages}
+                setPage={handlePageChange}
+              />
+            </div>
           )}
         </div>
-      </div>
+      </section>
     </>
   );
 };

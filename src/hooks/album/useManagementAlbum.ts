@@ -54,7 +54,6 @@ export const useManagementAlbum = (pageSizeInitial = 15, pageKey = 'albumsPage')
 
     const { handleDelete } = useDeleteAlbum(searching ? refreshSearch : reloadAlbums);
 
-    // Aquí usamos useToggleAlbumStatus, pasando la función de recarga correcta
     const { toggleStatus } = useToggleAlbumStatus(searching ? refreshSearch : reloadAlbums);
 
     const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);

@@ -24,6 +24,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ imageUrl, onClose }) => {
         <img
           src={imageUrl}
           alt='Album full'
+          loading='lazy'
           className='max-w-full max-h-full rounded shadow-lg'
         />
       </div>

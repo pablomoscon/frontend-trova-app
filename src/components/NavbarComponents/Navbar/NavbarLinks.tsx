@@ -7,9 +7,9 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ onClick }) => {
   const { user } = useAuthContext();
 
   const links = [
-    { to: '/artist', label: 'Artistas' },
-    { to: '/news', label: 'Novedades' },
-    { to: '/contact', label: 'Contacto' },
+    { to: '/artistas', label: 'Artistas' },
+    { to: '/catalogo', label: 'Catalogo' },
+    { to: '/contacto', label: 'Contacto' },
   ];
 
   if (!user) {

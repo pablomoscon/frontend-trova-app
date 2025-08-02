@@ -12,7 +12,7 @@ const DashboardView: React.FC = () => {
         </div>
 
         {/* Mobile sidebar */}
-        <div className='block md:hidden bg-gray-200 p-8 pt-40 min-h-screen max-w-[16rem] border-e border-gray-300'>
+        <div className='block md:hidden bg-gray-200 p-4 pt-40 min-h-screen max-w-[16rem] border-e border-gray-300'>
           <DashboardSidebarMobile />
         </div>
 

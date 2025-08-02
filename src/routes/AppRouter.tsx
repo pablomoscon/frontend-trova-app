@@ -44,11 +44,11 @@ const AppRouter: React.FC = () => {
           </PublicRoute>
         }
       />
-      <Route path='/catalogue' element={<CatalogueView />} />
-      <Route path='/contact' element={<ContactView />} />
-      <Route path='/artist' element={<ArtistList />} />
-      <Route path='/artist/:id' element={<ArtistView />} />
-      <Route path='/search' element={<SearchResultsView />} />
+      <Route path='/catalogo' element={<CatalogueView />} />
+      <Route path='/contacto' element={<ContactView />} />
+      <Route path='/artistas' element={<ArtistList />} />
+      <Route path='/artistas/:id' element={<ArtistView />} />
+      <Route path='/buscador-resultados' element={<SearchResultsView />} />
 
       <Route
         path='/admin/admin-profile'

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HeroSection: React.FC = () => (
-  <div className='flex flex-col items-center min-h-screen bg-[#E5E6E4] text-gray-900 px-10 pt-50 sm:pt-50 pb-30 sm:pb-30'>
+  <div className='flex flex-col items-center min-h-screen bg-[#E5E6E4] text-gray-900 px-10 pt-50 sm:pt-50 pb-20 sm:pb-30'>
     <div className='flex flex-col-reverse lg:flex-row items-center w-full max-w-6xl'>
       <div className='lg:w-1/3 w-full max-w-[75%] sm:max-w-[70%] mx-auto mt-10 lg:mt-0'>
         <h1 className='text-7xl sm:text-8xl text-center font-extrabold tracking-wide font-annexxus'>
@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => (
       </div>
       <div className='lg:w-1/2 w-full flex justify-center'>
         <img
-          src='/src/assets/portada.png'
+          src='/assets/portada.png'
           alt='Portada de vinilo'
           className='w-full max-w-[480px] sm:max-w-[560px] lg:max-w-[660px] xl:max-w-[740px] object-contain rounded-full opacity-80 contrast-105 saturate-100 shadow-xl spin-slow mx-auto'
         />

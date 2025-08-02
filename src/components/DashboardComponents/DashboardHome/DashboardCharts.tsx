@@ -38,42 +38,44 @@ const ChartSection: React.FC<DashboardChartSectionProps> = ({
       {data.length === 0 ? (
         <p className='text-gray-500'>No visits recorded yet.</p>
       ) : (
-        <div className='overflow-x-auto'>
-          <ResponsiveContainer
-            width='100%'
-            height={Math.max(300, visibleData.length * 36)}
-          >
-            <BarChart
-              layout='vertical'
-              data={visibleData}
-              margin={{ top: 10, right: 20, left: 60, bottom: 10 }}
+        <div className='w-full overflow-x-auto'>
+          <div className='min-w-[500px]'>
+            <ResponsiveContainer
+              width='100%'
+              height={Math.min(Math.max(300, visibleData.length * 36), 500)}
             >
-              <CartesianGrid strokeDasharray='3 3' />
-              <XAxis type='number' />
-              <YAxis
-                dataKey={dataKey}
-                type='category'
-                width={120}
-                tick={{ fontSize: 12, fill: '#4B5563' }}
-                tickFormatter={(value: string) =>
-                  value.length > 20 ? value.slice(0, 20) + '…' : value
-                }
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '6px',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
-                  fontSize: '13px',
-                  color: '#111827',
-                }}
-                wrapperStyle={{ outline: 'none' }}
-                cursor={{ fill: '#f9fafb' }}
-              />
-              <Bar dataKey='visits' fill='#3B82F6' radius={[0, 4, 4, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+              <BarChart
+                layout='vertical'
+                data={visibleData}
+                margin={{ top: 10, right: 20, left: 60, bottom: 10 }}
+              >
+                <CartesianGrid strokeDasharray='3 3' />
+                <XAxis type='number' />
+                <YAxis
+                  dataKey={dataKey}
+                  type='category'
+                  width={120}
+                  tick={{ fontSize: 12, fill: '#4B5563' }}
+                  tickFormatter={(value: string) =>
+                    value.length > 20 ? value.slice(0, 20) + '…' : value
+                  }
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                    fontSize: '13px',
+                    color: '#111827',
+                  }}
+                  wrapperStyle={{ outline: 'none' }}
+                  cursor={{ fill: '#f9fafb' }}
+                />
+                <Bar dataKey='visits' fill='#3B82F6' radius={[0, 4, 4, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )}
 

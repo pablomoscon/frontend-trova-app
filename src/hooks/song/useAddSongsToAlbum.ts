@@ -33,7 +33,7 @@ export const useAddSongsToAlbum = (
 
         setLoading(true);
         try {
-            const created = await addSongsToAlbum(albumId, songsToAdd);
+            await addSongsToAlbum(albumId, songsToAdd);
             setNewSongs([]);
             onSuccess();
         } catch (error) {

@@ -7,25 +7,33 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => (
     <img
       src={album.photo}
       alt={album.title}
-      className='w-full h-auto max-h-[180px] sm:max-h-[220px] object-contain rounded mb-2'
+      loading='lazy'
+      className='w-full h-auto max-h-[160px] sm:max-h-[200px] object-contain rounded mb-2'
     />
+
     <h3
-      className='font-semibold text-md text-gray-600 hover:underline hover:cursor-pointer text-center transition'
+      className='font-semibold text-md text-gray-600 hover:underline hover:cursor-pointer text-center transition w-full'
       onClick={() => onClick?.(album.id)}
     >
       {album.title}
     </h3>
-    <p className='text-sm text-gray-500 text-center'>
+
+    <p
+      className='text-sm text-gray-500 text-center truncate w-full'
+      title={album.displayArtistName}
+    >
       {album.displayArtistName}
     </p>
+
     <p className='text-sm text-gray-500 text-center'>{album.year}</p>
+
     <AlbumPlatformLinks
       spotifyLink={album.spotifyLink}
-      /* youtubeLink={album.youtubeLink} */
       amazonMusicLink={album.amazonMusicLink}
       appleMusicLink={album.appleMusicLink}
     />
   </div>
 );
+
 
 export default AlbumCard;

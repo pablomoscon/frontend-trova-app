@@ -14,7 +14,7 @@ const AlbumPlatformLinks: React.FC<AlbumPlatformLinksProps> = ({
   const isColored = variant === 'colored';
 
   return (
-    <div className={`flex justify-center items-center ${spacing} pt-2`}>
+    <div className={`flex justify-center items-center ${spacing}`}>
       {spotifyLink && (
         <a
           href={spotifyLink}

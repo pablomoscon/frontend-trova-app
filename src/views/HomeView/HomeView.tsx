@@ -5,7 +5,6 @@ import PlatformsSection from '../../components/homeComponents/PlatformsSection';
 import AboutSection from '../../components/homeComponents/AboutSection';
 import PlaylistSection from '../../components/homeComponents/PlaylistSection';
 
-
 const HomeView: React.FC = () => (
   <>
     <HeroSection />

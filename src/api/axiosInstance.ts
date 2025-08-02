@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { showTokenExpiredAlert } from '../utils/showAuthAlertUtils';
 
-const baseURL = 'http://localhost:8081';
+const baseURL = import.meta.env.VITE_API_BASE_URL
 
 const axiosInstance = axios.create({
     baseURL,

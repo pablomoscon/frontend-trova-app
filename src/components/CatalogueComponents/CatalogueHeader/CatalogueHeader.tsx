@@ -14,13 +14,17 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
   setSortOrder,
 }) => {
   return (
-    <div className='border-b border-gray-200 pt-14 px-4 sm:px-6'>
-      <h1 className='text-3xl sm:text-5xl font-bold text-gray-700 text-center mt-10'>
-        Catálogo de discos
-      </h1>
+    <div className='border-b border-neutral-200 px-4 sm:px-6 pt-30'>
+      <h2 className='text-center text-3xl sm:text-4xl  font-semibold tracking-tight text-neutral-800'>
+        Conocé nuestra colección
+      </h2>
+      <p className='mt-2 sm:mt-3 text-center text-sm sm:text-base text-neutral-500 max-w-xl mx-auto'>
+        Encontrá discos por fecha de publicación, accedé a plataformas digitales
+        y disfrutá de la música.
+      </p>
 
-      <div className='pt-12 flex justify-end'>
-        <div className='flex items-center'>
+      <div className='mt-8 flex justify-end'>
+        <div className='flex items-center space-x-4'>
           <SortMenu
             sortOptions={sortOptions}
             selectedSort={sortOrder}
@@ -28,7 +32,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
           />
           <button
             type='button'
-            className='-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500'
+            className='p-2 text-neutral-400 hover:text-neutral-600 transition-colors'
             aria-label='Cambiar vista de cuadrícula'
           >
             <Squares2X2Icon className='h-5 w-5' />
@@ -36,7 +40,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
           <button
             type='button'
             onClick={onMobileFiltersOpen}
-            className='-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 lg:hidden'
+            className='p-2 text-neutral-400 hover:text-neutral-600 transition-colors lg:hidden'
             aria-label='Abrir filtros'
           >
             <FunnelIcon className='h-5 w-5' />

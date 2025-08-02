@@ -3,12 +3,13 @@ import { Album, AlbumFilterParams, AlbumFilterResponse, AlbumFormData, AlbumsDat
 import axiosInstance from '../api/axiosInstance';
 import { Song } from '../Interfaces/SongInterface';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL
 
 export const fetchAlbums = async (
   page: number,
   size: number
 ): Promise<AlbumsData> => {
-  const { data } = await axios.get<AlbumsData>('http://localhost:8081/albums', {
+  const { data } = await axios.get<AlbumsData>((`${baseURL}/albums`), {
     params: { page: page, size },
   });
   return data;                     
@@ -16,7 +17,7 @@ export const fetchAlbums = async (
 
 export const fetchAlbumById = async (id: number): Promise<Album> => {
   const { data } = await axios.get<Album>(
-    `http://localhost:8081/albums/${id}`,
+    `${baseURL}/albums/${id}`,
     { withCredentials: true }
   );
   return data;
@@ -29,14 +30,14 @@ export const fetchAlbumsByArtist = async (
   sortOrder: 'asc' | 'desc' = 'asc'
 ) => {
   const response = await fetch(
-    `http://localhost:8081/albums/by-artist/${artistId}?page=${page}&size=${size}&sort=${sortOrder}`
+    `${baseURL}/albums/by-artist/${artistId}?page=${page}&size=${size}&sort=${sortOrder}`
   );
   if (!response.ok) throw new Error('Error fetching albums by artist');
   return response.json();
 };
 
 export async function fetchFilteredAlbums(params: AlbumFilterParams): Promise<AlbumFilterResponse> {
-  const { data } = await axios.get('http://localhost:8081/albums/filter', {
+  const { data } = await axios.get(`${baseURL}/albums/filter`, {
     params,
     paramsSerializer: (params) => {
       const searchParams = new URLSearchParams();
@@ -68,7 +69,7 @@ export const searchAlbums = async (
     };
   }
 
-  const { data } = await axiosInstance.get<AlbumsData>('http://localhost:8081/albums/search', {
+  const { data } = await axiosInstance.get<AlbumsData>(`/albums/search`, {
     params: { q: query, page: page, size },
   });
   return data;
@@ -77,7 +78,7 @@ export const searchAlbums = async (
 export const createAlbum = async (newAlbum: FormData): Promise<Album> => {
   try {
     const response = await axiosInstance.post <Album>(
-      'http://localhost:8081/albums',
+      `/albums`,
       newAlbum,
       {
         headers: {
@@ -116,7 +117,7 @@ export const editAlbum = async (
     });
 
     const { data } = await axiosInstance.patch<Album>(
-      `http://localhost:8081/albums/${id}`, 
+      `/albums/${id}`, 
       form,
       { headers: { 'Content-Type': 'multipart/form-data' } }
     );
@@ -139,7 +140,7 @@ export const addSongsToAlbum = async (
 ): Promise<Song[]> => {
   try {
     const response = await axiosInstance.post(
-      `http://localhost:8081/albums/${albumId}/add-songs`,
+      `/albums/${albumId}/add-songs`,
       songs,
       {
         headers: {
@@ -156,6 +157,6 @@ export const addSongsToAlbum = async (
 
 
 export const deleteAlbum = async (id: number): Promise<void> => {
-  await axiosInstance.delete(`http://localhost:8081/albums/${id}`);
+  await axiosInstance.delete(`/albums/${id}`);
 };
 

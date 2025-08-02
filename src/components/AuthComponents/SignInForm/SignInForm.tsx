@@ -21,21 +21,21 @@ const SignInForm: React.FC = () => {
         className='space-y-6 text-gray-800 text-start'
       >
         <InputField
-          label='Username'
+          label='Nombre de usuario'
           name='username'
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder='juangonzalez'
         />
         <InputField
-          label='Password'
+          label='Contraseña'
           name='password'
           type='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder='Your password'
+          placeholder='Tu contraseña'
         />
-        <SubmitButton text='Sign in' />
+        <SubmitButton text='Ingresá' />
       </form>
     </div>
   );

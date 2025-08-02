@@ -13,6 +13,7 @@ const ArtistCardWithAlbums: React.FC<ArtistObjectProps> = ({ artist }) => {
         <img
           src={artist.photo}
           alt={artist.name}
+          loading='lazy'
           className='w-30 h-30 object-cover rounded-full mb-3'
         />
         <h2 className='text-lg font-semibold text-gray-800 mb-2'>
@@ -20,7 +21,7 @@ const ArtistCardWithAlbums: React.FC<ArtistObjectProps> = ({ artist }) => {
         </h2>
         <p className='text-gray-500 mb-2'>{artist.nationality}</p>
         <div className='w-full text-xs text-gray-600 mb-3 flex justify-between items-end'>
-          <p className='line-clamp-3 max-w-[calc(100%-10px)] text-justify'>
+          <p className='line-clamp-2 max-w-[calc(100%-10px)] text-justify'>
             {artist.details}
           </p>
           <button

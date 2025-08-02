@@ -35,6 +35,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, onClose }) => {
           <img
             src={avatarUrl}
             alt={`Avatar de ${user.username}`}
+            loading='lazy'
             className='w-24 h-24 rounded-full mb-4 object-cover shadow bg-gray-100'
           />
           <h2 className='text-2xl font-bold text-gray-800'>{user.name}</h2>

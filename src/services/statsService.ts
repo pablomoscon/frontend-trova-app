@@ -3,7 +3,7 @@ import axiosInstance from '../api/axiosInstance';
 
 export const fetchSummaryStats = async (): Promise<SummaryStats> => {
     try {
-        const response = await axiosInstance.get<SummaryStats>('http://localhost:8081/stats/summary');
+        const response = await axiosInstance.get<SummaryStats>('/stats/summary');
         return response.data;
     } catch (error) {
         console.error('Error fetching summary statistics:', error);

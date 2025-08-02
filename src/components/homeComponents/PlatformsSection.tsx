@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PlatformsSection: React.FC = () => (
-  <div className='bg-[#E5E6E4] flex flex-col items-center text-gray-900 py-30 px-4'>
+  <div className='bg-[#E5E6E4] flex flex-col items-center text-gray-900 py-20 px-4 sm:py-30'>
     <h2 className='text-3xl sm:text-3xl md:text-4xl font-bold text-center mb-12'>
       Escuchá toda nuestra música en plataformas digitales
     </h2>
@@ -14,22 +14,22 @@ const PlatformsSection: React.FC = () => (
         {[
           {
             name: 'Spotify',
-            src: '/src/assets/logos/spotify.png',
+            src: '/assets/logos/spotify.png',
             href: 'https://open.spotify.com/',
           },
           {
             name: 'YouTube Music',
-            src: '/src/assets/logos/youtube.png',
+            src: '/assets/logos/youtube.png',
             href: 'https://music.youtube.com/',
           },
           {
             name: 'Amazon Music',
-            src: '/src/assets/logos/amazon.png',
+            src: '/assets/logos/amazon.png',
             href: 'https://music.amazon.com/',
           },
           {
             name: 'Apple Music',
-            src: '/src/assets/logos/applemusic.png',
+            src: '/assets/logos/applemusic.png',
             href: 'https://music.apple.com/',
           },
         ].map(({ name, src, href }) => (

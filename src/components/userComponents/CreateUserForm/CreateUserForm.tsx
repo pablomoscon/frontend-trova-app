@@ -69,7 +69,7 @@ const CreateUserForm: React.FC = () => {
               name='password'
               value={formData.password}
               onChange={handleChange}
-              placeholder='Your password'
+              placeholder='Tu contraseña'
               error={errors.password}
               type='password'
             />
@@ -79,7 +79,7 @@ const CreateUserForm: React.FC = () => {
               name='confirmPassword'
               value={formData.confirmPassword}
               onChange={handleChange}
-              placeholder='Repeat your password'
+              placeholder='Repetí tu contraseña'
               error={errors.confirmPassword}
               type='password'
             />
@@ -96,7 +96,7 @@ const CreateUserForm: React.FC = () => {
 
             <div>
               <label className='block text-sm font-medium text-gray-700 text-center'>
-                Photo
+                Foto
               </label>
               <div className='mt-2 flex flex-col items-center gap-y-3'>
                 <UserCircleIcon className='size-12 text-gray-300' />
@@ -105,7 +105,7 @@ const CreateUserForm: React.FC = () => {
                   type='button'
                   className='rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
                 >
-                  Change
+                 Cambiar
                 </button>
               </div>
             </div>
@@ -114,16 +114,16 @@ const CreateUserForm: React.FC = () => {
           <div className='flex justify-center'>
             <button
               type='submit'
-              className='w-90 flex justify-center py-2 px-4 border border-transparent rounded-md bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+              className='w-90 flex justify-center py-2 px-4 border border-transparent rounded-md bg-gray-600 text-white text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600'
             >
               Enviar
             </button>
           </div>
           <p className='mt-4 text-center text-sm text-gray-600'>
-            Already have an account?{' '}
+            ¿Ya tenés una cuenta?{' '}
             <a
-              href='/signin'
-              className='font-medium text-indigo-600 hover:text-indigo-500'
+              href='/sign-in'
+              className='font-medium text-gray-600 hover:text-gray-500'
             >
               Sign in
             </a>

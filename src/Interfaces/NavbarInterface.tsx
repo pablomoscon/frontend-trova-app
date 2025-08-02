@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { User } from "./UserInterface";
 import { Location } from 'react-router-dom';
 
@@ -37,7 +36,7 @@ export interface NavbarMobileNavProps {
 }
 
 export interface NavbarMobileUserMenuProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   logout: () => void;
   onClose: () => void;
 }

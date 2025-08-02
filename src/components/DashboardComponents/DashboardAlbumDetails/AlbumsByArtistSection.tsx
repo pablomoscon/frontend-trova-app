@@ -12,7 +12,6 @@ const AlbumsByArtistSection: React.FC<ArtistSectionProps> = ({
       <h2 className='text-lg font-semibold text-gray-800 mb-4 text-center border-b pb-2'>
         {artist.name}
       </h2>
-
       <AlbumDetailsList
         albums={artist.albums || []}
         onOpenDetails={onAlbumSelect}

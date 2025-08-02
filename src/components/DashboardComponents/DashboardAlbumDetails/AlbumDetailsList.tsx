@@ -26,6 +26,7 @@ const AlbumDetailsList: React.FC<AlbumDetailsListProps> = ({
                 <img
                   src={album.photo}
                   alt={album.title}
+                  loading='lazy'
                   className='w-full h-full object-cover'
                 />
               </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Spinner from '../../shared/Spinner';
 import PaginationControls from '../../shared/PaginationControls';
 import { useFetchArtistsWithAlbums } from '../../../hooks/artist/useFetchArtistsWithAlbums';
@@ -6,37 +6,47 @@ import AlbumDetailsModal from './AlbumDetailsModal';
 import ImageModal from './ImageModal';
 import AlbumsByArtistSection from './AlbumsByArtistSection';
 import { Album } from '../../../Interfaces/AlbumInterface';
+import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
+import { useScroll } from '../../../hooks/shared/useScroll';
+import { useResetStatesOnPageChange } from '../../../hooks/shared/useResetStatesOnPageChange';
 
 const DashboardAlbumDetails: React.FC<{ pageSize?: number }> = ({
   pageSize = 3,
 }) => {
-  const [page, setPage] = useState(1);
+  const { page, setPage } = usePageAndSearch('dashboardAlbumPage');
   const { artists, totalPages, isLoading, error } = useFetchArtistsWithAlbums(
     page - 1,
     pageSize
   );
-
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [imageModalUrl, setImageModalUrl] = useState<string | null>(null);
 
-  useEffect(() => {
-    setSelectedAlbum(null);
-    setImageModalUrl(null);
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  }, [page]);
+  useScroll(null, {
+    deps: [page, isLoading],
+    behavior: 'auto',
+    enabled: !isLoading,
+    offset: 0,
+  });
+
+  useResetStatesOnPageChange(page, [
+    () => setSelectedAlbum(null),
+    () => setImageModalUrl(null),
+  ]);
 
   if (isLoading) return <Spinner />;
   if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className='pt-40 px-8 mb-20 min-h-screen max-w-7xl mx-auto flex flex-col items-center'>
-      <h1 className='text-2xl font-bold text-center mb-6'>Álbums</h1>
+      <div className='w-full mb-8 bg-gray-100 p-6 shadow-md rounded-lg flex justify-center items-center text-gray-800'>
+        <h1 className='text-2xl font-bold'>Álbumes</h1>
+      </div>
 
       {artists.map((artist) => (
         <AlbumsByArtistSection
           key={artist.id}
           artist={artist}
-          onAlbumSelect={(album) => setSelectedAlbum(album)}
+          onAlbumSelect={setSelectedAlbum}
           onImageOpen={setImageModalUrl}
         />
       ))}
@@ -46,9 +56,8 @@ const DashboardAlbumDetails: React.FC<{ pageSize?: number }> = ({
           page={page}
           totalPages={totalPages}
           setPage={setPage}
-          onPageChangeComplete={() =>
-            window.scrollTo({ top: 0, behavior: 'auto' })
-          }
+          onPageChangeComplete={() => {
+          }}
         />
       )}
 
