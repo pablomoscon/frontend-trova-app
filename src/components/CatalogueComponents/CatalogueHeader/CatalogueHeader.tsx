@@ -1,5 +1,5 @@
 import React from 'react';
-import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
+import { FunnelIcon } from '@heroicons/react/20/solid';
 import { CatalogueHeaderProps } from '../../../Interfaces/CatalogueInterface';
 import SortMenu from '../../shared/SortMenu';
 
@@ -30,13 +30,6 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
             selectedSort={sortOrder}
             setSelectedSort={setSortOrder}
           />
-          <button
-            type='button'
-            className='p-2 text-neutral-400 hover:text-neutral-600 transition-colors'
-            aria-label='Cambiar vista de cuadrícula'
-          >
-            <Squares2X2Icon className='h-5 w-5' />
-          </button>
           <button
             type='button'
             onClick={onMobileFiltersOpen}

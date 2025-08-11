@@ -14,7 +14,7 @@ const AlbumList: React.FC<AlbumListProps> = ({
   albumsLoading = false,
 }) => {
   const listTopRef = useRef<HTMLDivElement>(null);
-  const offset = window.innerWidth < 640 ? 190 : 200;
+  const offset = window.innerWidth < 640 ? 190 : 180;
   const [shouldScroll, setShouldScroll] = useState(false);
 
   useScroll(shouldScroll ? listTopRef : null, {
@@ -31,9 +31,7 @@ const AlbumList: React.FC<AlbumListProps> = ({
 
   if (albumsLoading) {
     return (
-      <div className='flex justify-center mt-10'>
         <Spinner />
-      </div>
     );
   }
 

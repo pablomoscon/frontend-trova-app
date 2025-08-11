@@ -6,7 +6,7 @@ const CatalogueSection: React.FC = () => (
     <div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center'>
       <div className='order-2 md:order-1 w-full flex justify-center hidden md:flex'>
         <img
-          src='/assets/catalogo_trova.png'
+          src='/assets/catalogo_trova.webp'
           alt='Colección Trova'
           className='rounded-3xl shadow-xl object-cover transition-transform duration-700 w-full h-auto max-w-4xl lg:max-w-6xl'
         />
@@ -23,7 +23,7 @@ const CatalogueSection: React.FC = () => (
 
         <div className='w-full flex justify-center md:hidden py-6'>
           <img
-            src='/assets/catalogo_trova.png'
+            src='/assets/catalogo_trova.webp'
             alt='Colección Trova'
             className='rounded-3xl shadow-xl object-cover transition-transform duration-700 w-full h-auto max-w-md'
           />

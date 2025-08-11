@@ -19,6 +19,15 @@ export interface MobileFilterDialogProps {
   onFilterChange: (selectedFilters: SelectedFilters) => void;
 }
 
+export interface FilterSectionProps {
+  section: FilterSection;
+  isOpen: boolean;
+  selectedValues: string[];
+  onToggle: () => void;
+  onCheckboxChange: (value: string) => void;
+}
+
+
 export interface FilterSidebarProps {
   filters: FilterSection[];
   selectedFilters: Record<string, string[]>;

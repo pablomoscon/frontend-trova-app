@@ -16,9 +16,7 @@ const LoadingOrError: React.FC<{
 }> = ({ loading, error, isDataReady, children }) => {
   if (loading || !isDataReady)
     return (
-      <div className='p-8'>
         <Spinner />
-      </div>
     );
   if (error) return <div className='p-8 text-red-600'>{error}</div>;
   return <>{children}</>;

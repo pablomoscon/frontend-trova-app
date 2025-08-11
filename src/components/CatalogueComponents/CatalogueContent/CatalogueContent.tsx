@@ -49,9 +49,7 @@ const {
 
   if (isLoading) {
     return (
-      <div className='flex justify-center items-center min-h-screen bg-[#E6E7D9]'>
         <Spinner />
-      </div>
     );
   }
 
@@ -73,15 +71,16 @@ const {
         aria-labelledby='albums-heading'
         className='pt-4 pb-24 min-h-screen bg-[#E5E6E4]'
       >
-        <div className='grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4 px-4'>
-          <div className='hidden lg:block'>
+        <div className='grid grid-cols-1 gap-x-6 gap-y-10 lg:grid-cols-5 px-4'>
+          <div className='hidden lg:block lg:col-span-1'>
             <CatalogueFilterSidebar
               filters={filters}
               selectedFilters={selectedFilters}
               onFilterChange={handleFilterChange}
             />
           </div>
-          <div className='lg:col-span-3'>
+
+          <div className='lg:col-span-4'>
             <AlbumList
               albums={albums ?? []}
               onClick={openModal}

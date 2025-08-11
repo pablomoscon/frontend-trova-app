@@ -31,9 +31,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-6 sm:p-10'>
       {loading && (
-        <div className='fixed inset-0 flex items-center justify-center bg-blur bg-opacity-40 z-50'>
           <Spinner />
-        </div>
       )}
       <div
         ref={modalRef}

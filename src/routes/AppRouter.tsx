@@ -48,7 +48,7 @@ const AppRouter: React.FC = () => {
       <Route path='/contacto' element={<ContactView />} />
       <Route path='/artistas' element={<ArtistList />} />
       <Route path='/artistas/:id' element={<ArtistView />} />
-      <Route path='/buscador-resultados' element={<SearchResultsView />} />
+      <Route path='/busqueda' element={<SearchResultsView />} />
 
       <Route
         path='/admin/admin-profile'

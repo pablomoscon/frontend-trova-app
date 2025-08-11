@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
 
   const executeSearch = () => {
     if (searchValue.trim().length > 0) {
-      navigate(`/search?query=${encodeURIComponent(searchValue.trim())}`);
+      navigate(`/busqueda?query=${encodeURIComponent(searchValue.trim())}`);
       setSearchOpen(false);
       setSearchValue('');
     }

@@ -8,7 +8,7 @@ const SearchResultsView: React.FC = () => {
     
   return (
     <div>
-      <div className='search-results-container pt-35 text-2xl bg-[#E5E6E4]'>
+      <div className='search-results-container pt-50 text-2xl bg-[#E5E6E4]'>
         <h2 className='text-gray-800 font-semibold px-4 py-8 bg-[#E5E6E4]'>
           Búsqueda: "{query}"
         </h2>

@@ -85,9 +85,7 @@ const ArtistEditModal: React.FC<
 
   if (loadingArtist)
     return (
-      <div className='modal flex items-center justify-center'>
         <Spinner />
-      </div>
     );
 
   if (errorLoadingArtist)

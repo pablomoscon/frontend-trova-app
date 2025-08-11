@@ -30,21 +30,20 @@ const AdminDetails: React.FC<{ user: User }> = ({ user }) => {
         {/* Email */}
         <div className='flex items-center gap-4'>
           <FaEnvelope className='text-gray-600 w-6 h-6 shrink-0' />
-          <p className='leading-relaxed'>
-            <span className='font-semibold text-gray-600'>Email:</span>{' '}
-            {user.email}
-          </p>
+          <p className='leading-relaxed'>{user.email}</p>
         </div>
 
         {/* Miembro desde */}
         {user.createdAt && (
           <div className='flex items-center gap-4'>
             <FaCalendarAlt className='text-gray-600 w-6 h-6 shrink-0' />
-            <p className='leading-relaxed'>
-              <span className='font-semibold text-gray-600'>
+            <p className='text-gray-700'>
+              <span className='font-semibold text-gray-600 block sm:inline'>
                 Miembro desde:
               </span>{' '}
-              {formatDate(user.createdAt)}
+              <span className='block sm:inline'>
+                {formatDate(user.createdAt)}
+              </span>
             </p>
           </div>
         )}

@@ -22,8 +22,21 @@ export const useCreateAlbum = () => {
 
         try {
             const formDataToSend = new FormData();
-            const { photo, ...albumData } = formData;
-            formDataToSend.append('album', JSON.stringify(albumData));
+
+            const { photo, listOfSongs, ...rest } = formData;
+
+            const cleanedSongs = listOfSongs.map(({ name, duration, artistName }) => ({
+                name,
+                duration,
+                artistName,
+            }));
+
+            const albumDataCleaned = {
+                ...rest,
+                listOfSongs: cleanedSongs,
+            };
+
+            formDataToSend.append('album', JSON.stringify(albumDataCleaned));
 
             if (photo instanceof File) {
                 formDataToSend.append('photo', photo);
@@ -39,6 +52,7 @@ export const useCreateAlbum = () => {
             setIsLoading(false);
         }
     };
+
 
     return {
         formData,

@@ -38,9 +38,7 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
 
   if (artistLoading || albumsLoading)
     return (
-      <div className='flex justify-center items-center h-screen'>
         <Spinner />
-      </div>
     );
 
   if (artistError || albumsError)

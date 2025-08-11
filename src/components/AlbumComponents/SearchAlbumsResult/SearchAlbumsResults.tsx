@@ -23,7 +23,6 @@ const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
   const [shouldScroll, setShouldScroll] = useState(false);
   const offset = window.innerWidth < 640 ? 90 : 240;
 
-  // Detectar cambio de query sin usar useEffect
   const prevQueryRef = useRef(query);
   if (prevQueryRef.current !== query) {
     prevQueryRef.current = query;
@@ -62,11 +61,9 @@ const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
   };
 
   return (
-    <section className='bg-[#E5E6E4] min-h-screen w-full'>
+    <section className='bg-[#E5E6E4] min-h-screen w-full pt-10 pb-40'>
       {isLoading ? (
-        <div className='py-12'>
           <Spinner />
-        </div>
       ) : error ? (
         <div className='py-12 text-center text-red-500'>Error: {error}</div>
       ) : !albums || albums.length === 0 ? (

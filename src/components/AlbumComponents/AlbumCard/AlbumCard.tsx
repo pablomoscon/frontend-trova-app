@@ -8,7 +8,8 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => (
       src={album.photo}
       alt={album.title}
       loading='lazy'
-      className='w-full h-auto max-h-[160px] sm:max-h-[200px] object-contain rounded mb-2'
+      className='w-full h-auto max-h-[160px] sm:max-h-[200px] object-contain rounded mb-2 hover:cursor-pointer'
+      onClick={() => onClick?.(album.id)} // 👉 Trigger modal on image click
     />
 
     <h3

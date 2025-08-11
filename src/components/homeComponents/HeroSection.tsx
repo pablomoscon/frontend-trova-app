@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => (
       </div>
       <div className='lg:w-1/2 w-full flex justify-center'>
         <img
-          src='/assets/portada.png'
+          src='/assets/portada.webp'
           alt='Portada de vinilo'
           className='w-full max-w-[480px] sm:max-w-[560px] lg:max-w-[660px] xl:max-w-[740px] object-contain rounded-full opacity-80 contrast-105 saturate-100 shadow-xl spin-slow mx-auto'
         />

@@ -20,9 +20,7 @@ const AdminUserProfile: React.FC = () => {
 
   if (loading)
     return (
-      <div className='text-center py-10'>
         <Spinner />
-      </div>
     );
 
   if (!user)
@@ -38,7 +36,7 @@ const AdminUserProfile: React.FC = () => {
         {/* Portada */}
         <div className='w-full h-60 overflow-hidden'>
           <img
-            src='/assets/trova_imagen_user_portada.png'
+            src='/assets/trova_imagen_user_portada.webp'
             alt='Imagen de portada'
             className='w-full h-full object-cover transform filter  brightness-80 contrast-70'
           />

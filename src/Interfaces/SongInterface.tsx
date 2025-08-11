@@ -5,7 +5,6 @@ export interface Song {
   artistName?: string;
 }
 
-
 export interface SongsSectionProps {
   title: string;
   songs: Song[];

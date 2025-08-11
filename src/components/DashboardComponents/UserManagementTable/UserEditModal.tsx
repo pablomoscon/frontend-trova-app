@@ -16,9 +16,7 @@ useCloseOnOutside(panelRef, onClose);
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-20'>
       {isLoading && (
-        <div className='fixed inset-0 flex items-center justify-center bg-white bg-opacity-70 z-50'>
           <Spinner />
-        </div>
       )}
 
       {/* ▼ Inner panel – clicking outside this ref triggers onClose */}

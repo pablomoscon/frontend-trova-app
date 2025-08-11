@@ -42,9 +42,7 @@ const CreateAlbum: React.FC = () => {
 
   if (isLoadingArtist) {
     return (
-      <div className='min-h-screen flex justify-center items-center bg-[#E5E6E4] py-12 mt-20'>
         <Spinner />
-      </div>
     );
   }
 

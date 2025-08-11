@@ -30,9 +30,7 @@ const ArtistList: React.FC = () => {
 
   if (isLoading)
     return (
-      <div className='flex justify-center items-center h-screen'>
         <Spinner />
-      </div>
     );
 
   if (error) return <p className='text-center mt-20 text-red-500'>{error}</p>;
