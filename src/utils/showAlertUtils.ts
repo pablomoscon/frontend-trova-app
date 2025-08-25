@@ -1,17 +1,17 @@
 import Swal from "sweetalert2";
 
-export const showSuccessAlert = (title: string = 'Álbum creado exitosamente', message: string = 'Tu nuevo álbum fue guardado correctamente.') => {
+export const showSuccessAlert = (title: string, message: string) => {
   Swal.fire({
-    title: title,
+    title,
     html: `<p class="text-gray-700 text-base">${message}</p>`,
     iconHtml: `
-          <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mx-auto mb-4">
-            <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2"
-                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-        `,
+      <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mx-auto mb-4">
+        <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+    `,
     showConfirmButton: true,
     confirmButtonText: 'Ok',
     customClass: {
@@ -23,14 +23,14 @@ export const showSuccessAlert = (title: string = 'Álbum creado exitosamente', m
     },
     buttonsStyling: false,
     didClose: () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     },
   });
 };
 
-export const showErrorAlert = (title: string = 'Error al crear álbum', message: string = 'Ocurrió un problema al guardar el álbum. Por favor, intentá nuevamente.') => {
+export const showErrorAlert = (title: string, message: string) => {
   Swal.fire({
-    title: title,
+    title,
     html: `<p class="text-gray-700 text-base">${message}</p>`,
     icon: 'error',
     showConfirmButton: true,
@@ -46,13 +46,18 @@ export const showErrorAlert = (title: string = 'Error al crear álbum', message:
   });
 };
 
-export const showDeleteConfirmation = async (): Promise<boolean> => {
+
+export const showConfirmationDialog = async (
+  title: string = '¿Estás seguro?',
+  message: string = 'Esta acción no se puede deshacer.',
+  confirmButtonText: string = 'Sí, confirmar'
+): Promise<boolean> => {
   const result = await Swal.fire({
-    title: '¿Estás seguro?',
-    text: 'Esta acción eliminará el álbum de forma permanente.',
+    title,
+    text: message,
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
+    confirmButtonText,
     cancelButtonText: 'Cancelar',
     reverseButtons: true,
     customClass: {

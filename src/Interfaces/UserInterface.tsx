@@ -3,10 +3,10 @@ export interface User {
   username: string;
   name: string;
   email: string;
-  role: 'admin' | 'user';
+  role: 'ADMIN' | 'USER';
   token: string;
   createdAt?: string;
-  status?: 'active' | 'inactive';
+  status?: 'ACTIVE' | 'SUSPENDED' | 'DELETED';
   lastLogin?: string; 
   failedLoginAttempts?: number;
   activities?: string[];
@@ -15,4 +15,33 @@ export interface User {
 export interface EditUserProps {
   userId: string;
   onClose: () => void;
+}
+export interface UserCardProps {
+  user: User;
+}
+export interface UserDetailModalProps {
+  user: User;
+  onClose: () => void;
+}
+
+export interface UserRowProps {
+  user: User;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+  onToggleStatus: (user: User) => void;
+}
+
+export interface UsersData {
+ content: User[];
+  totalPages: number;
+  currentPage: number;
+  totalElements: number;
+}
+export interface SearchUsersProps {
+  content: User[];
+  isLoading: boolean;
+  error: string | null;
+  totalPages: number;
+  refresh: () => void;
+  currentPage: number;
 }

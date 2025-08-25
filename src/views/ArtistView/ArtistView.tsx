@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import ArtistDetailsContent from '../../components/ArtistComponents/ArtistDetails/ArtistDetailsContent';
+import ArtistDetailsContent from '../../components/artistComponents/ArtistDetails/ArtistDetailsContent';
 
 const ArtistView: React.FC = () => {
   const { id } = useParams<{ id: string }>();

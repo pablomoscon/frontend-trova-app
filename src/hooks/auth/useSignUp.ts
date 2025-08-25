@@ -12,6 +12,7 @@ const useSignUp = () => {
         email: '',
         password: '',
         confirmPassword: '',
+        role: 'user', // Default role
     
     });
 

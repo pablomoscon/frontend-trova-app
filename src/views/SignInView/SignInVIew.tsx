@@ -1,11 +1,11 @@
-import AuthLayout from "../../components/AuthComponents/AuthLayout/AuthLayout";
-import SignInForm from "../../components/AuthComponents/SignInForm/SignInForm";
+import AuthLayout from '../../components/authComponents/AuthLayout/AuthLayout';
+import SignInForm from '../../components/authComponents/SignInForm/SignInForm';
 
 const SignInView = () => (
   <AuthLayout>
     <div className='text-center'>
       <h2 className='mt-6 text-2xl font-bold text-gray-900'>
-        Sign in to your account
+        Ingresá a tu cuenta
       </h2>
     </div>
     <SignInForm />

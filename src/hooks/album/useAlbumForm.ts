@@ -1,21 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AlbumFormData } from "../../Interfaces/AlbumInterface";
 
 export const useAlbumForm = () => {
     const [formData, setFormData] = useState<AlbumFormData>({
         title: '',
         artistId: 0,
-        listOfSongs: [{ name: '', duration: '' }], 
+        listOfSongs: [{ name: '', duration: '' , id: 0 }],
         details: '',
         genres: [],
         cdNumber: '',
         year: undefined,
-        photo: '',
+        photo: undefined,
         displayArtistName: '',
-
+        appleMusicLink: '',
+        spotifyLink: '',
+        amazonMusicLink: '',
     });
 
     const [songsInput, setSongsInput] = useState<string>('');
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (formData.photo instanceof File) {
+            const url = URL.createObjectURL(formData.photo);
+            setImagePreview(url);
+
+            return () => URL.revokeObjectURL(url); 
+        } else if (typeof formData.photo === 'string') {
+            setImagePreview(formData.photo); 
+        } else {
+            setImagePreview(null);
+        }
+    }, [formData.photo]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> | { target: { name: string, value: any } }
@@ -27,6 +43,16 @@ export const useAlbumForm = () => {
         }));
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setFormData((prev) => ({
+                ...prev,
+                photo: file,
+            }));
+        }
+    };
+
     const resetForm = () => {
         setFormData({
             title: '',
@@ -35,11 +61,15 @@ export const useAlbumForm = () => {
             details: '',
             cdNumber: '',
             year: undefined,
-            photo: '',
-            listOfSongs: [{ name: '', duration: '' }], 
+            photo: undefined,
+            listOfSongs: [{ name: '', duration: '', id: 0 }],
             displayArtistName: '',
+            appleMusicLink: '',
+            spotifyLink: '',
+            amazonMusicLink: '',
         });
         setSongsInput('');
+        setImagePreview(null);
     };
 
     return {
@@ -49,5 +79,7 @@ export const useAlbumForm = () => {
         setSongsInput,
         resetForm,
         setFormData,
+        handleFileChange,
+        imagePreview,
     };
 };

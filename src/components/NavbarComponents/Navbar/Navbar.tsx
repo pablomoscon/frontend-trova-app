@@ -1,91 +1,109 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import NavbarLinks from '../NavbarLinks/NavbarLinks';
-import NavbarUserMenu from '../NavbarUserMenu/NavbarUserMenu';
-import NavbarMobileUserMenu from '../NavbarMobileUserMenu/NavbarMobileUserMenu';
+import React, { useRef, useState } from 'react';
 import { useAuthContext } from '../../../hooks/auth/useAuthContext';
+import { useLocation, useNavigate } from 'react-router-dom';
+import NavbarLogo from './NavbarLogo';
+import NavbarDesktop from './NavbarDesktop';
+import NavbarMobileIcons from './NavbarMobileIcons';
+import NavbarMobileNav from './NavbarMobileNav';
+import NavbarMobileUserMenu from '../NavbarUserMenu/NavbarMobileUserMenu';
+import { useNavbarEffects } from '../../../hooks/navbar/useNavbarEffects.ts';
 
 const Navbar: React.FC = () => {
+  const { user, logout } = useAuthContext();
+  const [searchValue, setSearchValue] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const { user, logout } = useAuthContext();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const closeAllMenus = () => {
+    setMenuOpen(false);
+    setUserMenuOpen(false);
+    setSearchOpen(false);
+  };
+
+  useNavbarEffects({
+    wrapperRef,
+    closeAllMenus,
+    location,
+    setSearchOpen,
+    setSearchValue,
+  });
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
+  const executeSearch = () => {
+    if (searchValue.trim().length > 0) {
+      navigate(`/busqueda?query=${encodeURIComponent(searchValue.trim())}`);
+      setSearchOpen(false);
+      setSearchValue('');
+    }
+  };
+
+  const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') executeSearch();
+  };
+
+  const handleSearchClick = () => {
+    executeSearch();
+  };
 
   return (
     <header className='fixed top-0 left-0 w-full bg-[#E6E7D9] backdrop-blur-lg shadow-md z-50'>
-      <div className='w-full max-w-screen-xl mx-auto px-6 py-4 flex justify-between items-center min-h-[60px] relative'>
-        {/* Logo (Trova) */}
-        <Link to='/' className='flex items-center z-50 ml-8'>
-          <img
-            src='/src/assets/trova_logo.png'
-            alt='Trova Logo'
-            className='h-20 w-auto object-contain filter opacity-90 transition-all ease-in-out duration-300 max-[500px]:h-14 '
-          />
-        </Link>
+      <div ref={wrapperRef}>
+        <div className='w-full max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between min-h-[60px] relative'>
+          <div className='flex-shrink-0'>
+            <NavbarLogo />
+          </div>
 
-        {/* Desktop Menu */}
-        <nav className='hidden md:flex space-x-8 items-center'>
-          <NavbarLinks />
-          {user && <NavbarUserMenu logout={logout} username={user.username}  />}
-        </nav>
+          <div className='hidden md:flex flex-col items-end'>
+            <NavbarDesktop
+              user={user}
+              logout={logout}
+              searchOpen={searchOpen}
+              toggleSearch={() => setSearchOpen((prev) => !prev)}
+              searchValue={searchValue}
+              onSearchChange={handleSearchChange}
+              onSearchEnter={handleSearchEnter}
+              onSearchClick={handleSearchClick}
+            />
+          </div>
 
-        {/* Mobile: User Icon + Burger Menu */}
-        <div className='md:hidden navbar-mobile flex items-center space-x-4 z-40'>
-          {user && (
-            <button
-              onClick={() => {
-                setUserMenuOpen(!userMenuOpen);
-                setMenuOpen(false);
-              }}
-              className='w-12 h-12 flex items-center justify-center text-black text-3xl focus:outline-none transition-all hover:opacity-80'
-            >
-              {userMenuOpen ? (
-                <span className='scale-90'>✖</span>
-              ) : (
-                <img
-                  src='https://cdn-icons-png.flaticon.com/512/1144/1144760.png'
-                  alt='Avatar'
-                  className='w-9 h-9 rounded-full object-cover'
-                />
-              )}
-            </button>
-          )}
-
-          <button
-            onClick={() => {
-              setMenuOpen(!menuOpen);
-              setUserMenuOpen(false);
-            }}
-            className='w-12 h-12 flex items-center justify-center text-black text-3xl focus:outline-none transition-all hover:opacity-80'
-          >
-            {menuOpen ? (
-              <span className='scale-90'>✖</span>
-            ) : (
-              <span className='text-3xl leading-none pb-1'>☰</span>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Nav Menu */}
-      <div
-        className={`md:hidden flex flex-col items-center bg-[#E6E7D9] transition-all duration-300 ${
-          menuOpen
-            ? 'max-h-64 opacity-100 py-4 z-40'
-            : 'max-h-0 opacity-0 overflow-hidden'
-        }`}
-      >
-        <NavbarLinks onClick={() => setMenuOpen(false)} />
-      </div>
-
-      {/* Mobile User Dropdown */}
-      {user && userMenuOpen && (
-        <div className='md:hidden bg-[#E6E7D9] px-6 pb-4'>
-          <NavbarMobileUserMenu
-            logout={logout}
-            onClose={() => setUserMenuOpen(false)}
+          <NavbarMobileIcons
+            user={user}
+            menuOpen={menuOpen}
+            userMenuOpen={userMenuOpen}
+            setMenuOpen={setMenuOpen}
+            setUserMenuOpen={setUserMenuOpen}
           />
         </div>
-      )}
+
+        {menuOpen && (
+          <div className='w-full overflow-hidden md:hidden'>
+            <NavbarMobileNav
+              isOpen={menuOpen}
+              onClose={() => setMenuOpen(false)}
+              searchValue={searchValue}
+              onSearchChange={handleSearchChange}
+              onSearchEnter={handleSearchEnter}
+              onSearchClick={handleSearchClick}
+            />
+          </div>
+        )}
+
+        {user && userMenuOpen && (
+          <div className='md:hidden bg-[#E6E7D9] px-6 pb-4'>
+            <NavbarMobileUserMenu
+              logout={logout}
+              onClose={() => setUserMenuOpen(false)}
+            />
+          </div>
+        )}
+      </div>
     </header>
   );
 };

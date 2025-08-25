@@ -1,24 +1,50 @@
 import React from 'react';
-import AlbumGrid from '../../AlbumComponents/AlbumsGrid/AlbumGrid';
-import { Album } from '../../../Interfaces/AlbumInterface';
+import AlbumList from '../../albumComponents/AlbumList/AlbumList';
+import SortMenu from '../../shared/SortMenu';
+import { ArtistAlbumSectionProps } from '../../../Interfaces/ArtistInterface';
 
-interface Props {
-  artistName: string;
-  albums: Album[];
-  onAlbumClick: (album: Album) => void;
-}
-
-const ArtistAlbumsSection: React.FC<Props> = ({
-  artistName,
+const ArtistAlbumsSection: React.FC<ArtistAlbumSectionProps> = ({
   albums,
   onAlbumClick,
-}) => (
-  <div className='mx-auto max-w-5xl px-8 py-16'>
-    <h2 className='text-2xl font-bold tracking-tight text-gray-900 py-10'>
-      Álbumes de {artistName}
-    </h2>
-    <AlbumGrid albums={albums} onClick={onAlbumClick} />
-  </div>
-);
+  page,
+  totalPages,
+  setPage,
+  pageSize,
+  setPageSize,
+  sortOptions,
+  selectedSort,
+  setSelectedSort,
+  albumsLoading
+}) => {
+  const handleSetSortOrder = (value: '' | 'asc' | 'desc') => {
+    if (value === 'asc' || value === 'desc') {
+      setSelectedSort(value);
+    }
+  };
+
+  return (
+      <div className='mx-auto max-w-full sm:max-w-5xl px-4 sm:px-8 pb-35'>
+        <div className='flex justify-end '>
+          <div className='flex items-center '>
+            <SortMenu
+              sortOptions={sortOptions}
+              selectedSort={selectedSort}
+              setSelectedSort={handleSetSortOrder}
+            />
+          </div>
+        </div>
+        <AlbumList
+          albums={albums}
+          onClick={onAlbumClick}
+          page={page}
+          totalPages={totalPages}
+          setPage={setPage}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          albumsLoading={albumsLoading}
+        />
+      </div>
+  );
+};
 
 export default ArtistAlbumsSection;

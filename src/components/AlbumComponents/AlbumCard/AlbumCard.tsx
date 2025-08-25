@@ -1,39 +1,40 @@
 import React from 'react';
 import { AlbumCardProps } from '../../../Interfaces/AlbumInterface';
-import { FaSpotify, FaYoutube, FaAmazon, FaApple } from 'react-icons/fa';
+import AlbumPlatformLinks from '../../shared/AlbumPlatformLinks';
 
 const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => (
-  <div className='border border-gray-300 p-4 rounded shadow'>
-    {' '}
-    <img src={album.photo} alt={album.title} className='w-full h-auto mb-2' />
+  <div className='w-full border border-gray-300 p-4 rounded shadow flex flex-col items-center justify-between min-h-[380px] sm:min-h-[400px]'>
+    <img
+      src={album.photo}
+      alt={album.title}
+      loading='lazy'
+      className='w-full h-auto max-h-[160px] sm:max-h-[200px] object-contain rounded mb-2 hover:cursor-pointer'
+      onClick={() => onClick?.(album.id)} // 👉 Trigger modal on image click
+    />
+
     <h3
-      className='font-semibold text-lg text-gray-600 hover:underline hover:cursor-pointer transition'
-      onClick={onClick}
+      className='font-semibold text-md text-gray-600 hover:underline hover:cursor-pointer text-center transition w-full'
+      onClick={() => onClick?.(album.id)}
     >
       {album.title}
     </h3>
-    <p className='text-sm text-gray-500'>{album.displayArtistName}</p>
-    <p className='text-sm text-gray-500'>{album.year}</p>
-    <div className='flex justify-center space-x-4 mt-2 text-xl text-gray-600 pt-2'>
-    
-        <a href="" target='_blank' rel='noopener noreferrer'>
-          <FaSpotify className='hover:text-green-500 transition' />
-        </a>
-    
-        <a href="" target='_blank' rel='noopener noreferrer'>
-          <FaYoutube className='hover:text-red-500 transition' />
-        </a>
-    
-        <a href="" target='_blank' rel='noopener noreferrer'>
-          <FaAmazon className='hover:text-yellow-500 transition' />
-        </a>
-      
-        <a href="" target='_blank' rel='noopener noreferrer'>
-          <FaApple className='hover:text-gray-800 transition' />
-        </a>
-    
-    </div>
+
+    <p
+      className='text-sm text-gray-500 text-center truncate w-full'
+      title={album.displayArtistName}
+    >
+      {album.displayArtistName}
+    </p>
+
+    <p className='text-sm text-gray-500 text-center'>{album.year}</p>
+
+    <AlbumPlatformLinks
+      spotifyLink={album.spotifyLink}
+      amazonMusicLink={album.amazonMusicLink}
+      appleMusicLink={album.appleMusicLink}
+    />
   </div>
 );
+
 
 export default AlbumCard;

@@ -8,14 +8,14 @@ const ContactInfo: React.FC = () => (
     <div className='mt-6 space-y-4'>
       <div>
         <h4 className='font-semibold text-gray-700'>Correo electrónico</h4>
-        <p className='text-gray-600'>contacto@empresa.com</p>
+        <p className='text-gray-600'>contacto@trova.com</p>
       </div>
       <div>
         <h4 className='font-semibold text-gray-700'>Teléfono</h4>
-        <p className='text-gray-600'>(123) 456-7890</p>
+        <p className='text-gray-600'>(123) 111-111</p>
       </div>
       <div>
-        <h4 className='font-semibold text-gray-700'>Horario de oficina</h4>
+        <h4 className='font-semibold text-gray-700'>Horario de atención</h4>
         <p className='text-gray-600'>Lun - Vie, 9 AM - 6 PM</p>
       </div>
     </div>

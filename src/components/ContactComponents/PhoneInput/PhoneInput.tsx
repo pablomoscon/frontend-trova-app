@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
+import { countryCodes } from '../../../utils/countryUtils';
 
 const PhoneInput: React.FC = () => (
   <div>
@@ -9,31 +10,35 @@ const PhoneInput: React.FC = () => (
     >
       Número de Teléfono
     </label>
+
     <div className='mt-2.5'>
-      <div className='flex rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600'>
-        <div className='grid shrink-0 grid-cols-1 focus-within:relative'>
+      <div className='flex rounded-md bg-white outline outline-1 outline-gray-300 focus-within:outline-2 focus-within:outline-indigo-600'>
+        <div className='relative'>
           <select
             id='country'
             name='country'
-            autoComplete='country'
-            aria-label='Country'
-            className='col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
+            title='Código de país'
+            defaultValue='AR'
+            className='appearance-none rounded-l-md py-2 pr-8 pl-3 text-sm text-gray-700 border-r border-gray-300 focus:outline-none'
           >
-            <option>US</option>
-            <option>CA</option>
-            <option>EU</option>
+            {countryCodes.map((code) => (
+              <option key={code} value={code}>
+                {code}
+              </option>
+            ))}
           </select>
           <ChevronDownIcon
             aria-hidden='true'
-            className='pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4'
+            className='pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500'
           />
         </div>
+
         <input
           id='phone-number'
           name='phone-number'
-          type='text'
+          type='tel'
           placeholder='123-456-7890'
-          className='block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm'
+          className='block w-full rounded-r-md py-2 px-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none'
         />
       </div>
     </div>

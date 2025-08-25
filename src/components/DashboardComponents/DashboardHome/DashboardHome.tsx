@@ -1,52 +1,76 @@
-import React from 'react';
-import { useAuthContext } from '../../../hooks/auth/useAuthContext';
+import React, { Suspense, useMemo } from 'react';
+import DashboardHeader from './DashboardHeader';
+import DashboardSummary from './DashboardSummary';
+import Spinner from '../../shared/Spinner';
+import { useStatsSummary } from '../../../hooks/stats/useStatsSummary';
+import { useMostVisitedAlbums } from '../../../hooks/stats/useMostVisitedAlbums';
+import { useMostVisitedArtists } from '../../../hooks/stats/useMostVisitedArtists';
 
+const ChartSection = React.lazy(() => import('./DashboardCharts'));
+
+const LoadingOrError: React.FC<{
+  loading: boolean;
+  error: string | null;
+  isDataReady: boolean;
+  children: React.ReactNode;
+}> = ({ loading, error, isDataReady, children }) => {
+  if (loading || !isDataReady)
+    return (
+        <Spinner />
+    );
+  if (error) return <div className='p-8 text-red-600'>{error}</div>;
+  return <>{children}</>;
+};
+
+const useDashboardData = () => {
+  const { summary, loading, error } = useStatsSummary();
+  const mostVisitedAlbums = useMostVisitedAlbums();
+  const mostVisitedArtists = useMostVisitedArtists();
+
+  return { summary, loading, error, mostVisitedAlbums, mostVisitedArtists };
+};
 
 const DashboardHome: React.FC = () => {
-  const { user } = useAuthContext();
+  const { summary, loading, error, mostVisitedAlbums, mostVisitedArtists } =
+    useDashboardData();
+
+  const charts = useMemo(
+    () => [
+      {
+        title: 'Álbumes más visitados',
+        data: mostVisitedAlbums,
+        dataKey: 'title',
+      },
+      {
+        title: 'Artistas más visitados',
+        data: mostVisitedArtists,
+        dataKey: 'name',
+      },
+    ],
+    [mostVisitedAlbums, mostVisitedArtists]
+  );
 
   return (
-    <div className='flex-1 p-8 bg-[#E5E6E4]'>
-      <header className='flex justify-between items-center mb-8 mt-40'>
-        <div className='text-3xl font-semibold text-gray-800'>
-          Bienvenido, {user?.username}
-        </div>
-        <div className='flex items-center space-x-4'>
-          <div className='text-gray-600'>{user?.username}</div>{' '}
-          <div className='h-10 w-10 bg-blue-500 rounded-full'></div>
-        </div>
-      </header>
+    <div className='min-h-screen w-full'>
+      <div className='flex-1 px-8 py-8 bg-[#E5E6E4]'>
+        <DashboardHeader />
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-        <div className='bg-white p-6 rounded-lg shadow-md'>
-          <h2 className='text-xl font-semibold text-gray-800'>Total Sales</h2>
-          <p className='mt-4 text-3xl font-bold text-blue-600'>$3,287</p>
-          <div className='mt-4 text-sm text-gray-600'>Since last month</div>
-        </div>
-        <div className='bg-white p-6 rounded-lg shadow-md'>
-          <h2 className='text-xl font-semibold text-gray-800'>Active Users</h2>
-          <p className='mt-4 text-3xl font-bold text-green-600'>1,432</p>
-          <div className='mt-4 text-sm text-gray-600'>
-            User engagement has increased
-          </div>
-        </div>
-        <div className='bg-white p-6 rounded-lg shadow-md'>
-          <h2 className='text-xl font-semibold text-gray-800'>Tasks</h2>
-          <ul className='mt-4 space-y-2 text-gray-600'>
-            <li className='flex justify-between'>
-              <span>Design Landing Page</span>
-              <span className='text-blue-500'>In Progress</span>
-            </li>
-            <li className='flex justify-between'>
-              <span>Develop API</span>
-              <span className='text-green-500'>Completed</span>
-            </li>
-            <li className='flex justify-between'>
-              <span>Write Docs</span>
-              <span className='text-yellow-500'>Pending</span>
-            </li>
-          </ul>
-        </div>
+        <LoadingOrError loading={loading} error={error} isDataReady={!!summary}>
+          <DashboardSummary summary={summary!} />
+
+          <Suspense fallback={<div className='p-8'>Cargando gráficos...</div>}>
+            <div className='mt-16 grid grid-cols-1 lg:grid-cols-1 gap-12 pb-20 px-4 lg:px-24'>
+              {charts.map(({ title, data, dataKey }) => (
+                <ChartSection
+                  key={title}
+                  title={title}
+                  data={data}
+                  dataKey={dataKey}
+                />
+              ))}
+            </div>
+          </Suspense>
+        </LoadingOrError>
       </div>
     </div>
   );

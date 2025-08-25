@@ -19,6 +19,7 @@
   text-rendering: optimizeLegibility;
   color-scheme: dark;
 }
+
 /* Links con transiciones suaves */
 a {
   transition: all 0.2s ease-in-out;
@@ -29,11 +30,55 @@ a:hover {
   transform: translateY(-1px);
 }
 
+
 /* Ajustes generales */
+html {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-x: hidden;
+}
+
 body {
+  overflow-x: hidden;
   margin: 0;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color:#E6E7D9;
+  background-color: #E6E7D9;
   color: #e0e0e0;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin-slow 14s linear infinite;
+}
+
+@media (max-width: 450px) {
+  .flex-col-xs {
+    flex-direction: column !important;
+    gap: 0.5rem;
+  }
+
+  .text-xl-xs {
+    font-size: 1.25rem !important;
+  }
+
+
+
+  .items-start-xs {
+    align-items: flex-start !important;
+  }
+
+  .mt-2-xs {
+    margin-top: 0.5rem !important;
+  }
 }

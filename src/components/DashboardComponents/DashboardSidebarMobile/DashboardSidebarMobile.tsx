@@ -1,72 +1,32 @@
-// DashboardSidebarMobile.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   XMarkIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  MusicalNoteIcon,
-  UserGroupIcon,
-  UserIcon,
 } from '@heroicons/react/24/outline';
-import { HomeIcon } from 'lucide-react';
 import { Bars3BottomLeftIcon } from '@heroicons/react/20/solid';
+import { menuItems } from '../../../data/menuItems';
 
-const menuItems = [
-  {
-    label: 'Dashboard',
-    icon: <HomeIcon className='h-5 w-5' />,
-    key: 'dashboard',
-    href: '/admin/dashboard',
-  },
-  {
-    label: 'Álbumes',
-    icon: <MusicalNoteIcon className='h-5 w-5' />,
-    key: 'albums',
-    subitems: [
-      { label: 'Ver detalles', href: '/admin/dashboard/albums-details' },
-      { label: 'Agregar', href: '/admin/dashboard/album-form' },
-      { label: 'Administrar', href: '/admin/dashboard/albums-management' },
-    ],
-  },
-  {
-    label: 'Artistas',
-    icon: <UserGroupIcon className='h-5 w-5' />,
-    key: 'artists',
-    subitems: [
-      { label: 'Ver detalles', href: '/admin/dashboard/artists-details' },
-      { label: 'Agregar', href: '/admin/dashboard/artist-form' },
-      { label: 'Administrar', href: '/admin/dashboard/artists-management' },
-    ],
-  },
-  {
-    label: 'Usuarios',
-    icon: <UserIcon className='h-5 w-5' />,
-    key: 'users',
-    subitems: [
-      { label: 'Ver detalles', href: '/admin/dashboard/users-data' },
-      { label: 'Agregar', href: '/admin/dashboard/user-form' },
-      { label: 'Administrar', href: '/admin/dashboard/users-management' },
-    ],
-  },
-];
-
-const DashboardSidebarMobile = () => {
+const DashboardSidebarMobile: React.FC = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSubMenu = (menu: string) =>
-    setActiveMenu((prev) => (prev === menu ? null : menu));
+  const toggleSubMenu = (menuKey: string) => {
+    setActiveMenu((prev) => (prev === menuKey ? null : menuKey));
+  };
 
   return (
     <>
-      <div className='md:hidden pt-35 p-1 bg-gray-200'>
+      <div
+        className={`md:hidden flex ${isOpen ? 'justify-end' : 'justify-start'}`}
+      >
         <button
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label='Toggle Sidebar'
-          className='text-gray-700 hover:text-gray-900 focus:outline-none ps-1'
+          className='text-gray-700 hover:text-gray-900 focus:outline-none'
         >
           {isOpen ? (
-            <XMarkIcon className='h-6 w-6' />
+            <XMarkIcon className='h-6 w-6 mb-5' />
           ) : (
             <Bars3BottomLeftIcon className='h-6 w-6' />
           )}
@@ -74,24 +34,18 @@ const DashboardSidebarMobile = () => {
       </div>
 
       {isOpen && (
-        <aside className='block bg-gray-200 p-2 md:hidden pt-40 border-e border-gray-300'>
-          <div className='mb-4 px-4'>
-            <h2 className='text-base font-semibold text-blue-gray-800 pb-6'>
-              Panel
-            </h2>
-          </div>
-
-          <ul>
-            {menuItems.map(({ label, icon, key, href, subitems }) => (
+        <aside className='block bg-gray-200 '>
+          <ul className='bg-gray-200'>
+            {menuItems.map(({ label, icon: Icon, key, href, subitems }) => (
               <li key={key}>
                 {subitems ? (
                   <>
                     <button
                       onClick={() => toggleSubMenu(key)}
-                      className='w-full flex items-center justify-between text-left py-2 px-4 hover:bg-gray-100 rounded-md text-sm'
+                      className='w-full flex items-start justify-between text-left py-2 px-4 hover:bg-gray-100 rounded-md text-sm'
                     >
-                      <span className='flex items-center gap-2'>
-                        {icon}
+                      <span className='flex items-center gap-2 hover:bg-gray-100 '>
+                        <Icon className='h-5 w-5' />
                         <span>{label}</span>
                       </span>
                       {activeMenu === key ? (
@@ -124,7 +78,7 @@ const DashboardSidebarMobile = () => {
                     href={href}
                     className='flex items-center gap-2 py-2 px-4 hover:bg-gray-100 rounded-md text-gray-800 font-medium text-sm'
                   >
-                    {icon}
+                    <Icon className='h-5 w-5' />
                     <span>{label}</span>
                   </a>
                 )}
