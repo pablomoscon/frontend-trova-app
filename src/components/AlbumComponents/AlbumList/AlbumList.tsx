@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import type { AlbumListProps } from '../../../Interfaces/AlbumInterface';
-import AlbumCard from '../AlbumCard/AlbumCard';
-import PaginationControls from '../../shared/PaginationControls';
+import PaginationControls from '../../Shared/PaginationControls';
 import { useScroll } from '../../../hooks/shared/useScroll';
-import Spinner from '../../shared/Spinner';
+import Spinner from '../../Shared/Spinner';
+import AlbumCard from '../AlbumCard/AlbumCard';
 
 const AlbumList: React.FC<AlbumListProps> = ({
   albums,
@@ -30,14 +30,12 @@ const AlbumList: React.FC<AlbumListProps> = ({
   };
 
   if (albumsLoading) {
-    return (
-        <Spinner />
-    );
+    return <Spinner />;
   }
 
   return (
     <>
-      <div ref={listTopRef}/>
+      <div ref={listTopRef} />
 
       <div className='flex justify-center'>
         <div className='flex flex-wrap justify-center gap-6 px-4 py-6 max-w-[1100px] w-full'>

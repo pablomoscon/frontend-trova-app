@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import DashboardSidebar from '../../components/dashboardComponents/DashboardSidebar/DashboardSidebar';
-import DashboardSidebarMobile from '../../components/dashboardComponents/DashboardSidebarMobile/DashboardSidebarMobile';
+import DashboardSidebar from '../../components/DashboardComponents/DashboardSidebar/DashboardSidebar';
+import DashboardSidebarMobile from '../../components/DashboardComponents/DashboardSidebarMobile/DashboardSidebarMobile';
 
 const DashboardView: React.FC = () => {
   return (

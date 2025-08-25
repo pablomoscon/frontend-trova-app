@@ -1,11 +1,11 @@
 import React from 'react';
-import SearchAlbumsResults from '../../components/albumComponents/SearchAlbumsResult/SearchAlbumsResults';
+import SearchAlbumsResults from '../../components/AlbumComponents/SearchAlbumsResult/SearchAlbumsResults';
 import { useSearchParams } from 'react-router-dom';
 
 const SearchResultsView: React.FC = () => {
   const [searchParams] = useSearchParams();
-    const query = searchParams.get('query') ?? '';
-    
+  const query = searchParams.get('query') ?? '';
+
   return (
     <div>
       <div className='search-results-container pt-50 text-2xl bg-[#E5E6E4]'>
@@ -17,6 +17,6 @@ const SearchResultsView: React.FC = () => {
       <SearchAlbumsResults />
     </div>
   );
-  } 
+};
 
 export default SearchResultsView;

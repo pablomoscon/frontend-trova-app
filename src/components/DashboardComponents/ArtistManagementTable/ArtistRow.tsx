@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArtistRowProps } from '../../../Interfaces/ArtistInterface';
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/solid';
-import ToggleSwitch from '../../shared/ToggleSwitch';
+import ToggleSwitch from '../../Shared/ToggleSwitch';
 
 const ArtistRow: React.FC<ArtistRowProps> = ({
   artist,

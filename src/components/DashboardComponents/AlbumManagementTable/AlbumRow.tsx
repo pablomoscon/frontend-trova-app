@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlbumRowProps } from '../../../Interfaces/AlbumInterface';
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/solid';
-import ToggleSwitch from '../../shared/ToggleSwitch';
+import ToggleSwitch from '../../Shared/ToggleSwitch';
 
 const AlbumRow: React.FC<AlbumRowProps> = ({
   album,

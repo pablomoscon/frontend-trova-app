@@ -1,6 +1,6 @@
 import { JSX } from 'react';
-import AlbumList from '../../albumComponents/AlbumList/AlbumList';
-import SortMenu from '../../shared/SortMenu';
+import AlbumList from '../../AlbumComponents/AlbumList/AlbumList';
+import SortMenu from '../../Shared/SortMenu';
 import { ArtistAlbumSectionProps } from '../../../Interfaces/ArtistInterface';
 
 const ArtistAlbumsSection = <T extends string>(

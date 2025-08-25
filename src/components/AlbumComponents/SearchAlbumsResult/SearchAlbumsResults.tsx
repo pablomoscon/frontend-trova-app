@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SearchAlbumsResultsProps } from '../../../Interfaces/AlbumInterface';
 import { useScroll } from '../../../hooks/shared/useScroll';
-import Spinner from '../../shared/Spinner';
-import AlbumList from '../AlbumList/AlbumList';
-import AlbumSongsModal from '../../albumComponents/AlbumCard/AlbumSongsModal';
+import Spinner from '../../Shared/Spinner';
+import AlbumSongsModal from '../AlbumCard/AlbumSongsModal';
 import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
 import { useSearchAlbumsResults } from '../../../hooks/album/useSearchAlbumsResults';
+import AlbumList from '../AlbumList/AlbumList';
 
 const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
   initialQuery = '',
@@ -63,7 +63,7 @@ const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
   return (
     <section className='bg-[#E5E6E4] min-h-screen w-full pt-10 pb-40'>
       {isLoading ? (
-          <Spinner />
+        <Spinner />
       ) : error ? (
         <div className='py-12 text-center text-red-500'>Error: {error}</div>
       ) : !albums || albums.length === 0 ? (

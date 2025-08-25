@@ -1,11 +1,11 @@
 import React from 'react';
-import Spinner from '../../shared/Spinner';
-import SearchInput from '../../shared/SearchInput';
-import PageSizeSelector from '../../shared/PageSizeSelector';
-import PaginationControls from '../../shared/PaginationControls';
+import Spinner from '../../Shared/Spinner';
+import SearchInput from '../../Shared/SearchInput';
+import PageSizeSelector from '../../Shared/PageSizeSelector';
+import PaginationControls from '../../Shared/PaginationControls';
+import { useManagementArtists } from '../../../hooks/artist/useManagementArtists';
 import ArtistRow from './ArtistRow';
 import ArtistEditModal from './ArtistEditModal';
-import { useManagementArtists } from '../../../hooks/artist/useManagementArtists';
 
 const ArtistManagementTable: React.FC = () => {
   const {

@@ -1,10 +1,10 @@
 import React, { Suspense, useMemo } from 'react';
-import DashboardHeader from './DashboardHeader';
-import DashboardSummary from './DashboardSummary';
-import Spinner from '../../shared/Spinner';
+import Spinner from '../../Shared/Spinner';
 import { useStatsSummary } from '../../../hooks/stats/useStatsSummary';
 import { useMostVisitedAlbums } from '../../../hooks/stats/useMostVisitedAlbums';
 import { useMostVisitedArtists } from '../../../hooks/stats/useMostVisitedArtists';
+import DashboardHeader from './DashboardHeader';
+import DashboardSummary from './DashboardSummary';
 
 const ChartSection = React.lazy(() => import('./DashboardCharts'));
 
@@ -14,10 +14,7 @@ const LoadingOrError: React.FC<{
   isDataReady: boolean;
   children: React.ReactNode;
 }> = ({ loading, error, isDataReady, children }) => {
-  if (loading || !isDataReady)
-    return (
-        <Spinner />
-    );
+  if (loading || !isDataReady) return <Spinner />;
   if (error) return <div className='p-8 text-red-600'>{error}</div>;
   return <>{children}</>;
 };

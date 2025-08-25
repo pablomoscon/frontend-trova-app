@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { FunnelIcon } from '@heroicons/react/20/solid';
-import { CatalogueHeaderProps, CatalogueSort } from '../../../Interfaces/CatalogueInterface';
-import SortMenu from '../../shared/SortMenu';
+import {
+  CatalogueHeaderProps,
+  CatalogueSort,
+} from '../../../Interfaces/CatalogueInterface';
+import SortMenu from '../../Shared/SortMenu';
 import { SortOption } from '../../../Interfaces/SharedInterface';
 
 const sortOptions: SortOption<CatalogueSort>[] = [

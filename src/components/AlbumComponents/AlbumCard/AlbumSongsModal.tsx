@@ -3,7 +3,7 @@ import { Loader } from 'lucide-react';
 import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
 import { AlbumSongsModalProps } from '../../../Interfaces/AlbumInterface';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
-import AlbumPlatformLinks from '../../shared/AlbumPlatformLinks';
+import AlbumPlatformLinks from '../../Shared/AlbumPlatformLinks';
 
 const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
   isOpen,

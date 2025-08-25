@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import ArtistHeader from './ArtistHeader';
-import ArtistAlbumsSection from '../ArtistAlbumsSection/ArtistAlbumsSection';
-import AlbumSongsModal from '../../albumComponents/AlbumCard/AlbumSongsModal';
-import Spinner from '../../shared/Spinner';
+import AlbumSongsModal from '../../AlbumComponents/AlbumCard/AlbumSongsModal';
+import Spinner from '../../Shared/Spinner';
 import { useDetailsArtist } from '../../../hooks/artist/useDetailsArtist';
 import { useFetchAlbumsByArtist } from '../../../hooks/album/useFetchAlbumsByArtist';
 import { Album } from '../../../Interfaces/AlbumInterface';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
+import ArtistHeader from './ArtistHeader';
+import ArtistAlbumsSection from '../ArtistAlbumsSection/ArtistAlbumsSection';
 
 const artistSortOptions: { name: string; value: 'asc' | 'desc' }[] = [
   { name: 'Más antiguo', value: 'asc' },
@@ -36,10 +36,7 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
     setPageSize,
   } = useFetchAlbumsByArtist(artistId, page, sortOrder);
 
-  if (artistLoading || albumsLoading)
-    return (
-        <Spinner />
-    );
+  if (artistLoading || albumsLoading) return <Spinner />;
 
   if (artistError || albumsError)
     return (

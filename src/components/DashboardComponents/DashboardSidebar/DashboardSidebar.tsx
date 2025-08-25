@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { menuItems } from '../../../data/menuItems';
-import SidebarItem from './SidebarItem';
 import SidebarSubmenu from './SidebarSubmenu';
+import SidebarItem from './SidebarItem';
 
 const DashboardSidebar = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
