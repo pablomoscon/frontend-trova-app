@@ -10,6 +10,8 @@ const axiosInstance = axios.create({
     },
 });
 
+console.log('axiosInstance baseURL:', axiosInstance.defaults.baseURL);
+
 axiosInstance.interceptors.request.use(
     (config) => {
         const user = localStorage.getItem('user');

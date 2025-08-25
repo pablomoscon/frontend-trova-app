@@ -164,7 +164,6 @@ export const addSongsToAlbum = async (
   }
 };
 
-
 export const deleteAlbum = async (id: number): Promise<void> => {
   await axiosInstance.delete(`/albums/${id}`);
 };
