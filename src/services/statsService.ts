@@ -4,6 +4,8 @@ import axiosInstance from '../api/axiosInstance';
 export const fetchSummaryStats = async (): Promise<SummaryStats> => {
     try {
         const response = await axiosInstance.get<SummaryStats>('/stats/summary');
+        console.log('Request URL:', axiosInstance.defaults.baseURL + '/stats/summary');
+        console.log('Fetched summary statistics:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching summary statistics:', error);
