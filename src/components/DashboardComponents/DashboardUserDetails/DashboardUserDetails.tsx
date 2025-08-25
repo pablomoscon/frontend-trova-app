@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Spinner from '../../Shared/Spinner';
 import PaginationControls from '../../Shared/PaginationControls';
-import UserCard from './UserCard';
-import UserDetailModal from './UserDetailModal';
 import { useFetchUsers } from '../../../hooks/user/useFetchUsers';
 import { User } from '../../../Interfaces/UserInterface';
-import { useScroll } from '../../../hooks/shared/useScroll'; // Ajusta ruta según corresponda
+import { useScroll } from '../../../hooks/shared/useScroll';
+import UserCard from './UserCard';
+import UserDetailModal from './UserDetailModal';
 
 const DashboardUserDetails: React.FC<{ pageSize?: number }> = ({
   pageSize = 9,
