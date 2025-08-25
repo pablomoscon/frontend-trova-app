@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Spinner from '../../Shared/Spinner';
 import AlbumList from '../../AlbumComponents/AlbumList/AlbumList';
-import CatalogueFilterSidebar from '../CatalogueFilterSidebar/CatalogueFilterSidebar';
-import CatalogueMobileFilterDialog from '../CatalogueMobileFilterDialog/CatalogueMobileFilterDialog';
-import CatalogueHeader from '../CatalogueHeader/CatalogueHeader';
 import { useFilteredAlbums } from '../../../hooks/album/useFilteredAlbums';
 import AlbumSongsModal from '../../AlbumComponents/AlbumCard/AlbumSongsModal';
 import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
+import CatalogueMobileFilterDialog from '../CatalogueMobileFilterDialog/CatalogueMobileFilterDialog';
+import CatalogueHeader from '../CatalogueHeader/CatalogueHeader';
+import CatalogueFilterSidebar from '../CatalogueFilterSidebar/CatalogueFilterSidebar';
 
 const CatalogueContent: React.FC = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);

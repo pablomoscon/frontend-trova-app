@@ -1,6 +1,6 @@
 import React from 'react';
-import FooterText from './FooterText';
 import SocialLinks from './SocialLinks';
+import FooterText from './FooterText';
 
 const Footer: React.FC = () => {
   return (

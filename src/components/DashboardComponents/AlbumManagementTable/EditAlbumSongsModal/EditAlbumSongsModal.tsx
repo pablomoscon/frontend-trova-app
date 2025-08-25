@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
-import ArtistInput from './ArtistInput';
-import SongsSection from './SongsSection';
 import { EditAlbumSongsModalProps } from '../../../../Interfaces/AlbumInterface';
 import { showErrorAlert, showSuccessAlert } from '../../../../utils/showAlertUtils';
 import { useEditSongs } from '../../../../hooks/song/useEditSongs';
 import { useAddSongsToAlbum } from '../../../../hooks/song/useAddSongsToAlbum';
 import { useCloseOnOutside } from '../../../../hooks/shared/useCloseOnOutside';
 import { useDeleteSongs } from '../../../../hooks/song/useDeleteSong';
+import ArtistInput from './ArtistInput';
+import SongsSection from './SongsSection';
 
 const EditAlbumSongsModal: React.FC<
   EditAlbumSongsModalProps & { albumId: number }

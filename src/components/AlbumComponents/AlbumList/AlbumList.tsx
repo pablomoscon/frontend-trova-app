@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import type { AlbumListProps } from '../../../Interfaces/AlbumInterface';
-import AlbumCard from '../AlbumCard/AlbumCard';
 import PaginationControls from '../../Shared/PaginationControls';
 import { useScroll } from '../../../hooks/shared/useScroll';
 import Spinner from '../../Shared/Spinner';
+import AlbumCard from '../AlbumCard/AlbumCard';
 
 const AlbumList: React.FC<AlbumListProps> = ({
   albums,

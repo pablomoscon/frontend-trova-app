@@ -1,10 +1,10 @@
 import React, { Suspense, useMemo } from 'react';
-import DashboardHeader from './DashboardHeader';
-import DashboardSummary from './DashboardSummary';
 import Spinner from '../../Shared/Spinner';
 import { useStatsSummary } from '../../../hooks/stats/useStatsSummary';
 import { useMostVisitedAlbums } from '../../../hooks/stats/useMostVisitedAlbums';
 import { useMostVisitedArtists } from '../../../hooks/stats/useMostVisitedArtists';
+import DashboardHeader from './DashboardHeader';
+import DashboardSummary from './DashboardSummary';
 
 const ChartSection = React.lazy(() => import('./DashboardCharts'));
 

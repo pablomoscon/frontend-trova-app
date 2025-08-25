@@ -4,10 +4,10 @@ import NewArtistModal from '../../ArtistComponents/ArtistForms/NewArtistModal';
 import { createNewArtist } from '../../../utils/createNewArtistUtils';
 import { ArtistFormData } from '../../../Interfaces/ArtistInterface';
 import LoadingDots from '../../Shared/LoadingDots';
-import AlbumFormFields from '../AlbumFormFields/AlbumFormFields';
 import { useCreateAlbum } from '../../../hooks/album/useCreateAlbum';
 import { useCreateArtist } from '../../../hooks/artist/useCreateArtist';
 import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
+import AlbumFormFields from '../AlbumFormFields/AlbumFormFields';
 
 const CreateAlbum: React.FC = () => {
   const {

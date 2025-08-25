@@ -1,11 +1,11 @@
 import React from 'react';
 import Spinner from '../../Shared/Spinner';
 import SearchInput from '../../Shared/SearchInput';
-import AlbumRow from './AlbumRow';
-import AlbumEditModal from './AlbumEditModal';
 import PageSizeSelector from '../../Shared/PageSizeSelector';
 import PaginationControls from '../../Shared/PaginationControls';
 import { useManagementAlbum } from '../../../hooks/album/useManagementAlbum';
+import AlbumRow from './AlbumRow';
+import AlbumEditModal from './AlbumEditModal';
 
 const AlbumManagementTable: React.FC = () => {
   const {

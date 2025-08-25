@@ -1,6 +1,6 @@
 import React from 'react';
-import AlbumDetailsList from './AlbumDetailsList';
 import { ArtistSectionProps } from '../../../Interfaces/DashboardInterface';
+import AlbumDetailsList from './AlbumDetailsList';
 
 const AlbumsByArtistSection: React.FC<ArtistSectionProps> = ({
   artist,

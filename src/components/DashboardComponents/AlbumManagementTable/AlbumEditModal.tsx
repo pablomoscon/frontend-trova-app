@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
-import AlbumFormFields from '../../AlbumComponents/AlbumFormFields/AlbumFormFields';
 import { useEditAlbum } from '../../../hooks/album/useEditAlbum';
 import { EditAlbumProps } from '../../../Interfaces/AlbumInterface';
 import Spinner from '../../Shared/Spinner';
-import EditAlbumSongsModal from './EditAlbumSongsModal/EditAlbumSongsModal';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
+import EditAlbumSongsModal from './EditAlbumSongsModal/EditAlbumSongsModal';
+import AlbumFormFields from '../../AlbumComponents/AlbumFormFields/AlbumFormFields';
 
 const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
   const {

@@ -1,9 +1,9 @@
 import React from 'react';
 import Spinner from '../../Shared/Spinner';
 import { useFetchSummaryArtists } from '../../../hooks/album/useFetchSummaryArtist';
-import ArtistCardWithAlbums from './ArtistCardWithAlbums';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 import PaginationControls from '../../Shared/PaginationControls';
+import ArtistCardWithAlbums from './ArtistCardWithAlbums';
 
 const DashboardArtistDetails: React.FC = () => {
   const { page, setPage } = usePageAndSearch('artistPage');

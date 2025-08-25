@@ -1,10 +1,10 @@
 import React from 'react';
 import Spinner from '../../Shared/Spinner';
 import SearchInput from '../../Shared/SearchInput';
-import UserEditModal from './UserEditModal';
-import UserRow from './UserRow';
 import { useManagementUser } from '../../../hooks/user/useManagementUser';
 import PaginationControls from '../../Shared/PaginationControls';
+import UserRow from './UserRow';
+import UserEditModal from './UserEditModal';
 
 const UserManagementTable: React.FC = () => {
   const {

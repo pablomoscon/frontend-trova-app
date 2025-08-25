@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Spinner from '../../Shared/Spinner';
 import PaginationControls from '../../Shared/PaginationControls';
 import { useFetchArtistsWithAlbums } from '../../../hooks/artist/useFetchArtistsWithAlbums';
-import AlbumDetailsModal from './AlbumDetailsModal';
-import ImageModal from './ImageModal';
-import AlbumsByArtistSection from './AlbumsByArtistSection';
 import { Album } from '../../../Interfaces/AlbumInterface';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 import { useScroll } from '../../../hooks/shared/useScroll';
 import { useResetStatesOnPageChange } from '../../../hooks/shared/useResetStatesOnPageChange';
+import AlbumsByArtistSection from './AlbumsByArtistSection';
+import AlbumDetailsModal from './AlbumDetailsModal';
+import ImageModal from './ImageModal';
 
 const DashboardAlbumDetails: React.FC<{ pageSize?: number }> = ({
   pageSize = 3,
