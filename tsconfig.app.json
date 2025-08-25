@@ -1,30 +1,24 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "forceConsistentCasingInFileNames": true,
     "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",                  // mantiene ESNext
-    "moduleResolution": "Node",          // Node, no NodeNext
+    "module": "ESNext",
+    "moduleResolution": "Node",       
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-
-    /* Configuración de paths para alias */
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["*"]
-    },
-
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting y strict mode */
+    
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }
