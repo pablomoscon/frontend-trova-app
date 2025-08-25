@@ -29,11 +29,18 @@ export const fetchAlbumsByArtist = async (
   size: number,
   sortOrder: 'asc' | 'desc' = 'asc'
 ): Promise<AlbumsByArtistResponse> => {
-  const response = await fetch(
-    `${baseURL}/albums/by-artist/${artistId}?page=${page}&size=${size}&sort=${sortOrder}`
-  );
-  if (!response.ok) throw new Error('Error fetching albums by artist');
-  return response.json();
+  try {
+    const { data } = await axiosInstance.get<AlbumsByArtistResponse>(
+      `/albums/by-artist/${artistId}`,
+      {
+        params: { page, size, sort: sortOrder },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.error('Error fetching albums by artist:', error);
+    throw error;
+  }
 };
 
 export async function fetchFilteredAlbums(params: AlbumFilterParams): Promise<AlbumFilterResponse> {
