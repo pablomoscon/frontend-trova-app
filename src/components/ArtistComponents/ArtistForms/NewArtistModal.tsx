@@ -1,11 +1,10 @@
 import React, { useRef } from 'react';
 import { NewArtistModalProps } from '../../../Interfaces/ArtistInterface';
 import { createArtist } from '../../../services/artistService';
-import LoadingDots from '../../shared/LoadingDots';
+import LoadingDots from '../../Shared/LoadingDots';
 import ArtistFormFields from './ArtistFormFields';
 import { useCreateArtist } from '../../../hooks/artist/useCreateArtist';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
-
 
 const NewArtistModal: React.FC<NewArtistModalProps> = ({ onClose }) => {
   const {

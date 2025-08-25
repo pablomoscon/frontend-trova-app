@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import Spinner from '../../shared/Spinner';
-import PaginationControls from '../../shared/PaginationControls';
+import Spinner from '../../Shared/Spinner';
+import PaginationControls from '../../Shared/PaginationControls';
 import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 import { useScroll } from '../../../hooks/shared/useScroll';
@@ -29,10 +29,7 @@ const ArtistList: React.FC = () => {
     setPage(newPage);
   };
 
-  if (isLoading)
-    return (
-        <Spinner />
-    );
+  if (isLoading) return <Spinner />;
 
   if (error) return <p className='text-center mt-20 text-red-500'>{error}</p>;
 

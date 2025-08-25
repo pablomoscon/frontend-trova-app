@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { UserCircleIcon } from 'lucide-react';
-import InputField from '../../shared/inputs/InputField';
+import InputField from '../../Shared/inputs/InputField';
 import { validateForm } from '../../../utils/validateSignUp';
 import useSignUp from '../../../hooks/auth/useSignUp';
-import SelectInput from '../../shared/inputs/SelectInputProps';
+import SelectInput from '../../Shared/inputs/SelectInputProps';
 import { getRoleOptions } from '../../../utils/roleUtils';
 
 const CreateUserForm: React.FC = () => {
@@ -105,7 +105,7 @@ const CreateUserForm: React.FC = () => {
                   type='button'
                   className='rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
                 >
-                 Cambiar
+                  Cambiar
                 </button>
               </div>
             </div>

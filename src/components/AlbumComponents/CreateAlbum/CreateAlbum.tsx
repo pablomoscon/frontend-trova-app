@@ -1,9 +1,9 @@
 import React from 'react';
-import Spinner from '../../shared/Spinner';
-import NewArtistModal from '../../artistComponents/ArtistForms/NewArtistModal';
+import Spinner from '../../Shared/Spinner';
+import NewArtistModal from '../../ArtistComponents/ArtistForms/NewArtistModal';
 import { createNewArtist } from '../../../utils/createNewArtistUtils';
 import { ArtistFormData } from '../../../Interfaces/ArtistInterface';
-import LoadingDots from '../../shared/LoadingDots';
+import LoadingDots from '../../Shared/LoadingDots';
 import AlbumFormFields from '../AlbumFormFields/AlbumFormFields';
 import { useCreateAlbum } from '../../../hooks/album/useCreateAlbum';
 import { useCreateArtist } from '../../../hooks/artist/useCreateArtist';
@@ -41,9 +41,7 @@ const CreateAlbum: React.FC = () => {
   }, handleChange);
 
   if (isLoadingArtist) {
-    return (
-        <Spinner />
-    );
+    return <Spinner />;
   }
 
   return (
@@ -52,7 +50,7 @@ const CreateAlbum: React.FC = () => {
         <form onSubmit={handleSubmit} className='py-6 sm:py-10'>
           <div className='border border-gray-300 bg-white p-4 sm:p-6 rounded-xl shadow-sm pb-10'>
             <h2 className='text-lg sm:text-2xl font-semibold text-gray-900 py-4 sm:py-10'>
-            Datos del Album
+              Datos del Album
             </h2>
 
             <AlbumFormFields

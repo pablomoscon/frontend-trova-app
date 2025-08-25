@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlbumCardProps } from '../../../Interfaces/AlbumInterface';
-import AlbumPlatformLinks from '../../shared/AlbumPlatformLinks';
+import AlbumPlatformLinks from '../../Shared/AlbumPlatformLinks';
 
 const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => (
   <div className='w-full border border-gray-300 p-4 rounded shadow flex flex-col items-center justify-between min-h-[380px] sm:min-h-[400px]'>
@@ -35,6 +35,5 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => (
     />
   </div>
 );
-
 
 export default AlbumCard;

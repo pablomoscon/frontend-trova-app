@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import InputField from '../../shared/inputs/InputField';
+import InputField from '../../Shared/inputs/InputField';
 import useSignIn from '../../../hooks/auth/useSignIn';
-import SubmitButton from '../../shared/SubmitButton';
+import SubmitButton from '../../Shared/SubmitButton';
 
 const SignInForm: React.FC = () => {
   const [username, setUsername] = useState('');

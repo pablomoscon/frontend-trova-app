@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Spinner from '../../shared/Spinner';
-import PaginationControls from '../../shared/PaginationControls';
+import Spinner from '../../Shared/Spinner';
+import PaginationControls from '../../Shared/PaginationControls';
 import { useFetchArtistsWithAlbums } from '../../../hooks/artist/useFetchArtistsWithAlbums';
 import AlbumDetailsModal from './AlbumDetailsModal';
 import ImageModal from './ImageModal';
@@ -56,8 +56,7 @@ const DashboardAlbumDetails: React.FC<{ pageSize?: number }> = ({
           page={page}
           totalPages={totalPages}
           setPage={setPage}
-          onPageChangeComplete={() => {
-          }}
+          onPageChangeComplete={() => {}}
         />
       )}
 

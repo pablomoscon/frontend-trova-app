@@ -1,7 +1,7 @@
 import React from 'react';
 import { createArtist } from '../../../services/artistService';
-import Spinner from '../../shared/Spinner';
-import LoadingDots from '../../shared/LoadingDots';
+import Spinner from '../../Shared/Spinner';
+import LoadingDots from '../../Shared/LoadingDots';
 import ArtistFormFields from '../ArtistForms/ArtistFormFields';
 import { useCreateArtist } from '../../../hooks/artist/useCreateArtist';
 import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
@@ -43,9 +43,7 @@ const CreateArtist: React.FC = () => {
   };
 
   if (loading) {
-    return (
-        <Spinner />
-    );
+    return <Spinner />;
   }
 
   if (error) {

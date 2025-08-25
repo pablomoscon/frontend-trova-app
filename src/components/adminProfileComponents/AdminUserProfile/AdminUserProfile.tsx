@@ -2,7 +2,7 @@ import React from 'react';
 import AdminStats from './AdminStats';
 import { useAuthContext } from '../../../hooks/auth/useAuthContext';
 import AdminDetails from './AdminDetails';
-import Spinner from '../../shared/Spinner';
+import Spinner from '../../Shared/Spinner';
 import { useFetchUserById } from '../../../hooks/user/useFetchUserById';
 import { UserCog2 } from 'lucide-react';
 
@@ -18,10 +18,7 @@ const AdminUserProfile: React.FC = () => {
       </div>
     );
 
-  if (loading)
-    return (
-        <Spinner />
-    );
+  if (loading) return <Spinner />;
 
   if (!user)
     return (

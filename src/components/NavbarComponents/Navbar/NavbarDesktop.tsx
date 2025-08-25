@@ -2,7 +2,7 @@ import React from 'react';
 import NavbarLinks from './NavbarLinks';
 import NavbarUserMenu from '../NavbarUserMenu/NavbarUserMenu';
 import NavbarSearchToggle from './NavbarSearchToggle';
-import SearchInput from '../../shared/SearchInput';
+import SearchInput from '../../Shared/SearchInput';
 import { NavbarDesktopProps } from '../../../Interfaces/NavbarInterface';
 
 const NavbarDesktop: React.FC<

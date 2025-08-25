@@ -1,6 +1,6 @@
 // src/components/user/UserEditModal.tsx
 import React, { useRef } from 'react';
-import Spinner from '../../shared/Spinner';
+import Spinner from '../../Shared/Spinner';
 import { EditUserProps } from '../../../Interfaces/UserInterface';
 import { useEditUser } from '../../../hooks/user/useEditUser';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
@@ -11,13 +11,11 @@ const UserEditModal: React.FC<EditUserProps> = ({ userId, onClose }) => {
     onClose
   );
   const panelRef = useRef<HTMLDivElement>(null);
-useCloseOnOutside(panelRef, onClose);
+  useCloseOnOutside(panelRef, onClose);
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-20'>
-      {isLoading && (
-          <Spinner />
-      )}
+      {isLoading && <Spinner />}
 
       {/* ▼ Inner panel – clicking outside this ref triggers onClose */}
       <div

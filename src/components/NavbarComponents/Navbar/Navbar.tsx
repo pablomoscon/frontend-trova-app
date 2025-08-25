@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { useAuthContext } from '../../../hooks/auth/useAuthContext';
+import { useAuthContext } from '../../../hooks/auth/useAuthContext.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
-import NavbarLogo from './NavbarLogo';
-import NavbarDesktop from './NavbarDesktop';
-import NavbarMobileIcons from './NavbarMobileIcons';
-import NavbarMobileNav from './NavbarMobileNav';
-import NavbarMobileUserMenu from '../NavbarUserMenu/NavbarMobileUserMenu';
+import NavbarLogo from './NavbarLogo.tsx';
+import NavbarDesktop from './NavbarDesktop.tsx';
+import NavbarMobileIcons from './NavbarMobileIcons.tsx';
+import NavbarMobileNav from './NavbarMobileNav.tsx';
+import NavbarMobileUserMenu from '../NavbarUserMenu/NavbarMobileUserMenu.tsx';
 import { useNavbarEffects } from '../../../hooks/navbar/useNavbarEffects.ts';
 
 const Navbar: React.FC = () => {

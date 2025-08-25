@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import AlbumFormFields from '../../albumComponents/AlbumFormFields/AlbumFormFields';
+import AlbumFormFields from '../../AlbumComponents/AlbumFormFields/AlbumFormFields';
 import { useEditAlbum } from '../../../hooks/album/useEditAlbum';
 import { EditAlbumProps } from '../../../Interfaces/AlbumInterface';
-import Spinner from '../../shared/Spinner';
+import Spinner from '../../Shared/Spinner';
 import EditAlbumSongsModal from './EditAlbumSongsModal/EditAlbumSongsModal';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
 
@@ -30,9 +30,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-6 sm:p-10'>
-      {loading && (
-          <Spinner />
-      )}
+      {loading && <Spinner />}
       <div
         ref={modalRef}
         className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-3xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative my-6'

@@ -1,8 +1,8 @@
-// components/AdminStats/AdminStats.tsx
 import React from 'react';
 import { AdminStatsProps } from '../../../Interfaces/AdminProfileInterface';
 import { formatDate } from '../../../utils/formatDateUtils';
 import StatCard from './StatCard';
+
 
 const AdminStats: React.FC<AdminStatsProps> = ({ stats }) => {
   const statsList = [

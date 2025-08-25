@@ -1,9 +1,9 @@
 import React from 'react';
-import HeroSection from '../../components/homeComponents/HeroSection';
-import CatalogueSection from '../../components/homeComponents/CatalogueSection';
-import PlatformsSection from '../../components/homeComponents/PlatformsSection';
-import AboutSection from '../../components/homeComponents/AboutSection';
-import PlaylistSection from '../../components/homeComponents/PlaylistSection';
+import HeroSection from '../../components/HomeComponents/HeroSection';
+import CatalogueSection from '../../components/HomeComponents/CatalogueSection';
+import PlatformsSection from '../../components/HomeComponents/PlatformsSection';
+import AboutSection from '../../components/HomeComponents/AboutSection';
+import PlaylistSection from '../../components/HomeComponents/PlaylistSection';
 
 const HomeView: React.FC = () => (
   <>

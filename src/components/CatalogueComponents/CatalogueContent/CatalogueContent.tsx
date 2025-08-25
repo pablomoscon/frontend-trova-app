@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Spinner from '../../shared/Spinner';
-import AlbumList from '../../albumComponents/AlbumList/AlbumList';
+import Spinner from '../../Shared/Spinner';
+import AlbumList from '../../AlbumComponents/AlbumList/AlbumList';
 import CatalogueFilterSidebar from '../CatalogueFilterSidebar/CatalogueFilterSidebar';
 import CatalogueMobileFilterDialog from '../CatalogueMobileFilterDialog/CatalogueMobileFilterDialog';
 import CatalogueHeader from '../CatalogueHeader/CatalogueHeader';
 import { useFilteredAlbums } from '../../../hooks/album/useFilteredAlbums';
-import AlbumSongsModal from '../../albumComponents/AlbumCard/AlbumSongsModal';
+import AlbumSongsModal from '../../AlbumComponents/AlbumCard/AlbumSongsModal';
 import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 
@@ -14,20 +14,20 @@ const CatalogueContent: React.FC = () => {
   const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { page, setPage } = usePageAndSearch('cataloguePage'); 
+  const { page, setPage } = usePageAndSearch('cataloguePage');
 
-const {
-  albums,
-  filters,
-  selectedFilters,
-  setSelectedFilters,
-  isLoading,
-  totalPages,
-  pageSize,
-  setPageSize,
-  sortOrder,
-  setSortOrder,
-} = useFilteredAlbums(9, page, setPage);
+  const {
+    albums,
+    filters,
+    selectedFilters,
+    setSelectedFilters,
+    isLoading,
+    totalPages,
+    pageSize,
+    setPageSize,
+    sortOrder,
+    setSortOrder,
+  } = useFilteredAlbums(9, page, setPage);
 
   const { album: selectedAlbum, isLoading: isAlbumLoading } =
     useFetchAlbumById(selectedAlbumId);
@@ -48,9 +48,7 @@ const {
   };
 
   if (isLoading) {
-    return (
-        <Spinner />
-    );
+    return <Spinner />;
   }
 
   return (
@@ -66,7 +64,7 @@ const {
         onMobileFiltersOpen={() => setMobileFiltersOpen(true)}
         sortOrder={sortOrder}
         setSortOrder={(newSort) => {
-          setSortOrder(newSort); 
+          setSortOrder(newSort);
           setPage(1);
         }}
       />

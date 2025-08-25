@@ -1,12 +1,11 @@
 import React from 'react';
-import Spinner from '../../shared/Spinner';
+import Spinner from '../../Shared/Spinner';
 import { useFetchSummaryArtists } from '../../../hooks/album/useFetchSummaryArtist';
 import ArtistCardWithAlbums from './ArtistCardWithAlbums';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
-import PaginationControls from '../../shared/PaginationControls';
+import PaginationControls from '../../Shared/PaginationControls';
 
 const DashboardArtistDetails: React.FC = () => {
-
   const { page, setPage } = usePageAndSearch('artistPage');
   const pageSize = 6;
   const { artists, totalPages, isLoading, error } = useFetchSummaryArtists(

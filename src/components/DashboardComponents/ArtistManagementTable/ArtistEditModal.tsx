@@ -3,10 +3,9 @@ import { ArtistEditModalProps } from '../../../Interfaces/ArtistInterface';
 import { useDetailsArtist } from '../../../hooks/artist/useDetailsArtist';
 import { useEditArtist } from '../../../hooks/artist/useEditArtist';
 
-import ImageFileUpload from '../../shared/inputs/ImageFileUpload';
-import Spinner from '../../shared/Spinner';
+import ImageFileUpload from '../../Shared/inputs/ImageFileUpload';
+import Spinner from '../../Shared/Spinner';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
-
 
 const ArtistEditModal: React.FC<
   ArtistEditModalProps & { onSaveSuccess: () => void }
@@ -83,10 +82,7 @@ const ArtistEditModal: React.FC<
     }
   };
 
-  if (loadingArtist)
-    return (
-        <Spinner />
-    );
+  if (loadingArtist) return <Spinner />;
 
   if (errorLoadingArtist)
     return <div className='modal text-red-600'>{errorLoadingArtist}</div>;
