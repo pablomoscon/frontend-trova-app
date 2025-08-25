@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/components/catalogueComponents/CatalogueFilterSidebar/CatalogueFilterSidebar.tsx"]
+  "include": ["src/**/*"]
 }
