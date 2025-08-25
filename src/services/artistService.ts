@@ -30,13 +30,15 @@ export const fetchArtistsSummary = async (
   size: number,
   status?: string
 ): Promise<ArtistsData> => {
-  const params: any = { page, size };
+  const params: { page: number; size: number; status?: string } = { page, size };
   if (status) {
     params.status = status;
   }
+
   const { data } = await axiosInstance.get<ArtistsData>('/artist/summary', { params });
   return data;
 };
+
 
 export const searchArtists = async (
   term: string,
