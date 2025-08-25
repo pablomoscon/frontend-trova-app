@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Album, AlbumsData } from '../../Interfaces/AlbumInterface';
+import { Album, AlbumsByArtistResponse } from '../../Interfaces/AlbumInterface';
 import { fetchAlbumsByArtist } from '../../services/albumService';
 
 export const useFetchAlbumsByArtist = (
@@ -29,11 +29,11 @@ export const useFetchAlbumsByArtist = (
 
     useEffect(() => {
         if (artistId === null) return;
-        if (!pageSizeReady) return; // espera a tener pageSize calculado
+        if (!pageSizeReady) return; 
 
         setLoading(true);
         fetchAlbumsByArtist(artistId, page - 1, pageSize, sortOrder)
-            .then((data: AlbumsData) => {
+            .then((data: AlbumsByArtistResponse) => {
                 setAlbums(data.albums);
                 setTotalPages(data.totalPages);
                 setError(null);

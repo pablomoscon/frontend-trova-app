@@ -4,9 +4,11 @@
 
 @font-face {
   font-family: 'Annexxus';
-  src: url('/Fonts/annexxus/Annexxus_Demo.ttf') format('truetype');
+  src: url('/Fonts/annexxus/Annexxus-Regular.woff2') format('woff2'),
+    url('/Fonts/annexxus/Annexxus-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 .font-annexxus {

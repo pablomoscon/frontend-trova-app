@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { Artist } from '../../Interfaces/ArtistInterface';
 import { useDeleteArtist } from './useDeleteArtist';
 import { useSearchArtists } from './useSearchArtists';
 import { useFetchArtists } from './useFetchArtists';
-import { useEditArtist } from './useEditArtist';
-import { showSuccessAlert, showErrorAlert } from '../../utils/showAlertUtils';
+import { useToggleArtistStatus } from './useToggleArtistStatus';
+import { showErrorAlert } from '../../utils/showAlertUtils';
 import { useScroll } from '../shared/useScroll';
 import { usePageAndSearch } from '../shared/usePageAndSearch';
 
@@ -39,38 +38,25 @@ export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage
     isLoading: loadingSearch,
     error: errorSearch,
     totalPages: totalPagesSearch,
-    refresh: refreshSearch,
+    reloadSearch: reloadhSearch,
   } = useSearchArtists(searchTerm, page, pageSize);
 
   const artists = searching ? searchArtistsList : backendArtists;
   const isLoading = searching ? loadingSearch : loadingBackend;
   const error = searching ? errorSearch : errorBackend;
   const totalPages = searching ? totalPagesSearch : totalPagesBackend;
-  
+
   useEffect(() => {
     if (!isLoading && totalPages > 0 && page > totalPages) {
-      if (page !== totalPages) {
-        setPage(totalPages);
-      }
+      setPage(totalPages);
     }
-  }, [isLoading, page, totalPages, setPage]);
+  }, [isLoading, page, totalPages]);
 
-  const { handleDelete } = useDeleteArtist(searching ? refreshSearch : reloadArtists);
-  const { updateArtist } = useEditArtist();
+  const { handleDelete } = useDeleteArtist(searching ? reloadhSearch : reloadArtists);
 
-  const toggleStatus = async (artist: Artist) => {
-    const newStatus = artist.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
-    try {
-      const formData = new FormData();
-      formData.append('status', newStatus);
-
-      await updateArtist(artist.id!, formData);
-      showSuccessAlert('Estado actualizado', `El artista fue ${newStatus === 'SUSPENDED' ? 'Suspendido' : 'Activado'}.`);
-      searching ? refreshSearch() : reloadArtists();
-    } catch (err: any) {
-      showErrorAlert('Error', err?.response?.data?.message || 'No se pudo cambiar el estado');
-    }
-  };
+  const { toggleStatus } = useToggleArtistStatus(
+    searching ? reloadhSearch : reloadArtists
+  );
 
   const [selectedArtistId, setSelectedArtistId] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -83,7 +69,7 @@ export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage
   const closeEditModal = () => {
     setSelectedArtistId(null);
     setShowModal(false);
-    searching ? refreshSearch() : reloadArtists();
+    searching ? reloadhSearch() : reloadArtists();
   };
 
   const onPageSizeChange = (sz: number) => {
@@ -123,7 +109,7 @@ export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage
     selectedArtistId,
     openEditModal,
     closeEditModal,
-    reload: searching ? refreshSearch : reloadArtists,
+    reload: searching ? reloadhSearch : reloadArtists,
     scrollRef,
     page,
     setPage,

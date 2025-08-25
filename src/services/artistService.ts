@@ -6,11 +6,14 @@ const baseURL = import.meta.env.VITE_API_BASE_URL
 
 export const fetchArtists = async (
   page: number,
-  size: number
+  size: number,
+  status?: string
 ): Promise<ArtistsData> => {
-  const { data } = await axios.get<ArtistsData>(`${baseURL}/artist`, {
-    params: { page, size },
-  });
+  const params: any = { page, size };
+  if (status) {
+    params.status = status;
+  }
+  const { data } = await axios.get<ArtistsData>(`${baseURL}/artist`, { params });
   return data;
 };
 
@@ -20,6 +23,19 @@ export const fetchArtistById = async (id: number): Promise<Artist> => {
     { withCredentials: true }
   );
   return response.data;
+};
+
+export const fetchArtistsSummary = async (
+  page: number,
+  size: number,
+  status?: string
+): Promise<ArtistsData> => {
+  const params: any = { page, size };
+  if (status) {
+    params.status = status;
+  }
+  const { data } = await axiosInstance.get<ArtistsData>('/artist/summary', { params });
+  return data;
 };
 
 export const searchArtists = async (

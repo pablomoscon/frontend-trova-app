@@ -15,7 +15,7 @@ const AlbumList: React.FC<AlbumListProps> = ({
 }) => {
   const listTopRef = useRef<HTMLDivElement>(null);
   const offset = window.innerWidth < 640 ? 190 : 180;
-  const [shouldScroll, setShouldScroll] = useState(false);
+  const [shouldScroll, setShouldScroll] = useState(true);
 
   useScroll(shouldScroll ? listTopRef : null, {
     deps: [page],

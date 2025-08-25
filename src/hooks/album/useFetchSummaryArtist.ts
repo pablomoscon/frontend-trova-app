@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Artist, ArtistsData } from '../../Interfaces/ArtistInterface';
-import { fetchArtists } from '../../services/artistService';
+import { fetchArtistsSummary } from '../../services/artistService';
 
-export const useFetchArtists = (page: number, size: number, status?: string) => {
+export const useFetchSummaryArtists = (page: number, size: number, status?: string) => {
     const [artists, setArtists] = useState<Artist[]>([]);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState(0);
@@ -12,10 +12,10 @@ export const useFetchArtists = (page: number, size: number, status?: string) => 
     const loadArtists = useCallback(async () => {
         setIsLoading(true);
         try {
-            const res: ArtistsData = await fetchArtists(page, size, status); // 👈 pasamos status si existe
+            const res: ArtistsData = await fetchArtistsSummary(page, size, status);
             const artistList = res.content || [];
 
-         // Show artists immediately
+            // Show artists immediately
             setArtists(artistList);
             setTotalPages(Math.max(1, res.totalPages));
             setCurrentPage(res.number ?? 0);

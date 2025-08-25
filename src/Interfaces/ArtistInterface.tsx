@@ -1,5 +1,6 @@
 import { Album } from './AlbumInterface';
-import { SortOption } from './SharedInterface';
+
+export type ArtistStatus = 'ACTIVE' | 'SUSPENDED';
 
 export interface Artist {
   id?: number;
@@ -9,7 +10,8 @@ export interface Artist {
   photo: string;
   albums?: Album[];
   createdAt: Date;
-  status?: 'ACTIVE' | 'SUSPENDED';
+  status?: ArtistStatus;
+  totalAlbums?: number;
 }
 export interface ArtistSelectProps {
   artistId: number;
@@ -23,6 +25,7 @@ export interface ArtistFormData {
   nationality: string;
   details: string;
   photo: File | undefined;
+  status?: ArtistStatus;
 }
 export interface ArtistProps {
   artistId: number;
@@ -54,19 +57,19 @@ export interface ArtistEditModalProps {
   onClose: () => void;
   onSaveSuccess: () => void;
 }
-export interface ArtistAlbumSectionProps {
-  artistName: string;
+export interface ArtistAlbumSectionProps<T extends string> {
   albums: Album[];
-  onAlbumClick: (albumId: number) => void;
+  onAlbumClick: (id: number) => void;
   page: number;
   totalPages: number;
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (size: number) => void;
-  sortOptions: SortOption[];
-  selectedSort: 'asc' | 'desc';
-  setSelectedSort: (value: 'asc' | 'desc') => void;
+  sortOptions: { name: string; value: T }[];
+  selectedSort: T;
+  setSelectedSort: (value: T) => void;
   albumsLoading: boolean;
+  artistName?: string;
 }
 
 export interface ArtistEditModalProps {
@@ -87,7 +90,6 @@ export interface ArtistDetailsModalProps {
   artist: Artist;
   onClose: () => void;
 }
-
 
 export interface ArtistInputProps {
   artistName: string;

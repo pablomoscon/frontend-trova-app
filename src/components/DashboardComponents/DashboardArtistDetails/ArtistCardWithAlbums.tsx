@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { ArtistObjectProps } from '../../../Interfaces/ArtistInterface';
-import { useFetchAlbumsByArtist } from '../../../hooks/album/useFetchAlbumsByArtist';
 import ArtistDetailsModal from './ArtistDetailsModal';
 
 const ArtistCardWithAlbums: React.FC<ArtistObjectProps> = ({ artist }) => {
-  const { albums, loading } = useFetchAlbumsByArtist(artist.id || null, 1);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -36,7 +34,7 @@ const ArtistCardWithAlbums: React.FC<ArtistObjectProps> = ({ artist }) => {
         <div className='flex justify-between w-full text-xs text-gray-700 mt-auto'>
           <div className='flex flex-col items-center flex-1'>
             <span>Álbums</span>
-            <span className='font-bold'>{loading ? '...' : albums.length}</span>
+            <span className='font-bold'>{artist.totalAlbums}</span>
           </div>
           <div className='flex flex-col items-center flex-1'>
             <span>Estado</span>

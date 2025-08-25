@@ -4,10 +4,10 @@ import ContactForm from '../../components/contactComponents/ContactForm/ContactF
 import ContactInfo from '../../components/contactComponents/ContactInfo/ContactInfo';
 
 const ContactView: React.FC = () => (
-  <div className='bg-[#E5E6E4] py-32 sm:py-16 lg:px-4 flex justify-center'>
-    <div className='mx-auto w-full grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4 py-20'>
+  <div className='bg-[#E5E6E4] py-32 sm:py-16 lg:px-12 flex justify-center'>
+    <div className='mx-auto w-full grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4 py-20 '>
       {/* Left side: ContactInfo */}
-      <div className='w-full border-e border-gray-300 shadow p-6'>
+      <div className='w-full border-r-2 border-gray-300 shadow-sm px-6 py-4'>
         <ContactInfo />
       </div>
 

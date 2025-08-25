@@ -43,15 +43,14 @@ export interface useScrollOptions {
   offset?: number;
   enabled?: boolean;
 }
-
-export interface SortOption {
+export interface SortOption<T extends string> {
   name: string;
-  value: string;
+  value: T;
 }
-export interface SortMenuProps {
-  sortOptions: SortOption[];
-  selectedSort: 'asc' | 'desc' | ''; 
-  setSelectedSort: (value: 'asc' | 'desc' | '') => void;
+export interface SortMenuProps<T extends string> {
+  sortOptions: { name: string; value: T }[];
+  selectedSort: T;
+  setSelectedSort: (value: T) => void;
 }
 
 export type ScrollTarget =
