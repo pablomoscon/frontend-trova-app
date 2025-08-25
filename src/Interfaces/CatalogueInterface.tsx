@@ -1,3 +1,4 @@
+export type CatalogueSort = 'asc' | 'desc' | 'artist';
 export interface FilterOption {
   label: string;
   value: string;
@@ -27,7 +28,6 @@ export interface FilterSectionProps {
   onCheckboxChange: (value: string) => void;
 }
 
-
 export interface FilterSidebarProps {
   filters: FilterSection[];
   selectedFilters: Record<string, string[]>;
@@ -38,6 +38,6 @@ export interface FilterSidebarProps {
 
 export interface CatalogueHeaderProps {
   onMobileFiltersOpen: () => void;
-  sortOrder: 'asc' | 'desc' | '';
-  setSortOrder: (order: 'asc' | 'desc' | '') => void;
+  sortOrder: 'asc' | 'desc' | 'artist' | '';
+  setSortOrder: (order: 'asc' | 'desc' | 'artist' | '') => void;
 }

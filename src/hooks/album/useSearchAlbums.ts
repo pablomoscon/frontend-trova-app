@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Album, SearchAlbumsProps } from '../../Interfaces/AlbumInterface';
+import { Album, SearchAlbumsProps, Status } from '../../Interfaces/AlbumInterface';
 import { searchAlbums } from '../../services/albumService';
 import { showErrorAlert } from '../../utils/showAlertUtils';
 
@@ -7,7 +7,9 @@ export const useSearchAlbums = (
     query: string,
     page: number,
     pageSize: number,
-    autoFetch = false
+    autoFetch = false,
+    status?: Status
+
 ): SearchAlbumsProps => {
     const [albums, setAlbums] = useState<Album[]>([]);
     const [totalPages, setTotalPages] = useState(0);
@@ -28,7 +30,7 @@ export const useSearchAlbums = (
         setIsLoading(true);
         try {
             const safePage = Math.max(0, page);
-            const res = await searchAlbums(query.trim(), safePage, pageSize);
+            const res = await searchAlbums(query.trim(), safePage, pageSize, status);
             setAlbums(res.albums);
             setTotalPages(Math.max(1, res.totalPages));
             setCurrentPage(res.currentPage ?? 0);
@@ -43,7 +45,7 @@ export const useSearchAlbums = (
         } finally {
             setIsLoading(false);
         }
-    }, [query, page, pageSize]);
+    }, [query, page, pageSize, status]);
 
     useEffect(() => {
         if (autoFetch) {

@@ -1,49 +1,48 @@
-import React from 'react';
+import { JSX } from 'react';
 import AlbumList from '../../albumComponents/AlbumList/AlbumList';
 import SortMenu from '../../shared/SortMenu';
 import { ArtistAlbumSectionProps } from '../../../Interfaces/ArtistInterface';
 
-const ArtistAlbumsSection: React.FC<ArtistAlbumSectionProps> = ({
-  albums,
-  onAlbumClick,
-  page,
-  totalPages,
-  setPage,
-  pageSize,
-  setPageSize,
-  sortOptions,
-  selectedSort,
-  setSelectedSort,
-  albumsLoading
-}) => {
-  const handleSetSortOrder = (value: '' | 'asc' | 'desc') => {
-    if (value === 'asc' || value === 'desc') {
-      setSelectedSort(value);
-    }
-  };
+const ArtistAlbumsSection = <T extends string>(
+  props: ArtistAlbumSectionProps<T>
+): JSX.Element => {
+  const {
+    albums,
+    onAlbumClick,
+    page,
+    totalPages,
+    setPage,
+    pageSize,
+    setPageSize,
+    sortOptions,
+    selectedSort,
+    setSelectedSort,
+    albumsLoading,
+  } = props;
 
   return (
-      <div className='mx-auto max-w-full sm:max-w-5xl px-4 sm:px-8 pb-35'>
-        <div className='flex justify-end '>
-          <div className='flex items-center '>
-            <SortMenu
-              sortOptions={sortOptions}
-              selectedSort={selectedSort}
-              setSelectedSort={handleSetSortOrder}
-            />
-          </div>
+    <div className='mx-auto max-w-full sm:max-w-5xl px-4 sm:px-8 pb-35'>
+      <div className='flex justify-end'>
+        <div className='flex items-center'>
+          <SortMenu<T>
+            sortOptions={sortOptions}
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+          />
         </div>
-        <AlbumList
-          albums={albums}
-          onClick={onAlbumClick}
-          page={page}
-          totalPages={totalPages}
-          setPage={setPage}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          albumsLoading={albumsLoading}
-        />
       </div>
+
+      <AlbumList
+        albums={albums}
+        onClick={onAlbumClick}
+        page={page}
+        totalPages={totalPages}
+        setPage={setPage}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        albumsLoading={albumsLoading}
+      />
+    </div>
   );
 };
 

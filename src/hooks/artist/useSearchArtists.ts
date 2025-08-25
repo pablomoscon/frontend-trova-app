@@ -35,7 +35,7 @@ export const useSearchArtists = (term: string, page: number, size: number) => {
         fetchData();
     }, [term, page, size]);
     
-    const refresh = async () => {
+    const reloadSearch = async () => {
         if (term.trim() === '') return;
         setIsLoading(true);
         try {
@@ -52,5 +52,5 @@ export const useSearchArtists = (term: string, page: number, size: number) => {
         }
     };
 
-    return { artists, totalPages, isLoading, error, refresh };
+    return { artists, totalPages, isLoading, error, reloadSearch };
 };

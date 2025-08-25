@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { Album, AlbumFilterParams, AlbumFilterResponse, AlbumFormData, AlbumsData } from '../Interfaces/AlbumInterface';
+import { Album, AlbumFilterParams, AlbumFilterResponse, AlbumFormData, AlbumsByArtistResponse, AlbumsData, Status } from '../Interfaces/AlbumInterface';
 import axiosInstance from '../api/axiosInstance';
 import { Song } from '../Interfaces/SongInterface';
 
@@ -28,7 +28,7 @@ export const fetchAlbumsByArtist = async (
   page: number,
   size: number,
   sortOrder: 'asc' | 'desc' = 'asc'
-) => {
+): Promise<AlbumsByArtistResponse> => {
   const response = await fetch(
     `${baseURL}/albums/by-artist/${artistId}?page=${page}&size=${size}&sort=${sortOrder}`
   );
@@ -58,20 +58,22 @@ export async function fetchFilteredAlbums(params: AlbumFilterParams): Promise<Al
 export const searchAlbums = async (
   query: string,
   page: number,
-  size: number
+  size: number,
+  status?: Status
 ): Promise<AlbumsData> => {
-  if (query.trim() === '') {
-    return {
-      albums: [],
-      totalPages: 0,
-      totalElements: 0,
-      currentPage: 0,
-    };
+  if (!query.trim()) {
+    return { albums: [], totalPages: 0, totalElements: 0, currentPage: 0 };
   }
 
-  const { data } = await axiosInstance.get<AlbumsData>(`/albums/search`, {
-    params: { q: query, page: page, size },
+  const { data } = await axiosInstance.get<AlbumsData>('/albums/search', {
+    params: {
+      q: query.trim(),
+      page,
+      size,
+      ...(status && { status }),
+    },
   });
+
   return data;
 };
 

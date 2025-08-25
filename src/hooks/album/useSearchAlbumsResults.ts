@@ -28,7 +28,8 @@ export const useSearchAlbumsResults = (
         searchTerm,
         page - 1,
         pageSize,
-        hasSearched
+        hasSearched,
+        'ACTIVE'
     );
 
     useEffect(() => {

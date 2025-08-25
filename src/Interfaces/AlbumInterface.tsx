@@ -102,6 +102,13 @@ export interface AlbumFormFieldsProps
   isEditMode: boolean;
 }
 
+export interface AlbumsByArtistResponse {
+  albums: Album[];
+  totalAlbums: number;
+  currentPage: number;
+  totalPages: number;
+}
+
 export interface AlbumImageFileUploadProps extends FileUploadProps {
   selectedFileName: string;
   setSelectedFileName: (name: string) => void;

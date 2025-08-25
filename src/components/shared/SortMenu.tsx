@@ -1,13 +1,12 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import React from 'react';
 import { SortMenuProps } from '../../Interfaces/SharedInterface';
 
-const SortMenu: React.FC<SortMenuProps> = ({
+const SortMenu = <T extends string>({
   sortOptions,
   selectedSort,
   setSelectedSort,
-}) => {
+}: SortMenuProps<T>) => {
   const current = sortOptions.find((option) => option.value === selectedSort);
 
   return (
@@ -28,9 +27,7 @@ const SortMenu: React.FC<SortMenuProps> = ({
             <MenuItem key={option.value}>
               {({ disabled }) => (
                 <button
-                  onClick={() =>
-                    setSelectedSort(option.value as 'asc' | 'desc')
-                  }
+                  onClick={() => setSelectedSort(option.value)}
                   className={`${
                     disabled ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
                   } block w-full px-4 py-2 text-sm text-left`}
@@ -47,3 +44,4 @@ const SortMenu: React.FC<SortMenuProps> = ({
 };
 
 export default SortMenu;
+

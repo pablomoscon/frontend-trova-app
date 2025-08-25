@@ -12,7 +12,8 @@ const ArtistList: React.FC = () => {
 
   const { artists, totalPages, isLoading, error } = useFetchArtists(
     page - 1,
-    pageSize
+    pageSize,
+    'ACTIVE'
   );
 
   const topRef = useRef<HTMLDivElement>(null);
@@ -48,7 +49,7 @@ const ArtistList: React.FC = () => {
                   to={`/artistas/${artist.id}`}
                   className='group flex flex-col items-center text-center hover:scale-[1.02] transition-transform duration-300'
                 >
-                  <div className='relative w-48 h-48 rounded-full overflow-hidden shadow-lg border border-gray-200 bg-white'>
+                  <div className='relative w-48 h-48 rounded-full overflow-hidden shadow-lg border border-gray-200'>
                     <img
                       src={artist.photo}
                       alt={artist.name}

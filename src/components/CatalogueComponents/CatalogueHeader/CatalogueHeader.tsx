@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FunnelIcon } from '@heroicons/react/20/solid';
-import { CatalogueHeaderProps } from '../../../Interfaces/CatalogueInterface';
+import { CatalogueHeaderProps, CatalogueSort } from '../../../Interfaces/CatalogueInterface';
 import SortMenu from '../../shared/SortMenu';
+import { SortOption } from '../../../Interfaces/SharedInterface';
 
-const sortOptions = [
+const sortOptions: SortOption<CatalogueSort>[] = [
+  { name: 'Por artista (A-Z)', value: 'artist' },
   { name: 'Más reciente', value: 'desc' },
   { name: 'Más antiguo', value: 'asc' },
 ];
 
 const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
   onMobileFiltersOpen,
-  sortOrder,
-  setSortOrder,
 }) => {
+  const [sortOrder, setSortOrder] = useState<CatalogueSort>('artist');
+
   return (
     <div className='border-b border-neutral-200 px-4 sm:px-6 pt-30'>
-      <h2 className='text-center text-3xl sm:text-4xl  font-semibold tracking-tight text-neutral-800'>
+      <h2 className='text-center text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-800'>
         Conocé nuestra colección
       </h2>
       <p className='mt-2 sm:mt-3 text-center text-sm sm:text-base text-neutral-500 max-w-xl mx-auto'>

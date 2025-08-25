@@ -1,7 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import HomeView from '../views/HomeView/HomeView';
-import SignInView from '../views/SignInView/SignInVIew';
 import CatalogueView from '../views/CatalogueView/CatalogueView';
 import ArtistList from '../components/artistComponents/ArtistList/ArtistsList';
 import ArtistView from '../views/ArtistView/ArtistView';
@@ -22,6 +21,7 @@ import { useScroll } from '../hooks/shared/useScroll';
 import { useClearSessionStorageOnRouteChange } from '../hooks/shared/useClearPaginationOnRouteChange';
 import SignUpForm from '../components/userComponents/CreateUserForm/CreateUserForm';
 import SearchResultsView from '../views/SearchResultsView/SearchResultsView';
+import SignInView from '../views/SignInView/SignInView';
 
 const AppRouter: React.FC = () => {
   const location = useLocation();

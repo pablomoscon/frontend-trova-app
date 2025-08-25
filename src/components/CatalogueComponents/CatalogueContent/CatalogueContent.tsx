@@ -65,7 +65,10 @@ const {
       <CatalogueHeader
         onMobileFiltersOpen={() => setMobileFiltersOpen(true)}
         sortOrder={sortOrder}
-        setSortOrder={setSortOrder}
+        setSortOrder={(newSort) => {
+          setSortOrder(newSort); 
+          setPage(1);
+        }}
       />
       <section
         aria-labelledby='albums-heading'

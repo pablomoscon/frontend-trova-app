@@ -8,9 +8,9 @@ import { useFetchAlbumsByArtist } from '../../../hooks/album/useFetchAlbumsByArt
 import { Album } from '../../../Interfaces/AlbumInterface';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 
-const sortOptions = [
-  { name: 'Más reciente', value: 'desc' },
+const artistSortOptions: { name: string; value: 'asc' | 'desc' }[] = [
   { name: 'Más antiguo', value: 'asc' },
+  { name: 'Más reciente', value: 'desc' },
 ];
 
 const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
@@ -86,7 +86,7 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
           setPage={setPage}
           pageSize={pageSize}
           setPageSize={setPageSize}
-          sortOptions={sortOptions}
+          sortOptions={artistSortOptions}
           selectedSort={sortOrder}
           setSelectedSort={setSortOrder}
           albumsLoading={albumsLoading}

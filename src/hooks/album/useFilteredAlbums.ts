@@ -1,26 +1,21 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { fetchFilteredAlbums } from '../../services/albumService';
-import {
-  Album,
-  AlbumFilterParams,
-  AlbumsData,
-} from '../../Interfaces/AlbumInterface';
+import { Album, AlbumFilterParams, AlbumsData } from '../../Interfaces/AlbumInterface';
 import { FilterSection } from '../../Interfaces/CatalogueInterface';
 import { generateFiltersFromAlbums } from '../../utils/filterUtils';
 import { groupAlbumsByArtist } from '../../utils/groupAlbumsByArtistUtils';
 
-// Helper to build query parameters from filters, page, size, and sort order
+type SortOrder = 'asc' | 'desc' | 'artist' | '';
+
 const buildFilterParams = (
   filters: Record<string, string[]>,
   page: number,
   size: number,
-  sortOrder: 'asc' | 'desc' | ''
+  sortOrder: SortOrder
 ): AlbumFilterParams => {
   const params: AlbumFilterParams = { page: page - 1, size };
 
   if (filters.artistName?.length) params.artistName = filters.artistName;
-
-  // Expand decades into individual years
   if (filters.year?.length) {
     const expandedYears: number[] = [];
     filters.year.forEach((decadeStr) => {
@@ -32,11 +27,8 @@ const buildFilterParams = (
         }
       }
     });
-    if (expandedYears.length) {
-      params.year = expandedYears;
-    }
+    if (expandedYears.length) params.year = expandedYears;
   }
-
   if (filters.genre?.length) params.genre = filters.genre;
 
   if (sortOrder === 'asc' || sortOrder === 'desc') {
@@ -51,100 +43,72 @@ export function useFilteredAlbums(
   externalPage?: number,
   externalSetPage?: (p: number) => void
 ) {
-  // Paginated albums
   const [albums, setAlbums] = useState<Album[]>([]);
-  // Albums grouped by artist (used when no sorting is applied)
-  const [groupedAlbums, setGroupedAlbums] = useState<Record<string, Album[]>>({});
-  // All albums (used to generate filter options)
   const [allAlbums, setAllAlbums] = useState<Album[]>([]);
-
-  // Filter metadata
   const [filters, setFilters] = useState<FilterSection[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
 
-  // Internal pagination state if no external pagination control is provided
   const [internalPage, internalSetPage] = useState(1);
   const [resetPageTrigger, setResetPageTrigger] = useState(false);
 
-  const page = externalPage !== undefined ? externalPage : internalPage;
+  const page = externalPage ?? internalPage;
   const setPage = externalSetPage ?? internalSetPage;
 
   const [pageSize, setPageSize] = useState(initialSize);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
-  // Sorting and loading states
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | ''>('');
+  const SORT_KEY = 'catalogueSortOrder';
+  const [sortOrderState, setSortOrderState] = useState<SortOrder>(() => {
+    const saved = sessionStorage.getItem(SORT_KEY);
+    return saved === 'asc' || saved === 'desc' || saved === 'artist' ? saved : 'artist';
+  });
+
+  const setSortOrder = useCallback((order: SortOrder) => {
+    sessionStorage.setItem(SORT_KEY, order);
+    setSortOrderState(order);
+  }, []);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  /**
-   * Load both:
-   * 1) All albums (to build filter options)
-   * 2) Paginated albums (to display in the current page)
-   * This is done in parallel to avoid UI delays (filter sidebar appears instantly)
-   */
   const loadAlbums = useCallback(async () => {
-    if (!pageSize) return;
-
     setIsLoading(true);
     setError(null);
 
-    const pagedParams = buildFilterParams(selectedFilters, page, pageSize, sortOrder);
+    const params = buildFilterParams(selectedFilters, page, pageSize, sortOrderState);
 
     try {
-      const [allResp, pagedResp]: [AlbumsData, AlbumsData] = await Promise.all([
-        fetchFilteredAlbums({ page: 0, size: 9999 }), // Full list for filters
-        fetchFilteredAlbums(pagedParams),            // Paginated list for display
-      ]);
+      const resp: AlbumsData = await fetchFilteredAlbums(params);
 
-      // Store all albums sorted alphabetically by artist
-      const sortedAll = [...allResp.albums].sort((a, b) =>
-        (a.artistName || '').localeCompare(b.artistName || '')
-      );
-      setAllAlbums(sortedAll);
-      setFilters(generateFiltersFromAlbums(sortedAll));
-
-      // Store current page albums
-      const sortedPage = pagedResp.albums;
-      setAlbums(sortedPage);
-
-      // Group by artist only when no sorting is applied
-      if (!sortOrder) {
-        setGroupedAlbums(groupAlbumsByArtist(sortedPage));
-      } else {
-        setGroupedAlbums({ all: sortedPage });
-      }
-
-      setTotalPages(pagedResp.totalPages);
-      setTotalItems(pagedResp.totalElements);
-
+      setAlbums(resp.albums);
+      setAllAlbums(resp.albums);
+      setFilters(generateFiltersFromAlbums(resp.albums));
+      setTotalPages(resp.totalPages);
+      setTotalItems(resp.totalElements);
     } catch (err) {
       console.error('Error loading albums:', err);
       setAlbums([]);
-      setGroupedAlbums({});
       setTotalPages(1);
       setTotalItems(0);
-      setError('Error loading albums');
+      setError(err instanceof Error ? err.message : 'Error loading albums');
     } finally {
       setIsLoading(false);
     }
-  }, [page, pageSize, selectedFilters, sortOrder]);
+  }, [page, pageSize, selectedFilters, sortOrderState]);
 
-  // Reset page to 1 when the reset trigger is activated
   useEffect(() => {
     if (resetPageTrigger) {
       setPage(1);
       setResetPageTrigger(false);
-    }
-  }, [resetPageTrigger, setPage]);
-
-  // Fetch albums on mount or whenever filters, page, size, or sort change
-  useEffect(() => {
-    if (!resetPageTrigger) {
+    } else {
       loadAlbums();
     }
-  }, [loadAlbums, resetPageTrigger]);
+  }, [resetPageTrigger, loadAlbums, setPage]);
+
+  const groupedAlbums = useMemo(() => {
+    return sortOrderState === 'artist' ? groupAlbumsByArtist(albums) : { all: albums };
+  }, [albums, sortOrderState]);
 
   return {
     albums,
@@ -160,7 +124,7 @@ export function useFilteredAlbums(
     totalItems,
     pageSize,
     setPageSize,
-    sortOrder,
+    sortOrder: sortOrderState,
     setSortOrder,
     reloadAlbums: loadAlbums,
     allAlbums,
