@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { fetchFilteredAlbums } from '../../services/albumService';
+import { fetchFilteredAlbums, fetchAlbumFilters } from '../../services/albumService';
 import { Album, AlbumFilterParams, AlbumsData } from '../../Interfaces/AlbumInterface';
 import { FilterSection } from '../../Interfaces/CatalogueInterface';
-import { generateFiltersFromAlbums } from '../../utils/filterUtils';
 import { groupAlbumsByArtist } from '../../utils/groupAlbumsByArtistUtils';
 
 type SortOrder = 'asc' | 'desc' | 'artist' | '';
@@ -72,6 +71,32 @@ export function useFilteredAlbums(
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const loadFilters = useCallback(async () => {
+    try {
+      const data = await fetchAlbumFilters();
+      const sections: FilterSection[] = [
+        {
+          id: 'artistName',
+          name: 'Artista',
+          options: (data.artists || []).map((a: string) => ({ label: a, value: a })),
+        },
+        {
+          id: 'genre',
+          name: 'Género',
+          options: (data.genres || []).map((g: string) => ({ label: g, value: g })),
+        },
+        {
+          id: 'year',
+          name: 'Año',
+          options: (data.decades || []).map((d: string) => ({ label: d, value: d })),
+        },
+      ];
+      setFilters(sections);
+    } catch (err) {
+      console.error('Error loading filters:', err);
+    }
+  }, []);
+
   const loadAlbums = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -83,7 +108,6 @@ export function useFilteredAlbums(
 
       setAlbums(resp.albums);
       setAllAlbums(resp.albums);
-      setFilters(generateFiltersFromAlbums(resp.albums));
       setTotalPages(resp.totalPages);
       setTotalItems(resp.totalElements);
     } catch (err) {
@@ -96,6 +120,10 @@ export function useFilteredAlbums(
       setIsLoading(false);
     }
   }, [page, pageSize, selectedFilters, sortOrderState]);
+
+  useEffect(() => {
+    loadFilters(); 
+  }, [loadFilters]);
 
   useEffect(() => {
     if (resetPageTrigger) {

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { Album, AlbumFilterParams, AlbumFilterResponse, AlbumFormData, AlbumsByArtistResponse, AlbumsData, Status } from '../Interfaces/AlbumInterface';
+import { Album, AlbumFilterParams, AlbumFilterResponse, AlbumFiltersResponse, AlbumFormData, AlbumsByArtistResponse, AlbumsData, Status } from '../Interfaces/AlbumInterface';
 import axiosInstance from '../api/axiosInstance';
 import { Song } from '../Interfaces/SongInterface';
 
@@ -59,6 +59,11 @@ export async function fetchFilteredAlbums(params: AlbumFilterParams): Promise<Al
     },
   });
 
+  return data;
+};
+
+export const fetchAlbumFilters = async (): Promise<AlbumFiltersResponse> => {
+  const { data } = await axios.get<AlbumFiltersResponse>(`${baseURL}/albums/filters`);
   return data;
 };
 

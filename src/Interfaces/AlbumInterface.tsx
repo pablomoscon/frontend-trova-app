@@ -221,3 +221,9 @@ export interface AlbumPlatformLinksProps {
   spacing?: string;
   variant?: 'default' | 'colored';
 }
+
+export interface AlbumFiltersResponse {
+  artists: string[];
+  genres: string[];
+  decades: string[];
+};
