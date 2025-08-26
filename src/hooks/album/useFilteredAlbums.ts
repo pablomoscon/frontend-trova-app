@@ -21,18 +21,13 @@ const buildFilterParams = (
       const match = decadeStr.match(/^(\d{4})s$/);
       if (match) {
         const startYear = parseInt(match[1]);
-        for (let y = startYear; y < startYear + 10; y++) {
-          expandedYears.push(y);
-        }
+        for (let y = startYear; y < startYear + 10; y++) expandedYears.push(y);
       }
     });
     if (expandedYears.length) params.year = expandedYears;
   }
   if (filters.genre?.length) params.genre = filters.genre;
-
-  if (sortOrder === 'asc' || sortOrder === 'desc') {
-    params.sort = sortOrder;
-  }
+  if (sortOrder === 'asc' || sortOrder === 'desc') params.sort = sortOrder;
 
   return params;
 };
@@ -44,15 +39,18 @@ export function useFilteredAlbums(
 ) {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [allAlbums, setAllAlbums] = useState<Album[]>([]);
-  const [filters, setFilters] = useState<FilterSection[]>([]);
-  const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
+  const [filters, setFilters] = useState<FilterSection[]>([
+    { id: 'artistName', name: 'Artista', options: [] },
+    { id: 'genre', name: 'Género', options: [] },
+    { id: 'year', name: 'Año', options: [] },
+  ]);
 
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
   const [internalPage, internalSetPage] = useState(1);
   const [resetPageTrigger, setResetPageTrigger] = useState(false);
 
   const page = externalPage ?? internalPage;
   const setPage = externalSetPage ?? internalSetPage;
-
   const [pageSize, setPageSize] = useState(initialSize);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -62,7 +60,6 @@ export function useFilteredAlbums(
     const saved = sessionStorage.getItem(SORT_KEY);
     return saved === 'asc' || saved === 'desc' || saved === 'artist' ? saved : 'artist';
   });
-
   const setSortOrder = useCallback((order: SortOrder) => {
     sessionStorage.setItem(SORT_KEY, order);
     setSortOrderState(order);
@@ -74,24 +71,11 @@ export function useFilteredAlbums(
   const loadFilters = useCallback(async () => {
     try {
       const data = await fetchAlbumFilters();
-      const sections: FilterSection[] = [
-        {
-          id: 'artistName',
-          name: 'Artista',
-          options: (data.artists || []).map((a: string) => ({ label: a, value: a })),
-        },
-        {
-          id: 'genre',
-          name: 'Género',
-          options: (data.genres || []).map((g: string) => ({ label: g, value: g })),
-        },
-        {
-          id: 'year',
-          name: 'Año',
-          options: (data.decades || []).map((d: string) => ({ label: d, value: d })),
-        },
-      ];
-      setFilters(sections);
+      setFilters([
+        { id: 'artistName', name: 'Artista', options: (data.artists || []).map(a => ({ label: a, value: a })) },
+        { id: 'genre', name: 'Género', options: (data.genres || []).map(g => ({ label: g, value: g })) },
+        { id: 'year', name: 'Año', options: (data.decades || []).map(d => ({ label: d, value: d })) },
+      ]);
     } catch (err) {
       console.error('Error loading filters:', err);
     }
@@ -105,7 +89,6 @@ export function useFilteredAlbums(
 
     try {
       const resp: AlbumsData = await fetchFilteredAlbums(params);
-
       setAlbums(resp.albums);
       setAllAlbums(resp.albums);
       setTotalPages(resp.totalPages);
@@ -123,7 +106,8 @@ export function useFilteredAlbums(
 
   useEffect(() => {
     loadFilters(); 
-  }, [loadFilters]);
+    loadAlbums(); 
+  }, [loadFilters, loadAlbums]);
 
   useEffect(() => {
     if (resetPageTrigger) {
