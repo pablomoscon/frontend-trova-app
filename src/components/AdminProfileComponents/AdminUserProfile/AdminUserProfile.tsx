@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AdminStats from './AdminStats';
 import { useAuthContext } from '../../../hooks/auth/useAuthContext';
 import AdminDetails from './AdminDetails';
@@ -10,6 +10,8 @@ const AdminUserProfile: React.FC = () => {
   const { user: authUser } = useAuthContext();
   const adminId = authUser?.id;
   const { user, loading } = useFetchUserById(adminId || '');
+
+  const [coverLoaded, setCoverLoaded] = useState(false);
 
   if (!adminId)
     return (
@@ -30,16 +32,27 @@ const AdminUserProfile: React.FC = () => {
   return (
     <div className='min-h-screen bg-gradient-to-tr from-gray-100 to-gray-200 py-20'>
       <div className='relative bg-white shadow-md'>
-        {/* Portada */}
-        <div className='w-full h-60 overflow-hidden'>
+        <div className='w-full h-60 overflow-hidden relative'>
+          {!coverLoaded && (
+            <img
+              src='/assets/trova_logo_placeholder.webp'
+              alt='Placeholder'
+              className='w-full h-full object-cover absolute top-0 left-0'
+            />
+          )}
           <img
             src='/assets/trova_imagen_user_portada.webp'
             alt='Imagen de portada'
-            className='w-full h-full object-cover transform filter  brightness-80 contrast-70'
+            onLoad={() => setCoverLoaded(true)}
+            onError={(e) => {
+              e.currentTarget.src = '/assets/trova_logo_placeholder.webp';
+              setCoverLoaded(true);
+            }}
+            className='w-full h-full object-cover transform filter brightness-80 contrast-70'
           />
         </div>
 
-        {/* Avatar con nombre debajo */}
+        {/* Avatar + admin label */}
         <div className='absolute left-4 sm:left-10 md:left-16 top-36 sm:top-32 md:top-28 flex flex-col items-center w-24 sm:w-36'>
           <div className='relative w-24 h-24 sm:w-36 sm:h-36 flex-shrink-0'>
             <div className='w-full h-full rounded-full border-4 border-white shadow-xl bg-gray-100 flex items-center justify-center'>
@@ -55,9 +68,9 @@ const AdminUserProfile: React.FC = () => {
         </div>
       </div>
 
-      {/* Contenido principal */}
+      {/* Main content */}
       <div className='max-w-5xl mx-auto pt-40 pb-20 px-4 flex flex-col gap-8'>
-        {/* Detalles del admin */}
+        {/* Admin details section */}
         <section className='bg-white rounded-xl shadow-md border border-gray-200 p-6'>
           <h3 className='text-lg font-semibold text-gray-700 mb-4'>
             Detalles del administrador
@@ -65,7 +78,7 @@ const AdminUserProfile: React.FC = () => {
           <AdminDetails user={user} />
         </section>
 
-        {/* Estadísticas */}
+        {/* Statistics section */}
         <section className='bg-white rounded-xl shadow-md border border-gray-200 p-6'>
           <h3 className='text-lg font-semibold text-gray-700 mb-4'>
             Estadísticas
