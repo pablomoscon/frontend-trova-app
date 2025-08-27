@@ -37,7 +37,7 @@ const AdminUserProfile: React.FC = () => {
             <img
               src='/assets/trova_logo_placeholder.webp'
               alt='Placeholder'
-              className='w-full h-full object-cover absolute top-0 left-0'
+              className='max-w-full max-h-full object-contain'
             />
           )}
           <img
