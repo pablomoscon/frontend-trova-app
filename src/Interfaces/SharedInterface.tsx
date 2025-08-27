@@ -61,4 +61,14 @@ export type ScrollTarget =
   export interface PageSizeSelectorProps {
   pageSize: number;
   onChange: (value: number) => void;
-}
+  }
+
+  export interface LazyImageProps {
+    src: string;
+    alt: string;
+    placeholderSrc: string;
+    objectFit?: 'cover' | 'contain';
+    className?: string;
+    containerClassName?: string;
+    onClick?: () => void;
+  }

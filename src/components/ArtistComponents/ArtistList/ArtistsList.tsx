@@ -5,6 +5,7 @@ import PaginationControls from '../../Shared/PaginationControls';
 import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 import { useScroll } from '../../../hooks/shared/useScroll';
+import { LazyImage } from '../../Shared/LazyImage';
 
 const ArtistList: React.FC = () => {
   const { page, setPage } = usePageAndSearch('artistPage');
@@ -46,14 +47,13 @@ const ArtistList: React.FC = () => {
                   to={`/artistas/${artist.id}`}
                   className='group flex flex-col items-center text-center hover:scale-[1.02] transition-transform duration-300'
                 >
-                  <div className='relative w-48 h-48 rounded-full overflow-hidden shadow-lg border border-gray-200'>
-                    <img
-                      src={artist.photo}
-                      alt={artist.name}
-                      loading='lazy'
-                      className='object-cover w-full h-full group-hover:opacity-90 transition-opacity duration-300'
-                    />
-                  </div>
+                  <LazyImage
+                    src={artist.photo}
+                    alt={artist.name}
+                    placeholderSrc='/assets/trova_logo_placeholder.webp'
+                    objectFit='cover'
+                    containerClassName='relative w-48 h-48 rounded-full overflow-hidden shadow-lg border border-gray-200 flex items-center justify-center bg-gray-100'
+                  />
                   <h3 className='mt-4 text-lg font-medium text-gray-800 group-hover:text-black transition-colors duration-200'>
                     {artist.name}
                   </h3>
