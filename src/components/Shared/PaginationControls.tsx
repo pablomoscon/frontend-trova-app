@@ -30,10 +30,6 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
     visiblePages.push(p);
   }
 
-  // Determine if ellipsis should appear before or after the visible range
-  const showStartEllipsis = startPage > 1; // there are pages before the visible range
-  const showEndEllipsis = endPage < totalPages - 1; // there are pages after the visible range
-
   return (
     <div className='flex justify-center items-center gap-1 pt-10 pb-10'>
       {/* First page button */}
@@ -62,10 +58,6 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
 
       {/* Page number buttons */}
       <div className='flex items-center gap-1'>
-        {/* Ellipsis for pages before visible range */}
-        {showStartEllipsis && <span className='px-1 text-gray-400'>…</span>}
-
-        {/* Visible page buttons */}
         {visiblePages.map((p) => (
           <button
             key={p}
@@ -79,9 +71,6 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
             {p}
           </button>
         ))}
-
-        {/* Ellipsis for pages after visible range */}
-        {showEndEllipsis && <span className='px-0.5 text-gray-400'>…</span>}
       </div>
 
       {/* Next page button */}

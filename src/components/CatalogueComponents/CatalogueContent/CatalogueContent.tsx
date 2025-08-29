@@ -16,6 +16,7 @@ const CatalogueContent: React.FC = () => {
 
   const { page, setPage } = usePageAndSearch('cataloguePage');
 
+  // Hook maneja filtros, sort y carga de albums
   const {
     albums,
     filters,
@@ -62,8 +63,9 @@ const CatalogueContent: React.FC = () => {
       />
       <CatalogueHeader
         onMobileFiltersOpen={() => setMobileFiltersOpen(true)}
-        sortOrder={sortOrder}
+        sortOrder={sortOrder} // viene del hook
         setSortOrder={(newSort) => {
+          // actualiza el hook
           setSortOrder(newSort);
           setPage(1);
         }}

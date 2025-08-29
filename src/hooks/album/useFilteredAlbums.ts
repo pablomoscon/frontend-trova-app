@@ -27,7 +27,11 @@ const buildFilterParams = (
     if (expandedYears.length) params.year = expandedYears;
   }
   if (filters.genre?.length) params.genre = filters.genre;
-  if (sortOrder === 'asc' || sortOrder === 'desc') params.sort = sortOrder;
+
+  // Solo enviar 'asc' o 'desc' al backend
+  if (sortOrder === 'asc') params.sort = 'asc';
+  else if (sortOrder === 'desc') params.sort = 'desc';
+  // si es 'artist', no enviamos sort, backend ordena por artista por defecto
 
   return params;
 };
@@ -105,8 +109,8 @@ export function useFilteredAlbums(
   }, [page, pageSize, selectedFilters, sortOrderState]);
 
   useEffect(() => {
-    loadFilters(); 
-    loadAlbums(); 
+    loadFilters();
+    loadAlbums();
   }, [loadFilters, loadAlbums]);
 
   useEffect(() => {
