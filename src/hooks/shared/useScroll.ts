@@ -1,5 +1,14 @@
-import { useEffect } from 'react';
-import { ScrollTarget, useScrollOptions } from '../../Interfaces/SharedInterface';
+import { useEffect, RefObject, useRef } from 'react';
+
+export type ScrollTarget = RefObject<HTMLElement> | null;
+
+export interface UseScrollOptions {
+    deps?: any[];
+    behavior?: 'auto' | 'instant' | 'smooth';
+    offset?: number;
+    enabled?: boolean;
+    scrollOnMount?: boolean;
+}
 
 export function useScroll(
     target: ScrollTarget = null,
@@ -8,32 +17,39 @@ export function useScroll(
         behavior = 'auto',
         offset = 0,
         enabled = true,
-    }: useScrollOptions = {}
+        scrollOnMount = true,
+    }: UseScrollOptions = {}
 ) {
+    const mountedRef = useRef(false);
+    const lastDepsRef = useRef(deps);
+
     useEffect(() => {
         if (!enabled) return;
 
-        if (typeof target === 'function') {
-            const { top, left } = target();
-            window.scrollTo({ top: top - offset, left, behavior });
-            return;
-        }
-        if (target && 'current' in target && !target.current) return;
+        const isFirstMount = !mountedRef.current;
+        mountedRef.current = true;
 
-        if (target && 'current' in target && target.current) {
-            const rect = target.current.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const depsChanged = deps.some((d, i) => d !== lastDepsRef.current[i]);
+        lastDepsRef.current = deps;
 
-            window.scrollTo({
-                top: rect.top + scrollTop - offset,
-                left: rect.left + scrollLeft,
-                behavior,
+        const scrollGlobal = (!target && scrollOnMount) || (isFirstMount && !target);
+        const scrollLocal = target && !isFirstMount && depsChanged;
+
+        if (scrollGlobal || scrollLocal) {
+            requestAnimationFrame(() => {
+                if (target && target.current) {
+                    const rect = target.current.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    window.scrollTo({
+                        top: rect.top + scrollTop - offset,
+                        left: 0,
+                        behavior,
+                    });
+                } else {
+                    window.scrollTo({ top: 0, behavior });
+                }
             });
-            return;
         }
-        if (!target) {
-            window.scrollTo({ top: 0, behavior });
-        }
-    }, deps);
+
+    }, [...deps, target, enabled, offset, behavior, scrollOnMount]);
 }

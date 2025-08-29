@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FunnelIcon } from '@heroicons/react/20/solid';
 import {
   CatalogueHeaderProps,
@@ -15,8 +15,10 @@ const sortOptions: SortOption<CatalogueSort>[] = [
 
 const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
   onMobileFiltersOpen,
+  sortOrder,
+  setSortOrder,
 }) => {
-  const [sortOrder, setSortOrder] = useState<CatalogueSort>('artist');
+  const current = sortOptions.find((option) => option.value === sortOrder);
 
   return (
     <div className='border-b border-neutral-200 px-4 sm:px-6 pt-30'>
@@ -33,7 +35,9 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
           <SortMenu
             sortOptions={sortOptions}
             selectedSort={sortOrder}
-            setSelectedSort={setSortOrder}
+            setSelectedSort={(newSort) => {
+              setSortOrder(newSort);
+            }}
           />
           <button
             type='button'

@@ -72,3 +72,8 @@ export type ScrollTarget =
     containerClassName?: string;
     onClick?: () => void;
   }
+
+  export interface ScrollContextType {
+    disableGlobalScroll: boolean;
+    setDisableGlobalScroll: (v: boolean) => void;
+  }

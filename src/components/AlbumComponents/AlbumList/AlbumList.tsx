@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import type { AlbumListProps } from '../../../Interfaces/AlbumInterface';
 import PaginationControls from '../../Shared/PaginationControls';
-import { useScroll } from '../../../hooks/shared/useScroll';
 import Spinner from '../../Shared/Spinner';
 import AlbumCard from '../AlbumCard/AlbumCard';
+import { useScroll } from '../../../hooks/shared/useScroll';
 
 const AlbumList: React.FC<AlbumListProps> = ({
   albums,
@@ -15,28 +15,18 @@ const AlbumList: React.FC<AlbumListProps> = ({
 }) => {
   const listTopRef = useRef<HTMLDivElement>(null);
   const offset = window.innerWidth < 640 ? 190 : 180;
-  const [shouldScroll, setShouldScroll] = useState(true);
 
-  useScroll(shouldScroll ? listTopRef : null, {
-    deps: [page],
-    behavior: 'auto',
-    offset,
-    enabled: shouldScroll,
-  });
+  useScroll(listTopRef, { deps: [page], behavior: 'smooth', offset });
 
   const handlePageChange = (newPage: number) => {
-    setShouldScroll(true);
     setPage(newPage);
   };
 
-  if (albumsLoading) {
-    return <Spinner />;
-  }
+  if (albumsLoading) return <Spinner />;
 
   return (
     <>
       <div ref={listTopRef} />
-
       <div className='flex justify-center'>
         <div className='flex flex-wrap justify-center gap-6 px-4 py-6 max-w-[1100px] w-full'>
           {albums.map((album) => (

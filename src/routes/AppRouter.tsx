@@ -17,69 +17,65 @@ import AlbumManagementTable from '../components/DashboardComponents/AlbumManagem
 import ArtistManagementTable from '../components/DashboardComponents/ArtistManagementTable/ArtistManagementTable';
 import DashboardArtistDetails from '../components/DashboardComponents/DashboardArtistDetails/DashboardArtistDetails';
 import AdminRoute from './AdminRoute';
-import { useScroll } from '../hooks/shared/useScroll';
 import { useClearSessionStorageOnRouteChange } from '../hooks/shared/useClearPaginationOnRouteChange';
 import SignUpForm from '../components/UserComponents/CreateUserForm/CreateUserForm';
 import SearchResultsView from '../views/SearchResultsView/SearchResultsView';
 import SignInView from '../views/SignInView/SignInView';
 
 const AppRouter: React.FC = () => {
-  const location = useLocation();
 
-  useScroll(null, {
-    deps: [location.pathname],
-    behavior: 'auto',
-  });
 
   useClearSessionStorageOnRouteChange();
-
+  
   return (
     <Routes>
-      <Route path='/' element={<HomeView />} />
+      {' '}
+      <Route path='/' element={<HomeView />} />{' '}
       <Route
         path='/sign-in'
         element={
           <PublicRoute>
-            <SignInView />
+            {' '}
+            <SignInView />{' '}
           </PublicRoute>
         }
-      />
-      <Route path='/catalogo' element={<CatalogueView />} />
-      <Route path='/contacto' element={<ContactView />} />
-      <Route path='/artistas' element={<ArtistList />} />
-      <Route path='/artistas/:id' element={<ArtistView />} />
-      <Route path='/busqueda' element={<SearchResultsView />} />
-
+      />{' '}
+      <Route path='/catalogo' element={<CatalogueView />} />{' '}
+      <Route path='/contacto' element={<ContactView />} />{' '}
+      <Route path='/artistas' element={<ArtistList />} />{' '}
+      <Route path='/artistas/:id' element={<ArtistView />} />{' '}
+      <Route path='/busqueda' element={<SearchResultsView />} />{' '}
       <Route
         path='/admin/admin-profile'
         element={
           <AdminRoute>
-            <AdminUserProfile />
+            {' '}
+            <AdminUserProfile />{' '}
           </AdminRoute>
         }
-      />
-
+      />{' '}
       <Route
         path='/admin/dashboard'
         element={
           <AdminRoute>
-            <DashboardView />
+            {' '}
+            <DashboardView />{' '}
           </AdminRoute>
         }
       >
-        <Route index element={<DashboardHome />} />
-        <Route path='albums-details' element={<DashboardAlbumDetails />} />
-        <Route path='album-form' element={<CreateAlbum />} />
-        <Route path='albums-management' element={<AlbumManagementTable />} />
-        <Route path='artists-details' element={<DashboardArtistDetails />} />
-        <Route path='artist-form' element={<CreateArtist />} />
-        <Route path='artists-management' element={<ArtistManagementTable />} />
-        <Route path='users-management' element={<UserManagementTable />} />
-        <Route path='user-form' element={<SignUpForm />} />
-        <Route path='users-data' element={<DashboardUserDetails />} />
-      </Route>
+        {' '}
+        <Route index element={<DashboardHome />} />{' '}
+        <Route path='albums-details' element={<DashboardAlbumDetails />} />{' '}
+        <Route path='album-form' element={<CreateAlbum />} />{' '}
+        <Route path='albums-management' element={<AlbumManagementTable />} />{' '}
+        <Route path='artists-details' element={<DashboardArtistDetails />} />{' '}
+        <Route path='artist-form' element={<CreateArtist />} />{' '}
+        <Route path='artists-management' element={<ArtistManagementTable />} />{' '}
+        <Route path='users-management' element={<UserManagementTable />} />{' '}
+        <Route path='user-form' element={<SignUpForm />} />{' '}
+        <Route path='users-data' element={<DashboardUserDetails />} />{' '}
+      </Route>{' '}
     </Routes>
   );
 };
-
 export default AppRouter;

@@ -76,6 +76,7 @@ export interface AlbumListProps {
   pageSize: number;
   setPageSize: (size: number) => void;
   albumsLoading?: boolean;
+  disableGlobalScroll?: (state: boolean) => void;
 }
 
 export interface EditAlbumProps {
