@@ -22,18 +22,20 @@ const HeroSection: React.FC = () => {
 
         <div className='lg:w-1/2 w-full flex justify-center'>
           <div className='w-full max-w-[480px] sm:max-w-[560px] lg:max-w-[660px] xl:max-w-[740px] aspect-square relative'>
-            {!loaded && (
-              <img
-                src='/assets/trova_logo_placeholder_circular'
-                alt='Placeholder'
-                className='rounded-3xl shadow-xl object-cover w-full h-full absolute top-0 left-0'
-              />
-            )}
+            {/* Placeholder */}
+            <img
+              src='/assets/trova_logo_placeholder_circular.webp'
+              alt='Placeholder'
+              className={`rounded-3xl shadow-xl object-cover w-full h-full absolute top-0 left-0 transition-opacity duration-700 ${
+                loaded ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
 
+            {/* Imagen real */}
             <img
               src='/assets/portada.webp'
               alt='Portada de vinilo'
-              className={`w-full h-full object-contain rounded-full opacity-90 contrast-80 saturate-90 brightness-95 shadow-xl spin-slow mx-auto transition-opacity duration-700${
+              className={`w-full h-full object-contain rounded-full opacity-90 contrast-80 saturate-90 brightness-95 shadow-xl spin-slow mx-auto transition-opacity duration-700 ${
                 loaded ? 'opacity-100' : 'opacity-0'
               }`}
               onLoad={() => setLoaded(true)}
