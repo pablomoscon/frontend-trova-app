@@ -1,103 +1,66 @@
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Spinner from '../../Shared/Spinner';
+import type { AlbumListProps } from '../../../Interfaces/AlbumInterface';
 import PaginationControls from '../../Shared/PaginationControls';
-import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
-import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 import { useScroll } from '../../../hooks/shared/useScroll';
+import Spinner from '../../Shared/Spinner';
+import AlbumCard from '../AlbumCard/AlbumCard';
 
-const ArtistList: React.FC = () => {
-  const { page, setPage } = usePageAndSearch('artistPage');
-  const pageSize = 8;
+const AlbumList: React.FC<AlbumListProps> = ({
+  albums,
+  onClick,
+  page,
+  totalPages,
+  setPage,
+  albumsLoading = false,
+}) => {
+  const listTopRef = useRef<HTMLDivElement>(null);
+  const offset = window.innerWidth < 640 ? 190 : 180;
+  const [shouldScroll, setShouldScroll] = useState(true);
 
-  const { artists, totalPages, isLoading, error } = useFetchArtists(
-    page - 1,
-    pageSize,
-    'ACTIVE'
-  );
-
-  const topRef = useRef<HTMLDivElement>(null);
-
-  useScroll(topRef, {
-    deps: [page, isLoading],
-    behavior: 'instant',
-    offset: 0,
-    enabled: !isLoading,
+  useScroll(shouldScroll ? listTopRef : null, {
+    deps: [page],
+    behavior: 'auto',
+    offset,
+    enabled: shouldScroll,
   });
 
   const handlePageChange = (newPage: number) => {
+    setShouldScroll(true);
     setPage(newPage);
   };
 
-  if (isLoading) return <Spinner />;
-
-  if (error) return <p className='text-center mt-20 text-red-500'>{error}</p>;
+  if (albumsLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
-      <div ref={topRef} />
-      <section className=' bg-[#E5E6E4] min-h-screen pt-40 py-20'>
-        <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-          <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pt-10'>
-            {artists.length ? (
-              artists.map((artist) => {
-                const [loaded, setLoaded] = useState(false);
+      <div ref={listTopRef} />
 
-                return (
-                  <Link
-                    key={artist.id}
-                    to={`/artistas/${artist.id}`}
-                    className='group flex flex-col items-center text-center hover:scale-[1.02] transition-transform duration-300'
-                  >
-                    <div className='relative w-48 h-48 rounded-full overflow-hidden shadow-lg border border-gray-200'>
-                      {/* Placeholder */}
-                      <img
-                        src='/assets/trova_logo_placeholder.webp'
-                        alt='Placeholder'
-                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-                          loaded ? 'opacity-0' : 'opacity-100'
-                        }`}
-                      />
-
-                      {/* Imagen real */}
-                      <img
-                        src={artist.photo}
-                        alt={artist.name}
-                        loading='lazy'
-                        className={`object-cover w-full h-full group-hover:opacity-90 transition-opacity duration-500 ${
-                          loaded ? 'opacity-100' : 'opacity-0'
-                        }`}
-                        onLoad={() => setLoaded(true)}
-                      />
-                    </div>
-                    <h3 className='mt-4 text-lg font-medium text-gray-800 group-hover:text-black transition-colors duration-200'>
-                      {artist.name}
-                    </h3>
-                    <span className='text-sm text-gray-500'>
-                      {artist.nationality}
-                    </span>
-                  </Link>
-                );
-              })
-            ) : (
-              <p className='text-center text-gray-500 col-span-full'>
-                No se encontraron artistas.
-              </p>
-            )}
-          </div>
-          {totalPages > 1 && (
-            <div className='mt-12'>
-              <PaginationControls
-                page={page}
-                totalPages={totalPages}
-                setPage={handlePageChange}
-              />
+      <div className='flex justify-center'>
+        <div className='flex flex-wrap justify-center gap-6 px-4 py-6 max-w-[1100px] w-full'>
+          {albums.map((album) => (
+            <div
+              key={album.id}
+              className='w-full max-w-[350px] sm:w-[calc((100%/2)-1.5rem)] lg:w-[calc((100%/3)-1.5rem)]'
+            >
+              <AlbumCard album={album} onClick={() => onClick?.(album.id)} />
             </div>
-          )}
+          ))}
         </div>
-      </section>
+      </div>
+
+      {totalPages > 1 && (
+        <div className='mt-8 w-full flex justify-center px-4'>
+          <PaginationControls
+            page={page}
+            totalPages={totalPages}
+            setPage={handlePageChange}
+          />
+        </div>
+      )}
     </>
   );
 };
 
-export default ArtistList;
+export default AlbumList;
