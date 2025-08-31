@@ -96,3 +96,7 @@ export interface ArtistInputProps {
   onChangeArtist: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled: boolean;
 }
+
+export interface ArtistCardProps {
+  artist: Artist;
+}
