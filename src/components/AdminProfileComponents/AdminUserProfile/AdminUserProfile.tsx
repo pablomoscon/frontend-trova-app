@@ -35,7 +35,7 @@ const AdminUserProfile: React.FC = () => {
         <div className='w-full h-60 overflow-hidden relative'>
           {!coverLoaded && (
             <img
-              src='/assets/trova_logo_placeholder.webp'
+              src='/assets/logo_portada_placeholder.webp'
               alt='Placeholder'
               className='max-w-full max-h-full object-contain'
             />
