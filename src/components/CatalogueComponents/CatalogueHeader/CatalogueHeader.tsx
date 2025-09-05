@@ -18,7 +18,6 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
   sortOrder,
   setSortOrder,
 }) => {
-  const current = sortOptions.find((option) => option.value === sortOrder);
 
   return (
     <div className='border-b border-neutral-200 px-4 sm:px-6 pt-30'>

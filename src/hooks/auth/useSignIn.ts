@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from './useAuthContext';
 import { showLoginErrorAlert, showLoginSuccessAlert } from '../../utils/showAuthAlertUtils';
@@ -7,9 +8,11 @@ import { Credentials } from '../../Interfaces/AuthInterface';
 const useSignIn = ({ username, password }: Credentials) => {
     const navigate = useNavigate();
     const { login } = useAuthContext();
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true); 
         try {
             const user = await signIn({ username, password });
 
@@ -22,10 +25,12 @@ const useSignIn = ({ username, password }: Credentials) => {
         } catch (error) {
             console.error('Error logging in:', error);
             showLoginErrorAlert();
+        } finally {
+            setLoading(false); 
         }
     };
 
-    return handleSubmit;
+    return { handleSubmit, loading };
 };
 
 export default useSignIn;

@@ -1,14 +1,7 @@
 import { useEffect, RefObject, useRef } from 'react';
+import { UseScrollOptions } from '../../Interfaces/SharedInterface';
 
 export type ScrollTarget = RefObject<HTMLElement> | null;
-
-export interface UseScrollOptions {
-    deps?: any[];
-    behavior?: 'auto' | 'instant' | 'smooth';
-    offset?: number;
-    enabled?: boolean;
-    scrollOnMount?: boolean;
-}
 
 export function useScroll(
     target: ScrollTarget = null,

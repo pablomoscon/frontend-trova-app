@@ -77,3 +77,11 @@ export type ScrollTarget =
     disableGlobalScroll: boolean;
     setDisableGlobalScroll: (v: boolean) => void;
   }
+
+export interface UseScrollOptions {
+  deps?: any[];
+  behavior?: 'auto' | 'instant' | 'smooth';
+  offset?: number;
+  enabled?: boolean;
+  scrollOnMount?: boolean;
+}

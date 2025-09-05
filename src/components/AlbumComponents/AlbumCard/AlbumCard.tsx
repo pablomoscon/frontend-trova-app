@@ -12,7 +12,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => {
         <img
           src='/assets/trova_logo_placeholder.webp'
           alt='Placeholder'
-          className={`absolute inset-0 w-full h-auto max-h-[160px] sm:max-h-[160px] object-contain rounded mb-2 transition-opacity duration-500 ${
+          className={`absolute inset-0 w-full h-auto max-h-[180px] sm:max-h-[200px] object-contain rounded mb-2 transition-opacity duration-500 ${
             loaded ? 'opacity-0' : 'opacity-100'
           }`}
         />

@@ -17,12 +17,12 @@ const AlbumList: React.FC<AlbumListProps> = ({
   const offset = window.innerWidth < 640 ? 190 : 180;
   const [shouldScroll, setShouldScroll] = useState(true);
 
-  useScroll(shouldScroll ? listTopRef : null, {
-    deps: [page],
-    behavior: 'auto',
-    offset,
-    enabled: shouldScroll,
-  });
+useScroll(listTopRef as React.RefObject<HTMLElement>, {
+  deps: [page],
+  behavior: 'auto',
+  offset,
+  enabled: shouldScroll,
+});
 
   const handlePageChange = (newPage: number) => {
     setShouldScroll(true);
