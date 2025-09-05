@@ -16,7 +16,6 @@ const CatalogueContent: React.FC = () => {
 
   const { page, setPage } = usePageAndSearch('cataloguePage');
 
-  // Hook maneja filtros, sort y carga de albums
   const {
     albums,
     filters,
@@ -48,10 +47,6 @@ const CatalogueContent: React.FC = () => {
     setSelectedAlbumId(null);
   };
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
   return (
     <>
       <CatalogueMobileFilterDialog
@@ -61,20 +56,22 @@ const CatalogueContent: React.FC = () => {
         selectedFilters={selectedFilters}
         onFilterChange={handleFilterChange}
       />
+
       <CatalogueHeader
         onMobileFiltersOpen={() => setMobileFiltersOpen(true)}
-        sortOrder={sortOrder} // viene del hook
+        sortOrder={sortOrder}
         setSortOrder={(newSort) => {
-          // actualiza el hook
           setSortOrder(newSort);
           setPage(1);
         }}
       />
+
       <section
         aria-labelledby='albums-heading'
         className='pt-4 pb-24 min-h-screen bg-[#E5E6E4]'
       >
         <div className='grid grid-cols-1 gap-x-6 gap-y-10 lg:grid-cols-5 px-4'>
+          {/* Sidebar filters */}
           <div className='hidden lg:block lg:col-span-1'>
             <CatalogueFilterSidebar
               filters={filters}
@@ -83,17 +80,22 @@ const CatalogueContent: React.FC = () => {
             />
           </div>
 
+          {/* Album list */}
           <div className='lg:col-span-4'>
-            <AlbumList
-              albums={albums ?? []}
-              onClick={openModal}
-              page={page}
-              totalPages={totalPages}
-              setPage={setPage}
-              pageSize={pageSize}
-              setPageSize={setPageSize}
-              albumsLoading={isLoading}
-            />
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <AlbumList
+                albums={albums ?? []}
+                onClick={openModal}
+                page={page}
+                totalPages={totalPages}
+                setPage={setPage}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+                albumsLoading={isLoading}
+              />
+            )}
           </div>
         </div>
       </section>

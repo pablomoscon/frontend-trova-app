@@ -1,11 +1,13 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { fetchFilteredAlbums, fetchAlbumFilters } from '../../services/albumService';
 import { Album, AlbumFilterParams, AlbumsData } from '../../Interfaces/AlbumInterface';
 import { FilterSection } from '../../Interfaces/CatalogueInterface';
-import { groupAlbumsByArtist } from '../../utils/groupAlbumsByArtistUtils';
 
 type SortOrder = 'asc' | 'desc' | 'artist' | '';
 
+/**
+ * Build params to send to backend based on filters, pagination, and sort order.
+ */
 const buildFilterParams = (
   filters: Record<string, string[]>,
   page: number,
@@ -15,6 +17,8 @@ const buildFilterParams = (
   const params: AlbumFilterParams = { page: page - 1, size };
 
   if (filters.artistName?.length) params.artistName = filters.artistName;
+
+  // Expand "1990s" → [1990, 1991, ..., 1999]
   if (filters.year?.length) {
     const expandedYears: number[] = [];
     filters.year.forEach((decadeStr) => {
@@ -26,35 +30,38 @@ const buildFilterParams = (
     });
     if (expandedYears.length) params.year = expandedYears;
   }
+
   if (filters.genre?.length) params.genre = filters.genre;
 
-  // Solo enviar 'asc' o 'desc' al backend
   if (sortOrder === 'asc') params.sort = 'asc';
   else if (sortOrder === 'desc') params.sort = 'desc';
-  // si es 'artist', no enviamos sort, backend ordena por artista por defecto
+  // If "artist", backend handles it as default
 
   return params;
 };
 
+/**
+ * Hook to fetch, filter and paginate albums from backend.
+ * Handles race conditions with requestId to avoid flickering.
+ */
 export function useFilteredAlbums(
   initialSize = 9,
   externalPage?: number,
   externalSetPage?: (p: number) => void
 ) {
   const [albums, setAlbums] = useState<Album[]>([]);
-  const [allAlbums, setAllAlbums] = useState<Album[]>([]);
   const [filters, setFilters] = useState<FilterSection[]>([
-    { id: 'artistName', name: 'Artista', options: [] },
-    { id: 'genre', name: 'Género', options: [] },
-    { id: 'year', name: 'Año', options: [] },
+    { id: 'artistName', name: 'Artist', options: [] },
+    { id: 'genre', name: 'Genre', options: [] },
+    { id: 'year', name: 'Year', options: [] },
   ]);
 
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
   const [internalPage, internalSetPage] = useState(1);
-  const [resetPageTrigger, setResetPageTrigger] = useState(false);
 
   const page = externalPage ?? internalPage;
   const setPage = externalSetPage ?? internalSetPage;
+
   const [pageSize, setPageSize] = useState(initialSize);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -71,40 +78,59 @@ export function useFilteredAlbums(
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [resetPageTrigger, setResetPageTrigger] = useState(false);
 
+  // Keep track of the latest request to prevent outdated updates
+  const latestRequestId = useRef<number>(0);
+
+  /**
+   * Load available filters
+   */
   const loadFilters = useCallback(async () => {
     try {
       const data = await fetchAlbumFilters();
       setFilters([
-        { id: 'artistName', name: 'Artista', options: (data.artists || []).map(a => ({ label: a, value: a })) },
-        { id: 'genre', name: 'Género', options: (data.genres || []).map(g => ({ label: g, value: g })) },
-        { id: 'year', name: 'Año', options: (data.decades || []).map(d => ({ label: d, value: d })) },
+        { id: 'artistName', name: 'Artist', options: (data.artists || []).map(a => ({ label: a, value: a })) },
+        { id: 'genre', name: 'Genre', options: (data.genres || []).map(g => ({ label: g, value: g })) },
+        { id: 'year', name: 'Year', options: (data.decades || []).map(d => ({ label: d, value: d })) },
       ]);
     } catch (err) {
       console.error('Error loading filters:', err);
     }
   }, []);
 
+  /**
+   * Load albums with filters, pagination and sort.
+   */
   const loadAlbums = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+
+    const currentRequestId = Date.now();
+    latestRequestId.current = currentRequestId;
 
     const params = buildFilterParams(selectedFilters, page, pageSize, sortOrderState);
 
     try {
       const resp: AlbumsData = await fetchFilteredAlbums(params);
+
+      if (latestRequestId.current !== currentRequestId) return; 
+
       setAlbums(resp.albums);
-      setAllAlbums(resp.albums);
       setTotalPages(resp.totalPages);
       setTotalItems(resp.totalElements);
     } catch (err) {
+      if (latestRequestId.current !== currentRequestId) return;
+
       console.error('Error loading albums:', err);
       setAlbums([]);
       setTotalPages(1);
       setTotalItems(0);
       setError(err instanceof Error ? err.message : 'Error loading albums');
     } finally {
-      setIsLoading(false);
+      if (latestRequestId.current === currentRequestId) {
+        setIsLoading(false);
+      }
     }
   }, [page, pageSize, selectedFilters, sortOrderState]);
 
@@ -122,13 +148,8 @@ export function useFilteredAlbums(
     }
   }, [resetPageTrigger, loadAlbums, setPage]);
 
-  const groupedAlbums = useMemo(() => {
-    return sortOrderState === 'artist' ? groupAlbumsByArtist(albums) : { all: albums };
-  }, [albums, sortOrderState]);
-
   return {
     albums,
-    groupedAlbums,
     filters,
     selectedFilters,
     setSelectedFilters,
@@ -143,7 +164,6 @@ export function useFilteredAlbums(
     sortOrder: sortOrderState,
     setSortOrder,
     reloadAlbums: loadAlbums,
-    allAlbums,
     triggerPageReset: () => setResetPageTrigger(true),
   };
 }

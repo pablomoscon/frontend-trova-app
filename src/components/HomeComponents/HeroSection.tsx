@@ -34,7 +34,7 @@ const HeroSection: React.FC = () => {
             {/* Imagen real */}
             <img
               src='/assets/portada.webp'
-              alt='Portada de vinilo'
+              alt=''
               className={`w-full h-full object-contain rounded-full opacity-90 contrast-80 saturate-90 brightness-95 shadow-xl spin-slow mx-auto transition-opacity duration-700 ${
                 loaded ? 'opacity-100' : 'opacity-0'
               }`}

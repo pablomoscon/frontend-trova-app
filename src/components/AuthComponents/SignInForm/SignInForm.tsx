@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 import InputField from '../../Shared/inputs/InputField';
 import useSignIn from '../../../hooks/auth/useSignIn';
 import SubmitButton from '../../Shared/SubmitButton';
+import DotsLoader from '../../Shared/DotsLoader';
 
 const SignInForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const signIn = useSignIn({ username, password });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    signIn(e);
-  };
+  const { handleSubmit, loading } = useSignIn({ username, password });
 
   return (
-    <div className='w-full max-w-sm mx-auto pb-10'>
+    <div className='w-full max-w-sm mx-auto pb-10 relative'>
+      
+      {loading && (
+          <DotsLoader />
+      )}
+
       <form
         onSubmit={handleSubmit}
         className='space-y-6 text-gray-800 text-start'
@@ -35,6 +36,7 @@ const SignInForm: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder='Tu contraseña'
         />
+
         <SubmitButton text='Ingresá' />
       </form>
     </div>
