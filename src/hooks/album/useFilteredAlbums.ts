@@ -5,9 +5,9 @@ import { FilterSection } from '../../Interfaces/CatalogueInterface';
 
 type SortOrder = 'asc' | 'desc' | 'artist' | '';
 
-/**
- * Build params to send to backend based on filters, pagination, and sort order.
- */
+
+// Build params to send to backend based on filters, pagination, and sort order.
+
 const buildFilterParams = (
   filters: Record<string, string[]>,
   page: number,
@@ -40,10 +40,10 @@ const buildFilterParams = (
   return params;
 };
 
-/**
- * Hook to fetch, filter and paginate albums from backend.
- * Handles race conditions with requestId to avoid flickering.
- */
+
+  // Hook to fetch, filter and paginate albums from backend.
+ // Handles race conditions with requestId to avoid flickering.
+ 
 export function useFilteredAlbums(
   initialSize = 9,
   externalPage?: number,
@@ -83,9 +83,9 @@ export function useFilteredAlbums(
   // Keep track of the latest request to prevent outdated updates
   const latestRequestId = useRef<number>(0);
 
-  /**
-   * Load available filters
-   */
+  
+   // Load available filters
+
   const loadFilters = useCallback(async () => {
     try {
       const data = await fetchAlbumFilters();
@@ -99,9 +99,8 @@ export function useFilteredAlbums(
     }
   }, []);
 
-  /**
-   * Load albums with filters, pagination and sort.
-   */
+// Load albums with filters, pagination and sort.
+
   const loadAlbums = useCallback(async () => {
     setIsLoading(true);
     setError(null);

@@ -30,8 +30,3 @@ export interface UseAlbumSongsResult {
   loading: boolean;
   error: string | null;
 }
-
-export interface UseEditSongsParams {
-  initialSongs: Song[];
-  onSuccess?: () => void;
-}
