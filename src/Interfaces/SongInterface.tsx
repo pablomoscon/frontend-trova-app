@@ -24,3 +24,14 @@ export interface SongsSectionProps {
   disabled: boolean;
   submitButtonText: string;
 }
+
+export interface UseAlbumSongsResult {
+  songs: Song[];
+  loading: boolean;
+  error: string | null;
+}
+
+export interface UseEditSongsParams {
+  initialSongs: Song[];
+  onSuccess?: () => void;
+}

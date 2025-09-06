@@ -1,16 +1,16 @@
 import React, { useRef } from 'react';
 import { Loader } from 'lucide-react';
-import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
 import { AlbumSongsModalProps } from '../../../Interfaces/AlbumInterface';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
 import AlbumPlatformLinks from '../../Shared/AlbumPlatformLinks';
+import { useFetchAlbumSongs } from '../../../hooks/song/useFetchAlbumSongs';
 
 const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
   isOpen,
-  albumId,
+  album,
   onClose,
 }) => {
-  const { album, isLoading } = useFetchAlbumById(albumId);
+  const { songs, loading: songsLoading, error } = useFetchAlbumSongs(album.id);
 
   const panelRef = useRef<HTMLDivElement>(null);
   useCloseOnOutside(panelRef, onClose);
@@ -25,7 +25,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
       >
         <div className='flex justify-between items-center'>
           <h3 className='text-2xl font-bold text-gray-900'>
-            {isLoading ? 'Cargando...' : album?.title || 'Álbum'}
+            {songsLoading ? 'Cargando...' : album?.title || 'Álbum'}
           </h3>
           <button
             onClick={onClose}
@@ -36,17 +36,16 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
           </button>
         </div>
 
-        {isLoading && (
+        {songsLoading && (
           <div className='flex justify-center items-center h-40'>
             <Loader className='animate-spin text-gray-500 w-6 h-6' />
           </div>
         )}
 
-        {!isLoading && album?.listOfSongs && (
+        {!songsLoading && songs.length > 0 && (
           <>
             <div className='text-start border-b pb-4 mb-4 mt-4'>
               {(album.spotifyLink ||
-                /* album.youtubeLink || */
                 album.amazonMusicLink ||
                 album.appleMusicLink) && (
                 <div className='flex flex-row items-center space-x-3 sm:space-x-2 gap-y-2 flex-col-xs items-start-xs'>
@@ -65,7 +64,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
             </div>
 
             <ul role='list' className='divide-y divide-gray-100'>
-              {album.listOfSongs.map((song, index) => (
+              {songs.map((song, index) => (
                 <li
                   key={song.id || index}
                   className='flex justify-between gap-x-4 py-4'
@@ -94,11 +93,13 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
           </>
         )}
 
-        {!isLoading && !album?.listOfSongs && (
+        {!songsLoading && songs.length === 0 && !error && (
           <p className='text-gray-500 text-center mt-4'>
             Este álbum no contiene canciones.
           </p>
         )}
+
+        {error && <p className='text-red-500 text-center mt-4'>{error}</p>}
       </div>
     </div>
   );

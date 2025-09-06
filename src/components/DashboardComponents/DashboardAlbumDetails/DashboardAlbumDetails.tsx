@@ -37,8 +37,8 @@ const DashboardAlbumDetails: React.FC<{ pageSize?: number }> = ({
   if (error) return <ErrorMessage message={error} />;
 
   return (
-    <div className='pt-40 px-8 mb-20 min-h-screen max-w-7xl mx-auto flex flex-col items-center'>
-      <div className='w-full mb-8 bg-gray-100 p-6 shadow-md rounded-lg flex justify-center items-center text-gray-800'>
+    <div className='pt-40 mb-20 min-h-screen max-w-7xl mx-auto flex flex-col items-center'>
+      <div className='w-2xl mb-8 bg-gray-100 p-6 shadow-md rounded-lg flex justify-center items-center text-gray-600'>
         <h1 className='text-2xl font-bold'>Álbumes</h1>
       </div>
 

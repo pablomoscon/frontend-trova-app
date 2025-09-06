@@ -26,7 +26,7 @@ const HeroSection: React.FC = () => {
             <img
               src='/assets/trova_logo_placeholder_circular.webp'
               alt='Placeholder'
-              className={`rounded-full shadow-xl object-cover w-full h-full absolute top-0 left-0 transition-opacity duration-700 ${
+              className={`rounded-full shadow-xl object-cover w-full h-full absolute top-0 left-0 transition-opacity duration-700 filter brightness-90 ${
                 loaded ? 'opacity-0' : 'opacity-100'
               }`}
             />

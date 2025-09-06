@@ -18,12 +18,12 @@ const ArtistList: React.FC = () => {
 
   const topRef = useRef<HTMLDivElement>(null);
 
-  useScroll(topRef, {
-    deps: [page, isLoading],
-    behavior: 'instant',
-    offset: 0,
-    enabled: !isLoading,
-  });
+useScroll(topRef as React.RefObject<HTMLElement>, {
+  deps: [page, isLoading],
+  behavior: 'instant',
+  offset: 0,
+  enabled: !isLoading,
+});
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);

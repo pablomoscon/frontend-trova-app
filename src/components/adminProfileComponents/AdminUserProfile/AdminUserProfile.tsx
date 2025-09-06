@@ -37,7 +37,7 @@ const AdminUserProfile: React.FC = () => {
             <img
               src='/assets/logo_portada_placeholder.webp'
               alt='Placeholder'
-              className='max-w-full max-h-full object-contain'
+              className='w-full h-full object-cover transform filter brightness-80 contrast-70'
             />
           )}
           <img
