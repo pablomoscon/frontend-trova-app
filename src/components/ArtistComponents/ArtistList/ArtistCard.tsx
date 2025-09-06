@@ -11,16 +11,14 @@ const ArtistCard: React.FC<ArtistCardProps> = ({ artist }) => {
       className='group flex flex-col items-center text-center hover:scale-[1.02] transition-transform duration-300'
     >
       <div className='relative w-48 h-48 rounded-full overflow-hidden shadow-lg border border-gray-200'>
-        {/* Placeholder circular */}
         <img
           src='/assets/trova_logo_placeholder.webp'
           alt='Placeholder'
-          className={`absolute inset-0 w-full h-full object-cover rounded-full transition-opacity duration-500 ${
+          className={`absolute inset-0 w-full h-full object-cover rounded-full transition-opacity duration-500 filter brightness-90 ${
             loaded ? 'opacity-0' : 'opacity-100'
           }`}
         />
 
-        {/* Imagen real */}
         <img
           src={artist.photo}
           alt={artist.name}

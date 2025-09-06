@@ -92,7 +92,7 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
         {selectedAlbum && (
           <AlbumSongsModal
             isOpen={isModalOpen}
-            albumId={selectedAlbum.id}
+            album={selectedAlbum}
             onClose={() => {
               setIsModalOpen(false);
               setSelectedAlbum(null);

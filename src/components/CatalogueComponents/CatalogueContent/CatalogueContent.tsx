@@ -103,7 +103,7 @@ const CatalogueContent: React.FC = () => {
       {selectedAlbum && isModalOpen && !isAlbumLoading && (
         <AlbumSongsModal
           isOpen={isModalOpen}
-          albumId={selectedAlbum.id}
+          album={selectedAlbum}
           onClose={closeModal}
         />
       )}

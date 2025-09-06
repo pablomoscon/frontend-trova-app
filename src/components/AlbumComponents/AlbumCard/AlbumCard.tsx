@@ -8,16 +8,14 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => {
   return (
     <div className='w-full border border-gray-300 p-4 rounded shadow flex flex-col items-center justify-between min-h-[380px] sm:min-h-[400px]'>
       <div className='relative w-full pt-4'>
-        {/* Placeholder */}
         <img
           src='/assets/trova_logo_placeholder.webp'
           alt='Placeholder'
-          className={`absolute inset-0 w-full h-auto max-h-[180px] sm:max-h-[200px] object-contain rounded mb-2 transition-opacity duration-500 ${
+          className={`absolute inset-0 w-full h-auto max-h-[180px] sm:max-h-[200px] object-contain rounded mb-2 transition-opacity duration-500 filter brightness-90 ${
             loaded ? 'opacity-0' : 'opacity-100'
           }`}
         />
 
-        {/* Imagen real */}
         <img
           src={album.photo}
           alt={album.title}

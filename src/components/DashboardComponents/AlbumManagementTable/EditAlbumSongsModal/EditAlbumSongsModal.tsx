@@ -1,23 +1,28 @@
 import React, { useRef, useState } from 'react';
 import { EditAlbumSongsModalProps } from '../../../../Interfaces/AlbumInterface';
-import { showErrorAlert, showSuccessAlert } from '../../../../utils/showAlertUtils';
+import {
+  showErrorAlert,
+  showSuccessAlert,
+} from '../../../../utils/showAlertUtils';
 import { useEditSongs } from '../../../../hooks/song/useEditSongs';
 import { useAddSongsToAlbum } from '../../../../hooks/song/useAddSongsToAlbum';
-import { useCloseOnOutside } from '../../../../hooks/shared/useCloseOnOutside';
 import { useDeleteSongs } from '../../../../hooks/song/useDeleteSong';
-import ArtistInput from './ArtistInput';
+import { useCloseOnOutside } from '../../../../hooks/shared/useCloseOnOutside';
 import SongsSection from './SongsSection';
+import { useFetchAlbumSongs } from '../../../../hooks/song/useFetchAlbumSongs';
 
 const EditAlbumSongsModal: React.FC<
   EditAlbumSongsModalProps & { albumId: number }
-> = ({ goBack, songs, albumId }) => {
+> = ({ goBack, albumId }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const [artistName, setArtistName] = useState(
-    songs.length > 0 ? songs[0].artistName || '' : ''
-  );
-  const [selectedSongIds, setSelectedSongIds] = useState<number[]>([]);
+  const {
+    songs: fetchedSongs,
+    loading: loadingFetch,
+    error,
+  } = useFetchAlbumSongs(albumId);
 
+  const [selectedSongIds, setSelectedSongIds] = useState<number[]>([]);
   const toggleSongSelection = (id: number) => {
     setSelectedSongIds((prev) =>
       prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]
@@ -32,13 +37,14 @@ const EditAlbumSongsModal: React.FC<
     goBack();
   };
 
+  // Usamos el hook actualizado que ya sincroniza editedSongs con fetchedSongs
   const {
     editedSongs,
-    setEditedSongs,
     handleEditedSongChange,
     saveSongs,
+    setEditedSongs,
     loading: loadingEdit,
-  } = useEditSongs(songs, handleSuccess);
+  } = useEditSongs(fetchedSongs, handleSuccess);
 
   const {
     newSongs,
@@ -51,10 +57,6 @@ const EditAlbumSongsModal: React.FC<
   const { deleteSongs, loading: loadingDelete } = useDeleteSongs();
 
   useCloseOnOutside(modalRef, goBack);
-
-  const onChangeArtist = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setArtistName(e.target.value);
-  };
 
   const onSubmitEdit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,11 +72,7 @@ const EditAlbumSongsModal: React.FC<
 
   const onSubmitCreate = async () => {
     try {
-      const newSongsWithArtist = newSongs.map((song) => ({
-        ...song,
-        artistName,
-      }));
-      await addSongs(newSongsWithArtist);
+      await addSongs(newSongs);
     } catch {
       showErrorAlert(
         'Error al crear canciones',
@@ -101,14 +99,29 @@ const EditAlbumSongsModal: React.FC<
     }
   };
 
-  const isLoading = loadingEdit || loadingCreate || loadingDelete;
+  const isLoading =
+    loadingEdit || loadingCreate || loadingDelete || loadingFetch;
+
+  if (loadingFetch)
+    return (
+      <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40'>
+        <p className='text-gray-700'>Cargando canciones...</p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40'>
+        <p className='text-red-600'>Error: {error}</p>
+      </div>
+    );
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-6 sm:p-10'>
       <div
         ref={modalRef}
-        className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-3xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative'
         onClick={(e) => e.stopPropagation()}
+        className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl px-6 py-10 sm:py-12 h-auto max-h-[90vh] overflow-y-auto relative'
       >
         <h2 className='text-xl font-semibold mb-4 text-center text-gray-800'>
           Editar Canciones
@@ -116,34 +129,30 @@ const EditAlbumSongsModal: React.FC<
 
         <button
           onClick={goBack}
-          className='absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg'
+          className='absolute top-2 right-4 text-gray-500 hover:text-gray-700 text-lg'
           disabled={isLoading}
           aria-label='Cerrar modal'
         >
           ✕
         </button>
 
-        <ArtistInput
-          artistName={artistName}
-          onChangeArtist={onChangeArtist}
-          disabled={isLoading}
-        />
-
-        <SongsSection
-          title='Canciones'
-          songs={editedSongs}
-          selectedSongIds={selectedSongIds}
-          toggleSongSelection={toggleSongSelection}
-          handleSongChange={handleEditedSongChange}
-          handleDeleteSong={handleDeleteSong}
-          onSubmit={onSubmitEdit}
-          showCheckbox
-          showDeleteSelected
-          onDeleteSelected={handleDeleteSelectedSongs}
-          disabled={loadingEdit || loadingDelete}
-          submitButtonText='Guardar canciones'
-          checkboxPosition='right'
-        />
+        <form onSubmit={onSubmitEdit}>
+          <SongsSection
+            title='Canciones'
+            songs={editedSongs}
+            selectedSongIds={selectedSongIds}
+            toggleSongSelection={toggleSongSelection}
+            handleSongChange={handleEditedSongChange}
+            handleDeleteSong={handleDeleteSong}
+            onSubmit={onSubmitEdit}
+            showCheckbox
+            showDeleteSelected
+            onDeleteSelected={handleDeleteSelectedSongs}
+            disabled={loadingEdit || loadingDelete}
+            submitButtonText='Guardar canciones'
+            checkboxPosition='right'
+          />
+        </form>
 
         <SongsSection
           title='Nuevas canciones'

@@ -33,12 +33,12 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
       {loading && <Spinner />}
       <div
         ref={modalRef}
-        className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-3xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative my-6'
+        className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative my-6'
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className='absolute top-2 right-4 text-gray-500 hover:text-gray-700'
+          className='absolute top-2 right-4 text-gray-500 hover:text-gray-700 text-lg'
         >
           ✕
         </button>

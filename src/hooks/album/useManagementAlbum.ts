@@ -23,7 +23,12 @@ export const useManagementAlbum = (pageSizeInitial = 15, pageKey = 'albumsPage')
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const offset = window.innerWidth < 640 ? 90 : 240;
-    useScroll(scrollRef, { deps: [page], behavior: 'auto', offset });
+
+    useScroll(scrollRef as React.RefObject<HTMLElement>, {
+        deps: [page],
+        behavior: 'auto',
+        offset,
+    });
 
     const {
         albums: backendAlbums,

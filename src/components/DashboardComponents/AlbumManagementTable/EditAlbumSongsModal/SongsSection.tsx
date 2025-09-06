@@ -23,7 +23,7 @@ const SongsSection: React.FC<
       e.preventDefault();
       onSubmit(e);
     }}
-    className='w-full max-w-4xl mx-auto'
+    className='w-full max-w-4xl mx-auto px-8'
   >
     <h3 className='text-base font-semibold font-medium mt-8 mb-4 text-center text-gray-800'>
       {title}

@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Song } from '../../Interfaces/SongInterface';
-import { editSongs } from '../../services/songsService';
+import { editSong } from '../../services/songsService';
 
 export const useEditSongs = (
     initialSongs: Song[],
-    onSuccess: () => void
+    onSuccess: () => void,
+    externalSetSongs?: React.Dispatch<React.SetStateAction<Song[]>>
 ) => {
     const [editedSongs, setEditedSongs] = useState<Song[]>(initialSongs);
+    const setSongs = externalSetSongs || setEditedSongs;
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setEditedSongs(initialSongs);
+        if (externalSetSongs) externalSetSongs(initialSongs);
+    }, [initialSongs, externalSetSongs]);
 
     const handleEditedSongChange = (
         index: number,
@@ -32,7 +39,7 @@ export const useEditSongs = (
 
             await Promise.all(
                 songsToEdit.map((song) =>
-                    editSongs(song.id!, {
+                    editSong(song.id!, {
                         name: song.name,
                         duration: song.duration,
                         artistName: song.artistName,
@@ -50,8 +57,8 @@ export const useEditSongs = (
 
     return {
         editedSongs,
-        setEditedSongs,
         handleEditedSongChange,
+        setEditedSongs: setSongs,
         saveSongs,
         loading,
     };

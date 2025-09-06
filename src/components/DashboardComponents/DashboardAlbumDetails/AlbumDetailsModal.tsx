@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import { X } from 'lucide-react';
 import { AlbumDetailsModalProps } from '../../../Interfaces/DashboardInterface';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
-
+import { useFetchAlbumSongs } from '../../../hooks/song/useFetchAlbumSongs';
+import Spinner from '../../Shared/Spinner';
 
 const AlbumDetailsModal: React.FC<AlbumDetailsModalProps> = ({
   album,
@@ -10,6 +11,8 @@ const AlbumDetailsModal: React.FC<AlbumDetailsModalProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   useCloseOnOutside(modalRef, onClose);
+
+  const { songs, loading, error } = useFetchAlbumSongs(album.id);
 
   return (
     <div className='fixed inset-0 backdrop-blur-lg bg-opacity-50 flex justify-center items-center z-50'>
@@ -25,8 +28,8 @@ const AlbumDetailsModal: React.FC<AlbumDetailsModalProps> = ({
           <X size={20} />
         </button>
 
-        <h3 className='text-2xl font-bold mb-2'>{album.title}</h3>
-        <p className='text-gray-600 mb-4'>
+        <h3 className='text-xl font-bold my-2 pb-2'>{album.title}</h3>
+        <p className='text-gray-600 mb-4 text-sm py-4 border-t-1'>
           {album.details || 'No hay descripción disponible.'}
         </p>
 
@@ -34,21 +37,30 @@ const AlbumDetailsModal: React.FC<AlbumDetailsModalProps> = ({
           <h4 className='font-semibold text-sm text-gray-800 mb-2'>
             Lista de canciones:
           </h4>
-          {album.listOfSongs?.length ? (
+
+          {loading && (
+            <div className='flex justify-center py-4'>
+              <Spinner />
+            </div>
+          )}
+
+          {error && <p className='text-red-600 text-sm'>Error: {error}</p>}
+
+          {!loading && !error && songs.length > 0 ? (
             <ul className='pl-4 space-y-1 text-sm text-gray-700'>
-              {album.listOfSongs.map((song, idx) => {
-                console.log('Song:', song);
-                return (
-                  <li key={idx}>
-                    {idx + 1}. {song.name} — {song.duration}
-                  </li>
-                );
-              })}
+              {songs.map((song, idx) => (
+                <li key={song.id || idx}>
+                  {idx + 1}. {song.name} — {song.duration}
+                </li>
+              ))}
             </ul>
           ) : (
-            <p className='text-gray-500 text-sm'>
-              No hay canciones registradas.
-            </p>
+            !loading &&
+            !error && (
+              <p className='text-gray-500 text-sm'>
+                No hay canciones registradas.
+              </p>
+            )
           )}
 
           <div className='mt-4 flex flex-col gap-2 text-sm text-gray-700 justify-center'>
@@ -71,6 +83,7 @@ const AlbumDetailsModal: React.FC<AlbumDetailsModalProps> = ({
               'No especificados'
             )}
           </div>
+
           <div className='mt-4 flex flex-col gap-2 text-sm text-gray-700 justify-center'>
             <strong>Enlaces a plataformas:</strong>{' '}
             {album.amazonMusicLink ||
