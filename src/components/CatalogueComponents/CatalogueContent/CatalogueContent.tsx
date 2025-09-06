@@ -100,10 +100,10 @@ const CatalogueContent: React.FC = () => {
         </div>
       </section>
 
-      {selectedAlbum && isModalOpen && !isAlbumLoading && (
+      {isModalOpen && (
         <AlbumSongsModal
           isOpen={isModalOpen}
-          album={selectedAlbum}
+          album={selectedAlbum!}
           onClose={closeModal}
         />
       )}
