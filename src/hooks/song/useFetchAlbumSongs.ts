@@ -8,7 +8,7 @@ export const useFetchAlbumSongs = (albumId: number | null): UseAlbumSongsResult 
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (albumId === null) return; // No hacemos fetch si no hay ID
+        if (albumId === null) return; 
 
         let isMounted = true;
 
