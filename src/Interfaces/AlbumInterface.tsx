@@ -86,7 +86,10 @@ export interface EditAlbumProps {
 
 export interface AlbumSongsModalProps {
   isOpen: boolean;
-  album: Album;
+  album: Album; 
+  songs: Song[]; 
+  loading: boolean;
+  error: string | null;
   onClose: () => void;
 }
 

@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { Song, UseAlbumSongsResult } from '../../Interfaces/SongInterface';
 import { fetchSongsByAlbumId } from '../../services/songsService';
 
-export const useFetchAlbumSongs = (albumId: number): UseAlbumSongsResult => {
+export const useFetchAlbumSongs = (albumId: number | null): UseAlbumSongsResult => {
     const [songs, setSongs] = useState<Song[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (albumId === null) return; // No hacemos fetch si no hay ID
+
         let isMounted = true;
 
         const loadSongs = async () => {
@@ -26,9 +28,7 @@ export const useFetchAlbumSongs = (albumId: number): UseAlbumSongsResult => {
 
         loadSongs();
 
-        return () => {
-            isMounted = false;
-        };
+        return () => { isMounted = false; };
     }, [albumId]);
 
     return { songs, loading, error };

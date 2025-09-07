@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import AlbumSongsModal from '../../AlbumComponents/AlbumCard/AlbumSongsModal';
 import Spinner from '../../Shared/Spinner';
+import AlbumSongsModal from '../../AlbumComponents/AlbumCard/AlbumSongsModal';
 import { useDetailsArtist } from '../../../hooks/artist/useDetailsArtist';
 import { useFetchAlbumsByArtist } from '../../../hooks/album/useFetchAlbumsByArtist';
-import { Album } from '../../../Interfaces/AlbumInterface';
+import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
+import { useFetchAlbumSongs } from '../../../hooks/song/useFetchAlbumSongs';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
-import ArtistHeader from './ArtistHeader';
-import ArtistAlbumsSection from '../ArtistAlbumsSection/ArtistAlbumsSection';
+import ArtistHeader from '../../ArtistComponents/ArtistDetails/ArtistHeader';
+import ArtistAlbumsSection from '../../ArtistComponents/ArtistAlbumsSection/ArtistAlbumsSection';
 
 const artistSortOptions: { name: string; value: 'asc' | 'desc' }[] = [
   { name: 'Más antiguo', value: 'asc' },
@@ -14,9 +15,8 @@ const artistSortOptions: { name: string; value: 'asc' | 'desc' }[] = [
 ];
 
 const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
-  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
+  const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const {
@@ -24,7 +24,6 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
     loading: artistLoading,
     error: artistError,
   } = useDetailsArtist(artistId);
-
   const { page, setPage } = usePageAndSearch(`artistDetailsPage_${artistId}`);
 
   const {
@@ -36,24 +35,33 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
     setPageSize,
   } = useFetchAlbumsByArtist(artistId, page, sortOrder);
 
-  if (artistLoading || albumsLoading) return <Spinner />;
+  // Fetch selected album and its songs
+  const { album: selectedAlbum, isLoading: isAlbumLoading } =
+    useFetchAlbumById(selectedAlbumId);
+  const {
+    songs,
+    loading: songsLoading,
+    error: songsError,
+  } = useFetchAlbumSongs(selectedAlbumId);
 
+  const openModal = (albumId: number) => {
+    setSelectedAlbumId(albumId);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedAlbumId(null);
+  };
+
+  if (artistLoading || albumsLoading) return <Spinner />;
   if (artistError || albumsError)
     return (
       <p className='text-center mt-20 text-red-500'>
         {artistError || albumsError}
       </p>
     );
-
   if (!artist) return null;
-
-  const openModal = (albumId: number) => {
-    const album = albums.find((a) => a.id === albumId);
-    if (album) {
-      setSelectedAlbum(album);
-      setIsModalOpen(true);
-    }
-  };
 
   return (
     <div className='bg-[#E5E6E4] px-6 pt-30 sm:pt-40 md:pt-45 lg:pt-55 lg:px-0'>
@@ -61,9 +69,7 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
 
       <div
         className='mt-15 sm:mt-25 md:mt-30 px-8 pt-15 sm:pt-25 md:pt-30 pb-8 text-center bg-gradient-to-tr
-    from-[#F3F4EE]
-    via-[#E3E4DF]
-    to-[#D7D8CE]border-t border-t-gray-400  shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] w-full mx-auto'
+      from-[#F3F4EE] via-[#E3E4DF] to-[#D7D8CE] border-t border-t-gray-400 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] w-full mx-auto'
       >
         <h2 className='text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-wide mb-3'>
           Catálogo de discos de{' '}
@@ -89,14 +95,15 @@ const ArtistDetailsContent: React.FC<{ artistId: number }> = ({ artistId }) => {
           albumsLoading={albumsLoading}
         />
 
-        {selectedAlbum && (
+        {/* Modal */}
+        {selectedAlbum && isModalOpen && (
           <AlbumSongsModal
             isOpen={isModalOpen}
             album={selectedAlbum}
-            onClose={() => {
-              setIsModalOpen(false);
-              setSelectedAlbum(null);
-            }}
+            songs={songs}
+            loading={isAlbumLoading || songsLoading}
+            error={songsError}
+            onClose={closeModal}
           />
         )}
       </div>
