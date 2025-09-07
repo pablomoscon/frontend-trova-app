@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { RefObject, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SearchAlbumsResultsProps } from '../../../Interfaces/AlbumInterface';
 import { useScroll } from '../../../hooks/shared/useScroll';
@@ -6,6 +6,7 @@ import Spinner from '../../Shared/Spinner';
 import AlbumSongsModal from '../AlbumCard/AlbumSongsModal';
 import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
 import { useSearchAlbumsResults } from '../../../hooks/album/useSearchAlbumsResults';
+import { useFetchAlbumSongs } from '../../../hooks/song/useFetchAlbumSongs';
 import AlbumList from '../AlbumList/AlbumList';
 
 const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
@@ -30,7 +31,7 @@ const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
     setPage(1);
   }
 
-  useScroll(shouldScroll ? listTopRef : null, {
+  useScroll(shouldScroll ? (listTopRef as RefObject<HTMLElement>) : undefined, {
     deps: [page, query],
     behavior: 'auto',
     offset,
@@ -49,6 +50,12 @@ const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
 
   const { album: selectedAlbum, isLoading: isAlbumLoading } =
     useFetchAlbumById(selectedAlbumId);
+
+  const {
+    songs,
+    loading: isSongsLoading,
+    error: songsError,
+  } = useFetchAlbumSongs(selectedAlbumId);
 
   const openModal = (albumId: number) => {
     setSelectedAlbumId(albumId);
@@ -84,10 +91,13 @@ const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
             setPageSize={() => {}}
           />
 
-          {selectedAlbum && isModalOpen && !isAlbumLoading && (
+          {selectedAlbum && isModalOpen && (
             <AlbumSongsModal
               isOpen={isModalOpen}
-              albumId={selectedAlbum.id}
+              album={selectedAlbum}
+              songs={songs}
+              loading={isAlbumLoading || isSongsLoading}
+              error={songsError}
               onClose={closeModal}
             />
           )}

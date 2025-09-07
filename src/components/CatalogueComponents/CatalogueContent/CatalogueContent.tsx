@@ -30,9 +30,12 @@ const CatalogueContent: React.FC = () => {
     setSortOrder,
   } = useFilteredAlbums(9, page, setPage);
 
+  const [registerVisit, setRegisterVisit] = useState(false);
+
   // Fetch del álbum seleccionado y sus canciones
   const { album: selectedAlbum, isLoading: isAlbumLoading } =
-    useFetchAlbumById(selectedAlbumId);
+    useFetchAlbumById(selectedAlbumId, registerVisit);
+  
   const {
     songs,
     loading: songsLoading,
@@ -44,15 +47,17 @@ const CatalogueContent: React.FC = () => {
     setPage(1);
   };
 
-  const openModal = (albumId: number) => {
-    setSelectedAlbumId(albumId);
-    setIsModalOpen(true);
-  };
+const openModal = (albumId: number) => {
+  setSelectedAlbumId(albumId);
+  setRegisterVisit(true);
+  setIsModalOpen(true);
+};
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedAlbumId(null);
-  };
+const closeModal = () => {
+  setIsModalOpen(false);
+  setSelectedAlbumId(null);
+  setRegisterVisit(false); 
+};
 
   return (
     <>

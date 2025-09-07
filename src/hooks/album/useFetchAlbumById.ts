@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { Album } from '../../Interfaces/AlbumInterface';
 import { fetchAlbumById } from '../../services/albumService';
 
-export const useFetchAlbumById = (albumId: number | null) => {
+export const useFetchAlbumById = (
+    albumId: number | null,
+    registerVisit: boolean = false 
+) => {
     const [album, setAlbum] = useState<Album | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -12,7 +15,7 @@ export const useFetchAlbumById = (albumId: number | null) => {
         const fetchAlbum = async () => {
             setIsLoading(true);
             try {
-                const data = await fetchAlbumById(albumId);
+                const data = await fetchAlbumById(albumId, registerVisit);
                 setAlbum(data);
             } catch (err) {
                 console.error('Error fetching album by ID', err);
@@ -22,7 +25,7 @@ export const useFetchAlbumById = (albumId: number | null) => {
         };
 
         fetchAlbum();
-    }, [albumId]);
+    }, [albumId, registerVisit]); 
 
     return { album, isLoading };
 };

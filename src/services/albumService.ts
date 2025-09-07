@@ -15,9 +15,12 @@ export const fetchAlbums = async (
   return data;                     
 };
 
-export const fetchAlbumById = async (id: number): Promise<Album> => {
+export const fetchAlbumById = async (
+  id: number,
+  registerVisit: boolean = false
+): Promise<Album> => {
   const { data } = await axios.get<Album>(
-    `${baseURL}/albums/${id}`,
+    `${baseURL}/albums/${id}?registerVisit=${registerVisit}`,
     { withCredentials: true }
   );
   return data;
