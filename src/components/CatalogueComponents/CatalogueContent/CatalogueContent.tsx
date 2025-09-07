@@ -4,6 +4,7 @@ import AlbumList from '../../AlbumComponents/AlbumList/AlbumList';
 import { useFilteredAlbums } from '../../../hooks/album/useFilteredAlbums';
 import AlbumSongsModal from '../../AlbumComponents/AlbumCard/AlbumSongsModal';
 import { useFetchAlbumById } from '../../../hooks/album/useFetchAlbumById';
+import { useFetchAlbumSongs } from '../../../hooks/song/useFetchAlbumSongs';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 import CatalogueMobileFilterDialog from '../CatalogueMobileFilterDialog/CatalogueMobileFilterDialog';
 import CatalogueHeader from '../CatalogueHeader/CatalogueHeader';
@@ -29,8 +30,14 @@ const CatalogueContent: React.FC = () => {
     setSortOrder,
   } = useFilteredAlbums(9, page, setPage);
 
+  // Fetch del álbum seleccionado y sus canciones
   const { album: selectedAlbum, isLoading: isAlbumLoading } =
     useFetchAlbumById(selectedAlbumId);
+  const {
+    songs,
+    loading: songsLoading,
+    error: songsError,
+  } = useFetchAlbumSongs(selectedAlbumId);
 
   const handleFilterChange = (filters: Record<string, string[]>) => {
     setSelectedFilters(filters);
@@ -100,10 +107,14 @@ const CatalogueContent: React.FC = () => {
         </div>
       </section>
 
-      {isModalOpen && (
+      {/* Modal */}
+      {selectedAlbum && isModalOpen && (
         <AlbumSongsModal
           isOpen={isModalOpen}
-          album={selectedAlbum!}
+          album={selectedAlbum}
+          songs={songs}
+          loading={isAlbumLoading || songsLoading}
+          error={songsError}
           onClose={closeModal}
         />
       )}
