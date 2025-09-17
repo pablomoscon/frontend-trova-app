@@ -2,19 +2,24 @@ import React, { useState } from 'react';
 import InputField from '../InputField/InputField';
 import PhoneInput from '../PhoneInput/PhoneInput';
 import SwitchField from '../SwitchField/SwitchField';
+import { useContactForm } from '../../../hooks/email/useContactForm';
+
 
 const ContactForm: React.FC = () => {
+  const { form, handleChange, handleSubmit, loading, success, error } =
+    useContactForm();
   const [agreed, setAgreed] = useState(false);
 
   return (
-    <form action='#' method='POST' className='mx-auto max-w-4xl sm:mt-10 px-6'>
+    <form onSubmit={handleSubmit} className='mx-auto max-w-4xl sm:mt-10 px-6'>
       <div className='grid grid-cols-1 gap-x-4 sm:grid-cols-2'>
-    
         <InputField
           id='first-name'
           label='Nombre'
           type='text'
-          name='first-name'
+          name='firstName'
+          value={form.firstName}
+          onChange={handleChange}
           autoComplete='given-name'
           className='w-full'
         />
@@ -22,7 +27,9 @@ const ContactForm: React.FC = () => {
           id='last-name'
           label='Apellido'
           type='text'
-          name='last-name'
+          name='lastName'
+          value={form.lastName || ''}
+          onChange={handleChange}
           autoComplete='family-name'
           className='w-full'
         />
@@ -33,6 +40,8 @@ const ContactForm: React.FC = () => {
         label='Correo electrónico'
         type='email'
         name='email'
+        value={form.email}
+        onChange={handleChange}
         autoComplete='email'
         className='w-full mt-6'
       />
@@ -43,6 +52,8 @@ const ContactForm: React.FC = () => {
         label='Mensaje'
         type='textarea'
         name='message'
+        value={form.message}
+        onChange={handleChange}
         rows={4}
         className='w-full mt-6'
       />
@@ -51,10 +62,16 @@ const ContactForm: React.FC = () => {
 
       <button
         type='submit'
-        className='mt-6 px-6 py-3 bg-gray-900 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-gray-600 transition-transform transform hover:scale-105 w-full'
+        disabled={loading}
+        className='mt-6 px-6 py-3 bg-gray-900 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-gray-600 transition-transform transform hover:scale-105 w-full disabled:opacity-50'
       >
-        Enviar mensaje
+        {loading ? 'Sending...' : 'Enviar mensaje'}
       </button>
+
+      {success && (
+        <p className='mt-4 text-green-600'>Message sent successfully!</p>
+      )}
+      {error && <p className='mt-4 text-red-600'>{error}</p>}
     </form>
   );
 };

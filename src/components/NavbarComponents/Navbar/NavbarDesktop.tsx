@@ -36,7 +36,7 @@ const NavbarDesktop: React.FC<
           onEnter={onSearchEnter}
           onSearchClick={onSearchClick}
           placeholder='Buscar...'
-          className='w-64 bg-gray-100 text-gray-700'
+          className='w-80 bg-gray-100 text-gray-700'
         />
       </div>
     )}
