@@ -90,9 +90,9 @@ export function useFilteredAlbums(
     try {
       const data = await fetchAlbumFilters();
       setFilters([
-        { id: 'artistName', name: 'Artist', options: (data.artists || []).map(a => ({ label: a, value: a })) },
-        { id: 'genre', name: 'Genre', options: (data.genres || []).map(g => ({ label: g, value: g })) },
-        { id: 'year', name: 'Year', options: (data.decades || []).map(d => ({ label: d, value: d })) },
+        { id: 'artistName', name: 'Artista', options: (data.artists || []).map(a => ({ label: a, value: a })) },
+        { id: 'genre', name: 'Género', options: (data.genres || []).map(g => ({ label: g, value: g })) },
+        { id: 'year', name: 'Año', options: (data.decades || []).map(d => ({ label: d, value: d })) },
       ]);
     } catch (err) {
       console.error('Error loading filters:', err);
