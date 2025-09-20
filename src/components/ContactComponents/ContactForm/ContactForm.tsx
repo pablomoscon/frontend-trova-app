@@ -2,16 +2,20 @@ import React, { useState } from 'react';
 import InputField from '../InputField/InputField';
 import PhoneInput from '../PhoneInput/PhoneInput';
 import SwitchField from '../SwitchField/SwitchField';
-import { useContactForm } from '../../../hooks/email/useContactForm';
-
+import { useContactForm } from '../../../hooks/contact/useContactForm';
 
 const ContactForm: React.FC = () => {
-  const { form, handleChange, handleSubmit, loading, success, error } =
-    useContactForm();
+  const { form, handleChange, handleSubmit, loading } = useContactForm();
   const [agreed, setAgreed] = useState(false);
 
   return (
-    <form onSubmit={handleSubmit} className='mx-auto max-w-4xl sm:mt-10 px-6'>
+    <form
+      onSubmit={(e) => {
+        handleSubmit(e);
+        setAgreed(false);
+      }}
+      className='mx-auto max-w-4xl sm:mt-10 px-6'
+    >
       <div className='grid grid-cols-1 gap-x-4 sm:grid-cols-2'>
         <InputField
           id='first-name'
@@ -45,6 +49,7 @@ const ContactForm: React.FC = () => {
         autoComplete='email'
         className='w-full mt-6'
       />
+
       <PhoneInput />
 
       <InputField
@@ -67,11 +72,6 @@ const ContactForm: React.FC = () => {
       >
         {loading ? 'Sending...' : 'Enviar mensaje'}
       </button>
-
-      {success && (
-        <p className='mt-4 text-green-600'>Message sent successfully!</p>
-      )}
-      {error && <p className='mt-4 text-red-600'>{error}</p>}
     </form>
   );
 };
