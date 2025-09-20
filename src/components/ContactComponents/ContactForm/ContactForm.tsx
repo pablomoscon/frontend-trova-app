@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import InputField from '../InputField/InputField';
 import PhoneInput from '../PhoneInput/PhoneInput';
 import SwitchField from '../SwitchField/SwitchField';
-import { useContactForm } from '../../../hooks/email/useContactForm';
+import { useContactForm } from '../../../hooks/contact/useContactForm';
 
 const ContactForm: React.FC = () => {
   const { form, handleChange, handleSubmit, loading } = useContactForm();
