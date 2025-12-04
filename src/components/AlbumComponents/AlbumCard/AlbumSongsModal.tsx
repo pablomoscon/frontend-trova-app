@@ -71,7 +71,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
             {/* Lista de canciones */}
             {songs.length > 0 ? (
               <>
-                <ul role='list' className='divide-y divide-gray-100'>
+                <ul className='divide-y divide-gray-100'>
                   {songs.map((song, index) => (
                     <li
                       key={song.id || index}

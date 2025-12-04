@@ -121,6 +121,9 @@ const EditAlbumSongsModal: React.FC<
       <div
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
+        role='dialog' 
+        aria-modal='true'
+        tabIndex={-1}
         className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl px-6 py-10 sm:py-12 h-auto max-h-[90vh] overflow-y-auto relative'
       >
         <h2 className='text-xl font-semibold mb-4 text-center text-gray-800'>

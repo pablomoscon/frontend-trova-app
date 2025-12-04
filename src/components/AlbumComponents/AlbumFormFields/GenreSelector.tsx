@@ -31,7 +31,7 @@ const GenreSelector: React.FC<AlbumGenreSelectorProps> = ({
         {genresList.map((genre) => (
           <option key={genre} value={genre}>
             {genre
-              .replace(/_/g, ' ')
+              .replaceAll('_', ' ')
               .toLowerCase()
               .replace(/^\w/, (c) => c.toUpperCase())}
           </option>
