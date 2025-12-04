@@ -27,7 +27,7 @@ export const useDeleteUser = (reloadUsers?: () => void) => {
             showSuccessAlert('Usuario eliminado', 'El usuario ha sido eliminado correctamente.');
 
             if (reloadUsers) {
-                await reloadUsers();
+                reloadUsers();
             }
         } catch (error: unknown) {
             const err = error as ApiError;

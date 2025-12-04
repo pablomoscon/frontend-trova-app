@@ -61,9 +61,9 @@ export const useManagementUser = (pageSizeInitial = 20, pageKey = 'usersPage') =
             await editUser(user.id, { status: newStatus });
             showSuccessAlert('Estado actualizado', `El álbum fue ${newStatus === 'SUSPENDED' ? 'suspendido' : 'activado'}.`);
             if (searching) {
-                await refreshSearch();
+                refreshSearch();
             } else {
-                await reloadUsers();
+                reloadUsers();
             }
         } catch {
             showErrorAlert('Error', 'No se pudo cambiar el estado.');

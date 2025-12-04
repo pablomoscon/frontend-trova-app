@@ -27,7 +27,7 @@ export const useDeleteAlbum = (reloadAlbums?: () => void) => {
             showSuccessAlert('Álbum eliminado con éxito', 'El álbum ha sido eliminado correctamente.');
 
             if (reloadAlbums) {
-                await reloadAlbums();
+                reloadAlbums();
             }
         } catch (err: unknown) {
             console.error('Error al eliminar álbum:', err);
