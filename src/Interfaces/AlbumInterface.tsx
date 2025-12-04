@@ -1,3 +1,4 @@
+import { MultiSelectEvent } from '../types/MultiSelectEvent';
 import type { Artist } from './ArtistInterface';
 import type { Song } from './SongInterface';
 
@@ -53,7 +54,6 @@ export interface AlbumFormData extends AlbumLinks {
   status?: Status;
 }
 
-// Pagination data for albums
 export interface AlbumsData {
   albums: Album[];
   totalElements: number;
@@ -132,7 +132,9 @@ export interface AlbumArtistSelectorProps extends ArtistModalControl {
 export interface AlbumGenreSelectorProps {
   selectedGenres: string[];
   onChange: (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+    e:
+      | React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+      | MultiSelectEvent
   ) => void;
 }
 
