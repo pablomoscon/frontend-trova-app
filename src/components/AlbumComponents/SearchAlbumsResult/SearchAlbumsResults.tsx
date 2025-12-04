@@ -22,9 +22,10 @@ const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
 
   const listTopRef = useRef<HTMLDivElement>(null);
   const [shouldScroll, setShouldScroll] = useState(false);
-  const offset = window.innerWidth < 640 ? 90 : 240;
 
+  const offset = window.innerWidth < 640 ? 90 : 240;
   const prevQueryRef = useRef(query);
+
   if (prevQueryRef.current !== query) {
     prevQueryRef.current = query;
     setShouldScroll(true);
@@ -67,42 +68,52 @@ const SearchAlbumsResults: React.FC<SearchAlbumsResultsProps> = ({
     setSelectedAlbumId(null);
   };
 
+
+  let content;
+
+  if (isLoading) {
+    content = <Spinner />;
+  } else if (error) {
+    content = (
+      <div className='py-12 text-center text-red-500'>Error: {error}</div>
+    );
+  } else if (!albums || albums.length === 0) {
+    content = (
+      <div className='py-12 text-center text-gray-600'>
+        No se encontraron álbumes.
+      </div>
+    );
+  } else {
+    content = (
+      <>
+        <div ref={listTopRef} />
+        <AlbumList
+          albums={albums ?? []}
+          onClick={openModal}
+          page={page}
+          totalPages={totalPages}
+          setPage={handlePageChange}
+          pageSize={pageSize}
+          setPageSize={() => {}}
+        />
+
+        {selectedAlbum && isModalOpen && (
+          <AlbumSongsModal
+            isOpen={isModalOpen}
+            album={selectedAlbum}
+            songs={songs}
+            loading={isAlbumLoading || isSongsLoading}
+            error={songsError}
+            onClose={closeModal}
+          />
+        )}
+      </>
+    );
+  }
+
   return (
     <section className='bg-[#E5E6E4] min-h-screen w-full pt-10 pb-40'>
-      {isLoading ? (
-        <Spinner />
-      ) : error ? (
-        <div className='py-12 text-center text-red-500'>Error: {error}</div>
-      ) : !albums || albums.length === 0 ? (
-        <div className='py-12 text-center text-gray-600'>
-          No se encontraron álbumes.
-        </div>
-      ) : (
-        <>
-          <div ref={listTopRef} />
-
-          <AlbumList
-            albums={albums ?? []}
-            onClick={openModal}
-            page={page}
-            totalPages={totalPages}
-            setPage={handlePageChange}
-            pageSize={pageSize}
-            setPageSize={() => {}}
-          />
-
-          {selectedAlbum && isModalOpen && (
-            <AlbumSongsModal
-              isOpen={isModalOpen}
-              album={selectedAlbum}
-              songs={songs}
-              loading={isAlbumLoading || isSongsLoading}
-              error={songsError}
-              onClose={closeModal}
-            />
-          )}
-        </>
-      )}
+      {content}
     </section>
   );
 };
