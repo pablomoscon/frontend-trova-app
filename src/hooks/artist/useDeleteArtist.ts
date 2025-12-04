@@ -29,7 +29,7 @@ export const useDeleteArtist = (
             );
 
             if (reloadArtists) {
-                await reloadArtists();
+                reloadArtists();
             }
         } catch (err: unknown) {
             console.error('Delete artist error:', err);

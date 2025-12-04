@@ -23,21 +23,21 @@ export const generateFiltersFromAlbums = (albums: Album[]): FilterSection[] => {
             id: 'artistName',
             name: 'Artista',
             options: Array.from(artists)
-                .sort()
+                .sort((a, b) => a.localeCompare(b)) 
                 .map((a) => ({ label: a, value: a })),
         },
         {
             id: 'genre',
             name: 'Género',
             options: Array.from(genres)
-                .sort()
+                .sort((a, b) => a.localeCompare(b)) 
                 .map((g) => ({ label: g, value: g })),
         },
         {
             id: 'year',
             name: 'Año',
             options: Array.from(decades)
-                .sort((a, b) => parseInt(b) - parseInt(a)) 
+                .sort((a, b) => parseInt(b) - parseInt(a))
                 .map((d) => ({ label: d, value: d })),
         },
     ];
