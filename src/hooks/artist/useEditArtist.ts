@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Artist } from '../../Interfaces/ArtistInterface';
 import { editArtist } from '../../services/artistService';
+import { ApiError } from '../../types/Error';
 
 export const useEditArtist = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -15,8 +16,10 @@ export const useEditArtist = () => {
             const updated = await editArtist(id, formData);
             setSuccess(true);
             return updated;
-        } catch (err: any) {
-            setError(err?.message || 'Error al editar el artista');
+        } catch (err: unknown) {
+            const error = err as ApiError;
+
+            setError(error?.message || 'Error al editar el artista');
             throw err;
         } finally {
             setIsLoading(false);

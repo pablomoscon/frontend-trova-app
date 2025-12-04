@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { searchArtists } from '../../services/artistService';
 import { Artist } from '../../Interfaces/ArtistInterface';
+import { ApiError } from '../../types/Error';
 
 export const useSearchArtists = (term: string, page: number, size: number) => {
     const [artists, setArtists] = useState<Artist[]>([]);
@@ -23,10 +24,12 @@ export const useSearchArtists = (term: string, page: number, size: number) => {
                 setArtists(content);
                 setPages(totalPages);
                 setError(null);
-            } catch (e: any) {
+            } catch (e: unknown) {
+                const error = e as ApiError;
+
                 setArtists([]);
                 setPages(1);
-                setError(e.message || 'Búsqueda fallida');
+                setError(error?.response?.data?.message || error?.message || 'Búsqueda fallida');
             } finally {
                 setIsLoading(false);
             }
@@ -43,10 +46,12 @@ export const useSearchArtists = (term: string, page: number, size: number) => {
             setArtists(content);
             setPages(totalPages);
             setError(null);
-        } catch (e: any) {
+        } catch (e: unknown) {
+            const error = e as { message?: string };
+
             setArtists([]);
             setPages(1);
-            setError(e.message || 'Búsqueda fallida');
+            setError(error?.message || 'Búsqueda fallida');
         } finally {
             setIsLoading(false);
         }

@@ -73,12 +73,16 @@ export interface DashboardSummaryCardProps {
   color: string;
 }
 
-export interface DashboardChartSectionProps {
-  title: string;
-  data: any[];
-  dataKey: string;
+export interface DashboardChartItem {
+  visits: number;
+  [key: string]: string | number;
 }
 
+export interface DashboardChartSectionProps {
+  title: string;
+  data: DashboardChartItem[];
+  dataKey: string;
+}
 export interface AlbumDetailsListProps {
   albums: Album[];
   onOpenDetails: (album: Album) => void;

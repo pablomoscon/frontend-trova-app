@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { showErrorAlert, showSuccessAlert } from '../../utils/showAlertUtils';
-import { ArtistFormData } from '../../Interfaces/ArtistInterface';
+import { Artist, ArtistFormData } from '../../Interfaces/ArtistInterface';
 
 export const useCreateArtist = (
-    addNewArtist: Function,
+    addNewArtist: (data: FormData) => Promise<Artist>,  
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 ) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +53,8 @@ export const useCreateArtist = (
             });
 
             showSuccessAlert('Artista creado', 'El artista se guardó exitosamente.');
-        } catch (error) {
+        } catch (err) {
+            console.error(err);
             setCreateError('Error al crear el artista');
             showErrorAlert('Error al crear el artista', 'Por favor, inténtalo de nuevo.');
         } finally {

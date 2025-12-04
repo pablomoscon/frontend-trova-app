@@ -18,8 +18,8 @@ export const useFetchUserById = (id: string) => {
             try {
                 const data = await fetchUserById(id);
                 setUser(data);
-            } catch (error) {
-                console.error('Error fetching user by id:', error);
+            } catch (err) {
+                console.error('Error fetching user by id:', err);
                 setUser(null);
             } finally {
                 setLoading(false);

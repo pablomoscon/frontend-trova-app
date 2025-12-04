@@ -9,7 +9,7 @@ export const fetchArtists = async (
   size: number,
   status?: string
 ): Promise<ArtistsData> => {
-  const params: any = { page, size };
+  const params: { page: number; size: number; status?: string } = { page, size };
   if (status) {
     params.status = status;
   }
@@ -63,9 +63,9 @@ export const createArtist = async (formData: FormData): Promise<Artist> => {
       }
     );
     return response.data;
-  } catch (error) {
-    console.error('Error creating artist', error);
-    throw error;
+  } catch (err) {
+    console.error('Error creating artist', err);
+    throw err;
   }
 };
 

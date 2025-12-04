@@ -8,7 +8,6 @@ const InputField: React.FC<ContactInputFieldProps> = ({
   name,
   value,
   onChange,
-  autoComplete,
   placeholder,
   rows,
 }) => {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Song, UseAlbumSongsResult } from '../../Interfaces/SongInterface';
 import { fetchSongsByAlbumId } from '../../services/songsService';
+import { ApiError } from '../../types/Error';
 
 export const useFetchAlbumSongs = (albumId: number | null): UseAlbumSongsResult => {
     const [songs, setSongs] = useState<Song[]>([]);
@@ -19,8 +20,12 @@ export const useFetchAlbumSongs = (albumId: number | null): UseAlbumSongsResult 
             try {
                 const data = await fetchSongsByAlbumId(albumId);
                 if (isMounted) setSongs(data);
-            } catch (err: any) {
-                if (isMounted) setError(err.message || 'Failed to fetch songs');
+            } catch (err: unknown) {
+                const error = err as ApiError;
+
+                if (isMounted) {
+                    setError(error?.response?.data?.message || error?.message || 'Error al obtener las canciones');
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }

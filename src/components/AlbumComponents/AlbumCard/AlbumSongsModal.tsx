@@ -24,7 +24,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
         ref={panelRef}
         className='bg-white p-6 rounded-xl w-11/12 sm:w-[500px] shadow-2xl max-h-[90vh] overflow-y-auto'
       >
-        {/* Header with title and close button */}
+        {/* Header con título y botón de cierre */}
         <div className='flex justify-between items-center'>
           <h3 className='text-2xl font-bold text-gray-900'>
             {loading ? 'Cargando...' : album.title}
@@ -38,17 +38,17 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
           </button>
         </div>
 
-        {/* Loader while album or songs are loading */}
+        {/* Loader mientras se cargan los datos */}
         {loading && (
           <div className='flex justify-center items-center h-40'>
             <Loader className='animate-spin text-gray-500 w-6 h-6' />
           </div>
         )}
 
-        {/* Content once loading is finished */}
+       
         {!loading && (
           <>
-            {/* Platform links section */}
+            {/* Links a las plataformas */}
             {(album.spotifyLink ||
               album.amazonMusicLink ||
               album.appleMusicLink) && (
@@ -68,7 +68,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
               </div>
             )}
 
-            {/* Songs list */}
+            {/* Lista de canciones */}
             {songs.length > 0 ? (
               <>
                 <ul role='list' className='divide-y divide-gray-100'>
@@ -92,7 +92,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
                   ))}
                 </ul>
 
-                {/* Close button */}
+                {/* Botón de cerrar */}
                 <button
                   className='mt-6 w-full bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition duration-150'
                   onClick={onClose}
@@ -106,7 +106,7 @@ const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
               </p>
             ) : null}
 
-            {/* Error message */}
+       {/* Mensaje de error */}
             {error && <p className='text-red-500 text-center mt-4'>{error}</p>}
           </>
         )}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { AlbumFormData } from "../../Interfaces/AlbumInterface";
+import { CustomInputEvent } from "../../types/FormEvents";
 
 export const useAlbumForm = () => {
     const [formData, setFormData] = useState<AlbumFormData>({
@@ -34,13 +35,17 @@ export const useAlbumForm = () => {
     }, [formData.photo]);
 
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> | { target: { name: string, value: any } }
+        e:
+            | React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+            | CustomInputEvent<keyof AlbumFormData>
     ) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+        if ("name" in e.target && "value" in e.target) {
+            const { name, value } = e.target;
+            setFormData(prev => ({
+                ...prev,
+                [name]: value,
+            }));
+        }
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

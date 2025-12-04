@@ -1,8 +1,8 @@
-import { SignupData } from "../Interfaces/AuthInterface";
+import { SignupData, SignupErrors } from "../Interfaces/AuthInterface";
 
-export const validateForm = (formData: SignupData, setErrors: React.Dispatch<React.SetStateAction<any>>) => {
+export const validateForm = (formData: SignupData, setErrors: React.Dispatch<React.SetStateAction<SignupErrors>>) => {
     let isValid = true;
-    let errorMessages = {
+    const errorMessages = {
         name: '',
         username: '',
         email: '',

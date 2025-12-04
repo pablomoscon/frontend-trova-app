@@ -12,8 +12,8 @@ export const isTokenExpired = (token: string): boolean => {
             return true;
         }
         return false;
-    } catch (e) {
-     
+    } catch (err) {
+        console.log(err)
         window.location.href = '/'; 
         return true;
         }

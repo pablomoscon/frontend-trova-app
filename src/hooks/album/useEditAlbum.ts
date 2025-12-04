@@ -29,13 +29,12 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
                 startLoading();
 
                 const album = await fetchAlbumById(albumId);
-
-                const { content: artistList } = await fetchArtists(0, 100);  
+                const { content: artistList } = await fetchArtists(0, 100);
 
                 const matchingArtist = artistList.find(
                     (a) => a.name === album.artistName
                 );
-                
+
                 const loadedData: AlbumFormData = {
                     title: album.title,
                     year: album.year ?? 0,
@@ -44,12 +43,11 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
                     details: album.details,
                     cdNumber: album.cdNumber,
                     genres: album.genres ?? [],
-                    listOfSongs: album.listOfSongs ?? [],  
+                    listOfSongs: album.listOfSongs ?? [],
                     displayArtistName: album.displayArtistName,
                     appleMusicLink: album.appleMusicLink ?? '',
                     spotifyLink: album.spotifyLink ?? '',
                     amazonMusicLink: album.amazonMusicLink ?? '',
-
                 };
 
                 setFormData(loadedData);
@@ -57,16 +55,17 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
                 setSongsInput(
                     (album.listOfSongs ?? []).map((s) => s.name).join(", ")
                 );
-                setArtists(artistList);              
-            } catch (error) {
-                console.error("Error al cargar álbum", error);
+                setArtists(artistList);
+
+            } catch (err) {
+                console.error("Error al cargar álbum", err);
             } finally {
                 stopLoading();
             }
         };
 
         loadData();
-    }, [albumId]);
+    }, [albumId, setFormData, setSongsInput, startLoading, stopLoading]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -81,7 +80,8 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
             await editAlbum(albumId, updatedData);
             showSuccessAlert("Álbum editado correctamente", "Los cambios fueron guardados.");
             onClose();
-        } catch (error) {
+        } catch (err) {
+            console.error(err);
             showErrorAlert("Error al editar", "Intentalo nuevamente.");
         }
     };

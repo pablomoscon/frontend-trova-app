@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { DependencyList, RefObject } from "react";
 
 export interface SearchInputProps {
   value: string;
@@ -37,11 +37,12 @@ export interface PaginationControlsProps {
   onPageChangeComplete?: () => void;
 }
 
-export interface useScrollOptions {
-  deps?: any[];
+export interface UseScrollOptions {
+  deps?: DependencyList;
   behavior?: ScrollBehavior;
   offset?: number;
   enabled?: boolean;
+  scrollOnMount?: boolean;
 }
 export interface SortOption<T extends string> {
   name: string;
@@ -77,11 +78,3 @@ export type ScrollTarget =
     disableGlobalScroll: boolean;
     setDisableGlobalScroll: (v: boolean) => void;
   }
-
-export interface UseScrollOptions {
-  deps?: any[];
-  behavior?: 'auto' | 'instant' | 'smooth';
-  offset?: number;
-  enabled?: boolean;
-  scrollOnMount?: boolean;
-}

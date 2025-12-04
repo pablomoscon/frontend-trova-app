@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import HomeView from '../views/HomeView/HomeView';
 import CatalogueView from '../views/CatalogueView/CatalogueView';

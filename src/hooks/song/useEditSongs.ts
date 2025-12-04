@@ -48,8 +48,9 @@ export const useEditSongs = (
             );
 
             onSuccess();
-        } catch (error) {
-            throw error;
+        } catch (err) {
+            console.log(err)
+            throw err;
         } finally {
             setLoading(false);
         }

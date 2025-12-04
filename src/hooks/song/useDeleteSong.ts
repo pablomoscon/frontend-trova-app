@@ -25,8 +25,8 @@ export const useDeleteSongs = () => {
             await deleteSongsRequest(ids);
             showSuccessAlert('Éxito', 'Las canciones fueron eliminadas con éxito.');
             return true;
-        } catch (error) {
-            console.error('Error al eliminar canciones:', error);
+        } catch (err) {
+            console.error('Error al eliminar canciones:', err);
             showErrorAlert('Error', 'No se pudieron eliminar las canciones.');
             return false;
         } finally {

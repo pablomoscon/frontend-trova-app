@@ -29,8 +29,8 @@ const useSignUp = () => {
             await signUp({ ...formData });
             const result = await showSignupSuccessAlert();
             if (result.isConfirmed) navigate('/signin');
-        } catch (error) {
-            console.error('Error registrándose:', error);
+        } catch (err) {
+            console.error('Error registrándose:', err);
             showSignupErrorAlert();
         }
     };

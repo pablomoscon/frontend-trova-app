@@ -69,7 +69,12 @@ export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage
   const closeEditModal = () => {
     setSelectedArtistId(null);
     setShowModal(false);
-    searching ? reloadhSearch() : reloadArtists();
+
+    if (searching) {
+      reloadhSearch();
+    } else {
+      reloadArtists();
+    }
   };
 
   const onPageSizeChange = (sz: number) => {
