@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchAlbums } from './useSearchAlbums';
 import { usePageAndSearch } from '../shared/usePageAndSearch';
 
@@ -17,12 +17,18 @@ export const useSearchAlbumsResults = (
 
     const [hasSearched, setHasSearched] = useState(!!initialQuery);
 
+
+    const isInitialQueryChanged = useMemo(
+        () => initialQuery !== searchTerm,
+        [initialQuery, searchTerm]
+    );
+
     useEffect(() => {
-        if (initialQuery !== searchTerm) {
+        if (isInitialQueryChanged) {
             setSearchTerm(initialQuery);
             setPage(1);
         }
-    }, [initialQuery]);
+    }, [isInitialQueryChanged, initialQuery, setPage, setSearchTerm]);
 
     const { albums, isLoading, error, totalPages } = useSearchAlbums(
         searchTerm,
@@ -32,12 +38,18 @@ export const useSearchAlbumsResults = (
         'ACTIVE'
     );
 
+    /**
+     * Actualiza hasSearched cuando cambia el término
+     */
     useEffect(() => {
         const isValid = searchTerm.trim() !== '';
         setHasSearched(isValid);
         if (!isValid) setPage(1);
-    }, [searchTerm]);
+    }, [searchTerm, setPage]);
 
+    /**
+     * Ajusta page si excede totalPages
+     */
     useEffect(() => {
         if (!isLoading && page > totalPages && totalPages > 0) {
             setPage(totalPages);

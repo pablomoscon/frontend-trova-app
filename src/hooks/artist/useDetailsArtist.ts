@@ -13,6 +13,7 @@ export const useDetailsArtist = (artistId: number) => {
                 const data = await fetchArtistById(artistId);
                 setArtist(data);
             } catch (err) {
+                console.error(err);
                 setError('Error loading artist');
             } finally {
                 setLoading(false);

@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { Album, AlbumFilterParams, AlbumFilterResponse, AlbumFiltersResponse, AlbumFormData, AlbumsByArtistResponse, AlbumsData, Status } from '../Interfaces/AlbumInterface';
 import axiosInstance from '../api/axiosInstance';
 import { Song } from '../Interfaces/SongInterface';
+import { ApiError } from '../types/Error';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL
 
@@ -40,9 +41,9 @@ export const fetchAlbumsByArtist = async (
       }
     );
     return data;
-  } catch (error) {
-    console.error('Error fetching albums by artist:', error);
-    throw error;
+  } catch (err) {
+    console.error('Error fetching albums by artist:', err);
+    throw err;
   }
 };
 
@@ -104,9 +105,9 @@ export const createAlbum = async (newAlbum: FormData): Promise<Album> => {
       }
     );
     return response.data;
-  } catch (error) {
-    console.error('Error creating album', error);
-    throw error;
+  } catch (err) {
+    console.error('Error creating album', err);
+    throw err;
   }
 };
 
@@ -129,7 +130,7 @@ export const editAlbum = async (
       } else if (key === 'photo') {
         form.append('photo', value as File);
       } else {
-        form.append(key, value as any);
+        form.append(key, String(value));
       }
     });
 
@@ -166,9 +167,14 @@ export const addSongsToAlbum = async (
       }
     );
     return response.data;
-  } catch (error: any) {
-    console.error('Error creating songs:', error);
-    throw new Error(error.response?.data?.message || 'Error creating songs');
+  } catch (error: unknown) {
+    const err = error as ApiError;
+
+    console.error('Error creating songs:', err);
+
+    throw new Error(
+      err.response?.data?.message || err.message || 'Error creating songs'
+    );
   }
 };
 

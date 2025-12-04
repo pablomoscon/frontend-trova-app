@@ -22,8 +22,8 @@ const useSignIn = ({ username, password }: Credentials) => {
             login(user);
             navigate('/admin/dashboard', { replace: true });
             showLoginSuccessAlert();
-        } catch (error) {
-            console.error('Error logging in:', error);
+        } catch (err) {
+            console.error('Error logging in:', err);
             showLoginErrorAlert();
         } finally {
             setLoading(false); 

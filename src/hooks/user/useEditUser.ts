@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { editUser, fetchUserById, } from '../../services/userService';
 import { showErrorAlert, showSuccessAlert } from '../../utils/showAlertUtils';
 import { User } from '../../Interfaces/UserInterface';
+import { ApiError } from '../../types/Error';
 
 export const useEditUser = (userId: string, onClose: () => void) => {
     const [formData, setFormData] = useState<Partial<User>>({
@@ -42,10 +43,12 @@ export const useEditUser = (userId: string, onClose: () => void) => {
             await editUser(userId, formData);
             showSuccessAlert('Usuario actualizado', 'Los cambios se han guardado exitosamente.');
             onClose();
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const err = error as ApiError;
+
             showErrorAlert(
-                error?.response?.data?.message || 'Error al actualizar el usuario',
-                'Por favor, inténtalo de nuevo.'
+                err.response?.data?.message || "Error al actualizar el usuario",
+                "Por favor, inténtalo de nuevo."
             );
         } finally {
             setIsLoading(false);

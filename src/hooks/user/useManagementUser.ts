@@ -60,7 +60,11 @@ export const useManagementUser = (pageSizeInitial = 20, pageKey = 'usersPage') =
         try {
             await editUser(user.id, { status: newStatus });
             showSuccessAlert('Estado actualizado', `El álbum fue ${newStatus === 'SUSPENDED' ? 'suspendido' : 'activado'}.`);
-            searching ? await refreshSearch() : await reloadUsers();
+            if (searching) {
+                await refreshSearch();
+            } else {
+                await reloadUsers();
+            }
         } catch {
             showErrorAlert('Error', 'No se pudo cambiar el estado.');
         }
@@ -77,7 +81,11 @@ export const useManagementUser = (pageSizeInitial = 20, pageKey = 'usersPage') =
     const handleCloseModal = () => {
         setSelectedUserId(null);
         setShowModal(false);
-        searching ? refreshSearch() : reloadUsers();
+        if (searching) {
+            refreshSearch();
+        } else {
+            reloadUsers();
+        }
     };
 
     const onPageSizeChange = (sz: number) => {

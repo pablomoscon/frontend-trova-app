@@ -50,7 +50,7 @@ export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage
     if (!isLoading && totalPages > 0 && page > totalPages) {
       setPage(totalPages);
     }
-  }, [isLoading, page, totalPages]);
+  }, [isLoading, page, totalPages, setPage]);
 
   const { handleDelete } = useDeleteArtist(searching ? reloadhSearch : reloadArtists);
 
@@ -69,7 +69,12 @@ export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage
   const closeEditModal = () => {
     setSelectedArtistId(null);
     setShowModal(false);
-    searching ? reloadhSearch() : reloadArtists();
+
+    if (searching) {
+      reloadhSearch();
+    } else {
+      reloadArtists();
+    }
   };
 
   const onPageSizeChange = (sz: number) => {

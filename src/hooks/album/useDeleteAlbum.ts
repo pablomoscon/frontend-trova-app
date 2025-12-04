@@ -5,6 +5,7 @@ import {
     showErrorAlert,
     showSuccessAlert,
 } from '../../utils/showAlertUtils';
+import { ApiError } from '../../types/Error';
 
 export const useDeleteAlbum = (reloadAlbums?: () => void) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -28,12 +29,18 @@ export const useDeleteAlbum = (reloadAlbums?: () => void) => {
             if (reloadAlbums) {
                 await reloadAlbums();
             }
-        } catch (error: any) {
-            console.error('Error al eliminar álbum:', error);
+        } catch (err: unknown) {
+            console.error('Error al eliminar álbum:', err);
+
+            const error = err as ApiError;
+
             setDeleteError('Error al eliminar álbum');
+
             showErrorAlert(
                 'Error al eliminar álbum',
-                error?.response?.data?.message || error.message || 'No se pudo eliminar el álbum.'
+                error?.response?.data?.message ||
+                error?.message ||
+                'No se pudo eliminar el álbum.'
             );
         } finally {
             setIsLoading(false);

@@ -72,7 +72,11 @@ export const useManagementAlbum = (pageSizeInitial = 15, pageKey = 'albumsPage')
     const handleCloseModal = () => {
         setSelectedAlbumId(null);
         setShowModal(false);
-        searching ? refreshSearch() : reloadAlbums();
+        if (searching) {
+            refreshSearch();
+        } else {
+            reloadAlbums();
+        }
     };
 
     const onPageSizeChange = (sz: number) => {

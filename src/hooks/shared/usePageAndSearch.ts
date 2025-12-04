@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSessionPage } from './useSessionPage';
 
 export function usePageAndSearch(
@@ -19,15 +19,20 @@ export function usePageAndSearch(
             setSearchTerm('');
             setPage(1);
         };
+
         window.addEventListener('popstate', onPopState);
         return () => window.removeEventListener('popstate', onPopState);
     }, [setPage]);
 
-    const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            setPage(1);
-        }
-    };
+
+    const handleSearchKeyDown = useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') {
+                setPage(1);
+            }
+        },
+        [setPage]
+    );
 
     return { page, setPage, searchTerm, setSearchTerm, handleSearchKeyDown };
 }

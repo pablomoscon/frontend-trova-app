@@ -1,7 +1,7 @@
 import { useEffect, RefObject, useRef } from 'react';
 import { UseScrollOptions } from '../../Interfaces/SharedInterface';
 
-export type ScrollTarget = RefObject<HTMLElement> | null;
+export type ScrollTarget = RefObject<Element | null> | null;
 
 export function useScroll(
     target: ScrollTarget = null,
@@ -14,6 +14,13 @@ export function useScroll(
     }: UseScrollOptions = {}
 ) {
     const mountedRef = useRef(false);
+
+    const depsRef = useRef(deps);
+
+    useEffect(() => {
+        depsRef.current = deps;
+    }, [deps]);
+
     const lastDepsRef = useRef(deps);
 
     useEffect(() => {
@@ -22,8 +29,9 @@ export function useScroll(
         const isFirstMount = !mountedRef.current;
         mountedRef.current = true;
 
-        const depsChanged = deps.some((d, i) => d !== lastDepsRef.current[i]);
-        lastDepsRef.current = deps;
+        const currentDeps = depsRef.current;
+        const depsChanged = currentDeps.some((d, i) => d !== lastDepsRef.current[i]);
+        lastDepsRef.current = currentDeps;
 
         const scrollGlobal = (!target && scrollOnMount) || (isFirstMount && !target);
         const scrollLocal = target && !isFirstMount && depsChanged;
@@ -44,5 +52,5 @@ export function useScroll(
             });
         }
 
-    }, [...deps, target, enabled, offset, behavior, scrollOnMount]);
+    }, [target, enabled, offset, behavior, scrollOnMount]);
 }

@@ -23,6 +23,14 @@ export interface SignupData {
   confirmPassword: string;
 }
 
+export interface SignupErrors {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface SignInValidationResult {
   isValid: boolean;
   errors: {
@@ -52,8 +60,13 @@ export interface Credentials {
   password: string;
 }
 
-
 export interface SubmitButtonProps {
   text: string;
   disabled?: boolean;
 }
+
+export interface ScrollContextInterface {
+  localActive: boolean;
+  setLocalActive: (state: boolean) => void;
+}
+

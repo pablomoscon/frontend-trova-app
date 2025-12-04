@@ -93,7 +93,7 @@ export interface AlbumSongsModalProps {
   onClose: () => void;
 }
 
-// Combined Album form fields props, reusing smaller interfaces
+
 export interface AlbumFormFieldsProps
   extends FileUploadProps,
     OptionalStepNavigation,
@@ -101,7 +101,11 @@ export interface AlbumFormFieldsProps
   formData: AlbumFormData;
   songsInput: string;
   setSongsInput: (val: string) => void;
-  handleChange: (e: React.ChangeEvent<any>) => void;
+  handleChange: (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => void;
   artists: Artist[];
   isEditMode: boolean;
 }
@@ -127,12 +131,16 @@ export interface AlbumArtistSelectorProps extends ArtistModalControl {
 
 export interface AlbumGenreSelectorProps {
   selectedGenres: string[];
-  onChange: (e: any) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => void;
 }
 
 export interface AlbumSongInputsProps extends OptionalStepNavigation {
   listOfSongs: { name: string; duration: string }[];
-  handleChange: (e: any) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => void;
   isEditMode: boolean;
 }
 

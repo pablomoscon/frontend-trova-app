@@ -3,5 +3,5 @@ export interface EmailData {
   lastName: string;
   email: string;
     message: string;
-    phone: String;
+    phone: string;
 }

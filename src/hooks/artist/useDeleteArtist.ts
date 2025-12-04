@@ -5,6 +5,7 @@ import {
     showErrorAlert,
     showConfirmationDialog,
 } from '../../utils/showAlertUtils';
+import { ApiError } from '../../types/Error';
 
 export const useDeleteArtist = (
     reloadArtists?: () => void
@@ -30,12 +31,18 @@ export const useDeleteArtist = (
             if (reloadArtists) {
                 await reloadArtists();
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Delete artist error:', err);
+
+            const error = err as ApiError;
+
             showErrorAlert(
                 'Error al eliminar el artista',
-                err?.response?.data?.message || err.message || 'Error desconocido.'
+                error?.response?.data?.message ||
+                error?.message ||
+                'Error desconocido.'
             );
+
             setDeleteError('Error al eliminar el artista');
         } finally {
             setDeleting(false);

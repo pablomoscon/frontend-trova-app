@@ -45,8 +45,8 @@ export const useCreateAlbum = () => {
             await createAlbum(formDataToSend);
             resetForm();
             showSuccessAlert('Álbum creado', 'El álbum se guardó exitosamente.');
-        } catch (error) {
-            console.error('Error creating album', error);
+        } catch (err) {
+            console.error('Error creating album', err);
             showErrorAlert('Error al crear el álbum', 'Por favor, inténtalo de nuevo.');
         } finally {
             setIsLoading(false);

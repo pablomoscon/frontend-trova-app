@@ -15,7 +15,8 @@ export const useToggleUserStatus = () => {
                 'Estado actualizado',
                 `Usuario ${newStatus === 'ACTIVE' ? 'activado' : 'suspendido'} correctamente.`
             );
-        } catch (error) {
+        } catch (err) {
+            console.log(err)
             showErrorAlert('Error', 'No se pudo cambiar el estado del usuario.');
         } finally {
             setLoading(false);

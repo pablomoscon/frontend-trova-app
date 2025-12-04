@@ -5,6 +5,7 @@ import {
     showConfirmationDialog,
 } from '../../utils/showAlertUtils';
 import { editUser } from '../../services/userService';
+import { ApiError } from '../../types/Error';
 
 export const useDeleteUser = (reloadUsers?: () => void) => {
     const [loading, setLoading] = useState(false);
@@ -28,12 +29,18 @@ export const useDeleteUser = (reloadUsers?: () => void) => {
             if (reloadUsers) {
                 await reloadUsers();
             }
-        } catch (error: any) {
-            console.error('Error al eliminar usuario:', error);
+        } catch (error: unknown) {
+            const err = error as ApiError;
+
+            console.error('Error al eliminar usuario:', err);
+
             setDeleteError('Error al eliminar usuario');
+
             showErrorAlert(
                 'Error al eliminar usuario',
-                error?.response?.data?.message || error.message || 'No se pudo eliminar el usuario.'
+                err?.response?.data?.message ||
+                err?.message ||
+                'No se pudo eliminar el usuario.'
             );
         } finally {
             setLoading(false);
