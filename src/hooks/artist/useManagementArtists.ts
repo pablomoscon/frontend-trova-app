@@ -50,7 +50,7 @@ export const useManagementArtists = (pageSizeInitial = 9, pageKey = 'artistsPage
     if (!isLoading && totalPages > 0 && page > totalPages) {
       setPage(totalPages);
     }
-  }, [isLoading, page, totalPages]);
+  }, [isLoading, page, totalPages, setPage]);
 
   const { handleDelete } = useDeleteArtist(searching ? reloadhSearch : reloadArtists);
 

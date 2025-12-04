@@ -7,5 +7,5 @@ export const useCloseOnRouteChange = (onClose: () => void) => {
     useEffect(() => {
         onClose(); 
         
-    }, [location.pathname]);
+    }, [location.pathname, onClose]);
 };
