@@ -25,13 +25,13 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (
-            error.response &&
-            error.response.status === 401 &&
-            error.response.data?.message?.toLowerCase().includes('expired')
-        ) {
+        const status = error.response?.status;
+        const message = error.response?.data?.message?.toLowerCase();
+
+        if (status === 401 && message?.includes('expired')) {
             showTokenExpiredAlert();
         }
+
         return Promise.reject(error);
     }
 );
