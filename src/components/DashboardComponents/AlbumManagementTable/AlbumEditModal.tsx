@@ -23,9 +23,10 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
   const [step, setStep] = useState<'main' | 'songs'>('main');
 
   const modalRef = useRef<HTMLDialogElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Hooks para cerrar modal
-  useCloseOnOutside(modalRef, onClose); // clic fuera
+  useCloseOnOutside(contentRef, onClose); // clic fuera
   useModalClose(onClose); // tecla Escape
 
   const goToSongsStep = () => setStep('songs');
@@ -34,15 +35,15 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
   if (!albumId) return null;
 
   return (
-    <div
-      className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-black/40 p-6 sm:p-10'
-      onClick={onClose} // clic en overlay cierra modal
+    <dialog
+      ref={modalRef}
+      open
+      className='fixed inset-0 z-50 w-full h-full bg-black/40 flex items-center justify-center p-6 sm:p-10'
+      aria-modal='true'
     >
-      <dialog
-        ref={modalRef}
-        open={true}
-        className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative my-6'
-        onClick={(e) => e.stopPropagation()} // clic dentro no cierra
+      <div
+        ref={contentRef}
+        className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative'
       >
         {loading && <Spinner />}
 
@@ -103,8 +104,8 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
             songs={formData.listOfSongs ?? []}
           />
         )}
-      </dialog>
-    </div>
+      </div>
+    </dialog>
   );
 };
 
