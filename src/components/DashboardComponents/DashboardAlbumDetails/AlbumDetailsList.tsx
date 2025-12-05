@@ -19,7 +19,7 @@ const AlbumDetailsList: React.FC<AlbumDetailsListProps> = ({
               key={album.id}
               className='w-60 sm:w-64 md:w-72 bg-gray-100 rounded-xl shadow-sm overflow-hidden flex flex-col items-center p-4 hover:shadow-md transition-shadow'
             >
-              <div
+              <button
                 className='h-28 w-28 cursor-pointer overflow-hidden rounded-full mb-3'
                 onClick={() => onOpenImage(album.photo)}
               >
@@ -29,7 +29,7 @@ const AlbumDetailsList: React.FC<AlbumDetailsListProps> = ({
                   loading='lazy'
                   className='w-full h-full object-cover'
                 />
-              </div>
+              </button>
 
               <h3 className='text-lg font-semibold text-gray-800 mb-2 text-center'>
                 {album.title}

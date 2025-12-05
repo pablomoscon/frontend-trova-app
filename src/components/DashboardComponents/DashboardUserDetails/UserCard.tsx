@@ -10,7 +10,7 @@ const UserCard: React.FC<UserCardProps & { onClick?: () => void }> = ({
   )}`;
 
   return (
-    <div
+    <button
       onClick={onClick}
       className='bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer py-6 px-4 flex flex-col items-center justify-center text-center max-w-sm mx-auto'
       title={user.email}
@@ -43,7 +43,7 @@ const UserCard: React.FC<UserCardProps & { onClick?: () => void }> = ({
           </span>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
