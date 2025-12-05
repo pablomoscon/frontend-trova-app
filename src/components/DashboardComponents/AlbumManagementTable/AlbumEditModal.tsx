@@ -3,6 +3,7 @@ import { useEditAlbum } from '../../../hooks/album/useEditAlbum';
 import { EditAlbumProps } from '../../../Interfaces/AlbumInterface';
 import Spinner from '../../Shared/Spinner';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
+import { useModalClose } from '../../../hooks/shared/useModalClose';
 import EditAlbumSongsModal from './EditAlbumSongsModal/EditAlbumSongsModal';
 import AlbumFormFields from '../../AlbumComponents/AlbumFormFields/AlbumFormFields';
 
@@ -21,32 +22,40 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
 
   const [step, setStep] = useState<'main' | 'songs'>('main');
 
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
 
-  useCloseOnOutside(modalRef, onClose);
+  // Hooks para cerrar modal
+  useCloseOnOutside(modalRef, onClose); // clic fuera
+  useModalClose(onClose); // tecla Escape
 
   const goToSongsStep = () => setStep('songs');
   const goBackToMain = () => setStep('main');
 
+  if (!albumId) return null;
+
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-6 sm:p-10'>
-      {loading && <Spinner />}
-      <div
+    <div
+      className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-black/40 p-6 sm:p-10'
+      onClick={onClose} // clic en overlay cierra modal
+    >
+      <dialog
         ref={modalRef}
-        role='dialog'
-        aria-modal='true'
-        tabIndex={-1}
+        open={true}
         className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative my-6'
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()} // clic dentro no cierra
       >
+        {loading && <Spinner />}
+
+        {/* Botón de cerrar */}
         <button
           onClick={onClose}
           className='absolute top-2 right-4 text-gray-500 hover:text-gray-700 text-lg'
+          aria-label='Cerrar modal'
         >
           ✕
         </button>
 
+        {/* Paso principal */}
         {step === 'main' && (
           <>
             <h2 className='text-xl font-semibold mb-4 text-center text-gray-800'>
@@ -84,6 +93,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
           </>
         )}
 
+        {/* Paso de edición de canciones */}
         {step === 'songs' && (
           <EditAlbumSongsModal
             albumId={albumId}
@@ -93,7 +103,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
             songs={formData.listOfSongs ?? []}
           />
         )}
-      </div>
+      </dialog>
     </div>
   );
 };
