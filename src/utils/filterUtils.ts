@@ -23,14 +23,14 @@ export const generateFiltersFromAlbums = (albums: Album[]): FilterSection[] => {
             id: 'artistName',
             name: 'Artista',
             options: Array.from(artists)
-                .sort((a, b) => a.localeCompare(b)) 
+                .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base', numeric: true }))
                 .map((a) => ({ label: a, value: a })),
         },
         {
             id: 'genre',
             name: 'Género',
             options: Array.from(genres)
-                .sort((a, b) => a.localeCompare(b)) 
+                .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base', numeric: true }))
                 .map((g) => ({ label: g, value: g })),
         },
         {

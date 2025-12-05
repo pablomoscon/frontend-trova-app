@@ -12,7 +12,7 @@ export const useDeleteAlbum = (reloadAlbums?: () => void) => {
     const [deleteError, setDeleteError] = useState<string | null>(null);
 
     const handleDelete = async (id: number) => {
-        const confirmed = await showConfirmationDialog(
+        const confirmed = showConfirmationDialog(
             '¿Estás seguro?',
             'Esta acción eliminará el álbum permanentemente.'
         );

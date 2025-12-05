@@ -14,7 +14,7 @@ export const useDeleteArtist = (
     const [deleteError, setDeleteError] = useState<string | null>(null);
 
     const handleDelete = async (id: number) => {
-        const confirmed = await showConfirmationDialog();
+        const confirmed = showConfirmationDialog();
         if (!confirmed) return;
 
         try {
