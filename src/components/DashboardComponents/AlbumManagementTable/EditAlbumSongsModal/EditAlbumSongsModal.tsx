@@ -120,8 +120,9 @@ const EditAlbumSongsModal: React.FC<
     <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-6 sm:p-10'>
       <div
         ref={modalRef}
+        onKeyDown={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
-        role='dialog' 
+        role='dialog'
         aria-modal='true'
         tabIndex={-1}
         className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl px-6 py-10 sm:py-12 h-auto max-h-[90vh] overflow-y-auto relative'

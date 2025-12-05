@@ -38,6 +38,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
         tabIndex={-1}
         className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl p-4 sm:p-6 h-auto max-h-[90vh] overflow-y-auto relative my-6'
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}

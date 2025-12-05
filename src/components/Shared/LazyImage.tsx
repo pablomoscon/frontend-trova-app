@@ -22,7 +22,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div
+    <button
       className={`relative flex items-center justify-center ${containerClassName}`}
       onClick={onClick}
     >
@@ -41,6 +41,6 @@ export const LazyImage: React.FC<LazyImageProps> = ({
         onLoad={() => setLoaded(true)}
         className={`absolute top-0 left-0 w-full h-full ${objectFit === 'cover' ? 'object-cover' : 'object-contain'} transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'} ${className}`}
       />
-    </div>
+    </button>
   );
 };
