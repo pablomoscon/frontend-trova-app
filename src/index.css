@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 @import "tailwindcss";
-
+@import "tailwindcss/preflight";
 
 @font-face {
   font-family: 'Annexxus';
@@ -31,7 +31,6 @@ a:hover {
   opacity: 0.85;
   transform: translateY(-1px);
 }
-
 
 /* Ajustes generales */
 html {
