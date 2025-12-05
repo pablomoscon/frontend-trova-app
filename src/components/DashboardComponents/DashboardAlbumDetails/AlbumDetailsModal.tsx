@@ -67,9 +67,9 @@ const AlbumDetailsModal: React.FC<AlbumDetailsModalProps> = ({
             <strong>Géneros:</strong>{' '}
             {album.genres.length > 0 ? (
               <div className='inline-flex flex-wrap gap-2 mt-1 justify-center'>
-                {album.genres.map((genre, idx) => (
+                {album.genres.map((genre) => (
                   <span
-                    key={idx}
+                    key={genre}
                     className='bg-indigo-100 text-indigo-800 text-xs font-medium px-3 py-1 rounded-full'
                   >
                     {genre
