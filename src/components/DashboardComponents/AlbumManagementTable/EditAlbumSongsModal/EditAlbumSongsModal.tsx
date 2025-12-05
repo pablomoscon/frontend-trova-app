@@ -8,14 +8,20 @@ import { useEditSongs } from '../../../../hooks/song/useEditSongs';
 import { useAddSongsToAlbum } from '../../../../hooks/song/useAddSongsToAlbum';
 import { useDeleteSongs } from '../../../../hooks/song/useDeleteSong';
 import { useCloseOnOutside } from '../../../../hooks/shared/useCloseOnOutside';
+import { useModalClose } from '../../../../hooks/shared/useModalClose';
 import SongsSection from './SongsSection';
 import { useFetchAlbumSongs } from '../../../../hooks/song/useFetchAlbumSongs';
 
 const EditAlbumSongsModal: React.FC<
   EditAlbumSongsModalProps & { albumId: number }
 > = ({ goBack, albumId }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
 
+  // Hooks para cerrar modal
+  useModalClose(goBack);
+  useCloseOnOutside(modalRef, goBack);
+
+  // Fetch de canciones
   const {
     songs: fetchedSongs,
     loading: loadingFetch,
@@ -37,7 +43,7 @@ const EditAlbumSongsModal: React.FC<
     goBack();
   };
 
-  // Usamos el hook actualizado que ya sincroniza editedSongs con fetchedSongs
+  // Editar canciones existentes
   const {
     editedSongs,
     handleEditedSongChange,
@@ -46,6 +52,7 @@ const EditAlbumSongsModal: React.FC<
     loading: loadingEdit,
   } = useEditSongs(fetchedSongs, handleSuccess);
 
+  // Agregar nuevas canciones
   const {
     newSongs,
     handleNewSongChange,
@@ -54,9 +61,8 @@ const EditAlbumSongsModal: React.FC<
     loading: loadingCreate,
   } = useAddSongsToAlbum(albumId, handleSuccess);
 
+  // Borrar canciones
   const { deleteSongs, loading: loadingDelete } = useDeleteSongs();
-
-  useCloseOnOutside(modalRef, goBack);
 
   const onSubmitEdit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,27 +110,23 @@ const EditAlbumSongsModal: React.FC<
 
   if (loadingFetch)
     return (
-      <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40'>
+      <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-black/40'>
         <p className='text-gray-700'>Cargando canciones...</p>
       </div>
     );
 
   if (error)
     return (
-      <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40'>
+      <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-black/40'>
         <p className='text-red-600'>Error: {error}</p>
       </div>
     );
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-6 sm:p-10'>
-      <div
+    <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-black/40 p-6 sm:p-10'>
+      <dialog
         ref={modalRef}
-        onKeyDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-        role='dialog'
-        aria-modal='true'
-        tabIndex={-1}
+        open
         className='bg-white rounded-lg shadow-lg w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-6xl px-6 py-10 sm:py-12 h-auto max-h-[90vh] overflow-y-auto relative'
       >
         <h2 className='text-xl font-semibold mb-4 text-center text-gray-800'>
@@ -173,13 +175,13 @@ const EditAlbumSongsModal: React.FC<
           <button
             type='button'
             onClick={goBack}
-            className='px-3 py-1.5 text-sm text-gray-600 cursor-pointer border border-gray-300 rounded-md hover:bg-gray-50'
+            className='px-3 py-1.5 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50'
             disabled={isLoading}
           >
             Cancelar
           </button>
         </div>
-      </div>
+      </dialog>
     </div>
   );
 };
