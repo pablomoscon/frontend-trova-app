@@ -15,8 +15,8 @@ const DashboardSubMenu: React.FC<DashboardSubMenuProps> = ({
     </button>
     {activeMenu === menuName && (
       <ul className='pl-4'>
-        {links.map((link, index) => (
-          <li key={index}>
+        {links.map((link) => (
+          <li key={link.href}>
             <a
               href={link.href}
               className='block py-3 text-start text-sm font-light hover:bg-gray-200 '

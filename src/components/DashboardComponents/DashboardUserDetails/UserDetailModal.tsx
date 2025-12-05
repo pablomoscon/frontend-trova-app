@@ -61,7 +61,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, onClose }) => {
             <strong className='text-gray-600'>Actividades recientes:</strong>
             <ul className='list-disc list-inside pl-2 mt-1 max-h-60 overflow-y-auto pr-2'>
               {displayedActivities.length > 0 ? (
-                displayedActivities.map((act, idx) => <li key={idx}>{act}</li>)
+                displayedActivities.map((act) => <li key={act}>{act}</li>)
               ) : (
                 <li>No disponible</li>
               )}

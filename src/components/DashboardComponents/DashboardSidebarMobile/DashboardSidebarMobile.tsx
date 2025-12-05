@@ -60,8 +60,8 @@ const DashboardSidebarMobile: React.FC = () => {
                       }`}
                     >
                       <ul className='flex flex-col gap-1 py-1'>
-                        {subitems.map(({ label, href }, i) => (
-                          <li key={i}>
+                        {subitems.map(({ label, href }) => (
+                          <li key={href}>
                             <a
                               href={href}
                               className='block py-1 text-sm text-gray-600 hover:text-gray-800 hover:underline text-start'

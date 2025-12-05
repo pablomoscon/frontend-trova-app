@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { ArtistEditModalProps } from '../../../Interfaces/ArtistInterface';
 import { useDetailsArtist } from '../../../hooks/artist/useDetailsArtist';
 import { useEditArtist } from '../../../hooks/artist/useEditArtist';
-
 import ImageFileUpload from '../../Shared/inputs/ImageFileUpload';
 import Spinner from '../../Shared/Spinner';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
+import { useModalClose } from '../../../hooks/shared/useModalClose';
 
 const ArtistEditModal: React.FC<
   ArtistEditModalProps & { onSaveSuccess: () => void }
@@ -30,15 +30,20 @@ const ArtistEditModal: React.FC<
   const [selectedFileName, setSelectedFileName] = useState('');
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const modalRef = useRef<HTMLDivElement>(null);
+  // --- Modal refs + hooks de cierre ---
+  const modalRef = useRef<HTMLDialogElement>(null);
+  useModalClose(onClose);
   useCloseOnOutside(modalRef, onClose);
 
+  // --- Cargar datos del artista ---
   useEffect(() => {
     if (!artist) return;
+
     setName(artist.name);
     setNationality(artist.nationality);
     setDetails(artist.details ?? '');
     setPhotoPreview(artist.photo ?? null);
+
     setPhotoFile(null);
     setSelectedFileName('');
     setLocalError(null);
@@ -54,10 +59,12 @@ const ArtistEditModal: React.FC<
 
   const handleSave = async () => {
     if (!artist) return;
+
     if (!name.trim()) {
       setLocalError('Name cannot be empty');
       return;
     }
+
     setLocalError(null);
 
     const artistData = {
@@ -85,49 +92,81 @@ const ArtistEditModal: React.FC<
   if (loadingArtist) return <Spinner />;
 
   if (errorLoadingArtist)
-    return <div className='modal text-red-600'>{errorLoadingArtist}</div>;
+    return (
+      <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-black/40'>
+        <p className='text-red-600'>{errorLoadingArtist}</p>
+      </div>
+    );
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-40 p-4'>
-      <div
+    <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-black/40 p-6'>
+      <dialog
         ref={modalRef}
-        className='bg-white rounded-lg w-full max-w-4xl p-3 shadow-lg max-h-[80vh] overflow-y-auto p-8'
+        open
+        className='bg-white rounded-lg shadow-lg w-full max-w-xl p-8 max-h-[90vh] overflow-y-auto relative'
       >
-        <h2 className='text-xl font-semibold mb-3 text-center'>Edit artist</h2>
+        <h2 className='text-xl font-semibold mb-4 text-center text-gray-800'>
+          Edit Artist
+        </h2>
+
+        <button
+          onClick={onClose}
+          className='absolute top-2 right-4 text-gray-500 hover:text-gray-700 text-lg'
+          aria-label='Cerrar modal'
+          disabled={saving}
+        >
+          ✕
+        </button>
 
         {(localError || errorSaving) && (
-          <p className='text-red-600 text-sm mb-2'>
+          <p className='text-red-600 text-sm mb-3'>
             {localError || errorSaving}
           </p>
         )}
 
-        <label className='block text-sm font-medium mb-2'>Name</label>
+        {/* ---- NAME ---- */}
+        <label htmlFor='artist-name' className='block text-sm font-medium mb-1'>
+          Name
+        </label>
         <input
-          aria-label='Artist name'
-          className='w-full border rounded-md p-2 mb-2'
+          id='artist-name'
+          className='w-full border rounded-md p-2 mb-3'
           value={name}
           disabled={saving}
           onChange={(e) => setName(e.target.value)}
         />
 
-        <label className='block text-sm font-medium mb-2'>Nationality</label>
+        {/* ---- NATIONALITY ---- */}
+        <label
+          htmlFor='artist-nationality'
+          className='block text-sm font-medium mb-1'
+        >
+          Nationality
+        </label>
         <input
-          aria-label='Artist nationality'
-          className='w-full border rounded-md p-2 mb-4'
+          id='artist-nationality'
+          className='w-full border rounded-md p-2 mb-3'
           value={nationality}
           disabled={saving}
           onChange={(e) => setNationality(e.target.value)}
         />
 
-        <label className='block text-sm font-medium mb-4'>Details</label>
+        {/* ---- DETAILS ---- */}
+        <label
+          htmlFor='artist-details'
+          className='block text-sm font-medium mb-1'
+        >
+          Details
+        </label>
         <textarea
-          aria-label='Artist details'
-          className='w-full border rounded-md p-2 mb-4 resize-y min-h-[40px]'
+          id='artist-details'
+          className='w-full border rounded-md p-2 mb-4 resize-y min-h-[60px]'
           value={details}
           disabled={saving}
           onChange={(e) => setDetails(e.target.value)}
         />
 
+        {/* ---- IMAGE ---- */}
         <ImageFileUpload
           handleFileChange={handlePhotoChange}
           selectedFileName={selectedFileName}
@@ -135,14 +174,15 @@ const ArtistEditModal: React.FC<
           imagePreview={photoPreview}
         />
 
-        <div className='flex justify-end gap-3 mt-3'>
+        <div className='flex justify-end gap-3 mt-6'>
           <button
             onClick={onClose}
             disabled={saving}
-            className='px-4 py-1.5 rounded-md text-gray-600 hover:text-gray-800'
+            className='px-4 py-1.5 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50'
           >
             Cancel
           </button>
+
           <button
             onClick={handleSave}
             disabled={saving}
@@ -151,7 +191,7 @@ const ArtistEditModal: React.FC<
             {saving ? 'Saving…' : 'Save'}
           </button>
         </div>
-      </div>
+      </dialog>
     </div>
   );
 };
