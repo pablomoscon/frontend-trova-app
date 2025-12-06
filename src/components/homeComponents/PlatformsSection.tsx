@@ -1,28 +1,6 @@
 import React from 'react';
 import PlatformLogo from '../Shared/PlatformLogo';
-
-const platforms = [
-  {
-    name: 'Spotify',
-    src: '/assets/logos/spotify.png',
-    href: 'https://open.spotify.com/',
-  },
-  {
-    name: 'YouTube Music',
-    src: '/assets/logos/youtube.png',
-    href: 'https://music.youtube.com/',
-  },
-  {
-    name: 'Amazon Music',
-    src: '/assets/logos/amazon.png',
-    href: 'https://music.amazon.com/',
-  },
-  {
-    name: 'Apple Music',
-    src: '/assets/logos/applemusic.png',
-    href: 'https://music.apple.com/',
-  },
-];
+import { platformsList } from '../../utils/platformsUtils';
 
 const PlatformsSection: React.FC = () => (
   <div className='bg-[#E5E6E4] flex flex-col items-center text-gray-900 py-20 px-4 sm:py-30'>
@@ -37,8 +15,13 @@ const PlatformsSection: React.FC = () => (
 
     <div className='py-4 sm:py-4 md:py-2 lg:py-8 xl:py-10'>
       <div className='flex flex-wrap justify-center gap-8 items-center'>
-        {platforms.map((p) => (
-          <PlatformLogo key={p.name} name={p.name} src={p.src} href={p.href} />
+        {platformsList.map((p) => (
+          <PlatformLogo
+            key={p.name}
+            name={p.name}
+            src={p.imgSrc}
+            href={p.href}
+          />
         ))}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { User } from "../Interfaces/UserInterface";
-import { isTokenExpired } from "../utils/tokenUtils";
+import { isTokenExpired } from "./tokenUtils";
 
 export const getValidUserOrNull = (user: User | null): User | null => {
     if (!user) return null;

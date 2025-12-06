@@ -1,10 +1,9 @@
 import { ReactNode, useMemo, useEffect } from 'react';
 import { AuthContext } from './AuthContext';
 import { useAuthState } from '../hooks/auth/useAuthState';
-import { selectIsAdmin, selectIsAuthenticated, selectToken } from '../utils/authSelectors';
 import { loadStoredUser } from '../services/authService';
-import { getValidUserOrNull } from '../utils/validateUserToken';
-
+import { getValidUserOrNull } from '../utils/validateUserTokenUtils';
+import { selectIsAdmin, selectIsAuthenticated, selectToken } from '../utils/authSelectorsUtils';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { user, login, logout, setUser } = useAuthState();

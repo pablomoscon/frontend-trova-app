@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UserCircleIcon } from 'lucide-react';
 import InputField from '../../Shared/inputs/InputField';
-import { validateForm } from '../../../utils/validateSignUp';
+import { validateForm } from '../../../utils/validateSignUpUtils';
 import useSignUp from '../../../hooks/auth/useSignUp';
 import { getRoleOptions } from '../../../utils/roleUtils';
 import SelectInput from '../../Shared/inputs/SelectInput';
