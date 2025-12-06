@@ -34,7 +34,7 @@ const SignInForm: React.FC = () => {
           placeholder='Tu contraseña'
         />
 
-        <Button text='Ingresá' />
+        <Button text='Ingresá' type='submit' />
       </form>
     </div>
   );
