@@ -16,6 +16,7 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
         setSongsInput,
         setFormData,
         handleFileChange,
+        handleSongChange,
         imagePreview,
     } = useAlbumForm();
 
@@ -95,6 +96,7 @@ export const useEditAlbum = (albumId: number, onClose: () => void) => {
         loading,
         handleSubmit,
         handleFileChange,
+        handleSongChange,
         imagePreview,
     };
 };

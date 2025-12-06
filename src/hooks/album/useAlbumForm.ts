@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { AlbumFormData } from "../../Interfaces/AlbumInterface";
 import { CustomInputEvent } from "../../types/FormEvents";
+import { Song } from "../../Interfaces/SongInterface";
+import { MultiSelectEvent } from "../../types/MultiSelectEvent";
 
 export const useAlbumForm = () => {
     const [formData, setFormData] = useState<AlbumFormData>({
@@ -36,16 +38,25 @@ export const useAlbumForm = () => {
 
     const handleChange = (
         e:
-            | React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-            | CustomInputEvent<keyof AlbumFormData>
+            | React.ChangeEvent<
+                HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+            >
+            | MultiSelectEvent
     ) => {
-        if ("name" in e.target && "value" in e.target) {
-            const { name, value } = e.target;
-            setFormData(prev => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
+        const { name, value } = e.target;
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+
+    const handleSongChange = (e: { target: { name: "listOfSongs"; value: Song[] } }) => {
+        setFormData(prev => ({
+            ...prev,
+            listOfSongs: e.target.value,
+        }));
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,6 +96,7 @@ export const useAlbumForm = () => {
         resetForm,
         setFormData,
         handleFileChange,
+        handleSongChange,
         imagePreview,
     };
 };

@@ -17,6 +17,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
     loading,
     handleSubmit,
     imagePreview,
+    handleSongChange,
     handleFileChange,
   } = useEditAlbum(albumId, onClose);
 
@@ -73,6 +74,7 @@ const AlbumEditModal: React.FC<EditAlbumProps> = ({ albumId, onClose }) => {
                 isEditMode={true}
                 goToSongsStep={goToSongsStep}
                 imagePreview={imagePreview}
+                 handleSongChange={ handleSongChange}
                 handleFileChange={handleFileChange}
               />
               <div className='mt-6 flex flex-col sm:flex-row justify-center gap-3'>

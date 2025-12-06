@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlbumGenreSelectorProps } from '../../../Interfaces/AlbumInterface';
 import { genresList } from '../../../data/genres';
-
+import { MultiSelectEvent } from '../../../types/MultiSelectEvent';
 
 const GenreSelector: React.FC<AlbumGenreSelectorProps> = ({
   selectedGenres,
@@ -9,7 +9,15 @@ const GenreSelector: React.FC<AlbumGenreSelectorProps> = ({
 }) => {
   const handleMultiSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const values = Array.from(e.target.selectedOptions).map((opt) => opt.value);
-    onChange({ target: { name: 'genres', value: values } });
+
+    const multiEvent: MultiSelectEvent = {
+      target: {
+        name: 'genres',
+        value: values,
+      },
+    };
+
+    onChange(multiEvent);
   };
 
   return (
@@ -20,6 +28,7 @@ const GenreSelector: React.FC<AlbumGenreSelectorProps> = ({
       >
         Géneros
       </label>
+
       <select
         multiple
         name='genres'
