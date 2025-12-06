@@ -1,6 +1,6 @@
 import React from 'react';
 import SongField from './SongField';
-import { Song, SongRowProps } from '../../../../Interfaces/SongInterface';
+import { SongRowProps } from '../../../../Interfaces/SongInterface';
 
 const SongRow: React.FC<SongRowProps> = ({ song, index, onUpdate }) => {
   return (
