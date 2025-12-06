@@ -1,125 +1,71 @@
-import React, { useRef } from 'react';
-import { Loader } from 'lucide-react';
-import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
+import React, { useState } from 'react';
+import { AlbumCardProps } from '../../../Interfaces/AlbumInterface';
 import AlbumPlatformLinks from '../../Shared/AlbumPlatformLinks';
-import { AlbumSongsModalProps } from '../../../Interfaces/AlbumInterface';
 
-const AlbumSongsModal: React.FC<AlbumSongsModalProps> = ({
-  isOpen,
-  album,
-  songs,
-  loading,
-  error,
-  onClose,
-}) => {
-  const panelRef = useRef<HTMLDivElement>(null);
-  useCloseOnOutside(panelRef, onClose);
-
-  if (!isOpen) return null;
-
-  const hasSongs = songs.length > 0;
-  const showNoSongsMessage = !hasSongs && !error && !loading;
+const AlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => {
+  const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-white/30'>
-      <div
-        ref={panelRef}
-        className='bg-white p-6 rounded-xl w-11/12 sm:w-[500px] shadow-2xl max-h-[90vh] overflow-y-auto'
-      >
-        {/* Header */}
-        <div className='flex justify-between items-center'>
-          <h3 className='text-2xl font-bold text-gray-900'>
-            {loading ? 'Cargando...' : album.title}
-          </h3>
+    <div
+      className='
+        w-full border border-gray-300 p-4 rounded shadow 
+        flex flex-col items-center justify-between
+        min-h-[380px] sm:min-h-[400px]
+      '
+    >
+      {/* IMAGEN */}
+      <div className='relative w-full pt-4'>
+        <img
+          src='/assets/trova_logo_placeholder.webp'
+          alt='Placeholder'
+          className={`
+            absolute inset-0 w-full h-auto max-h-[180px] sm:max-h-[200px]
+            object-contain rounded mb-2 transition-opacity duration-500
+            filter brightness-90
+            ${loaded ? 'opacity-0' : 'opacity-100'}
+          `}
+        />
 
-          <button
-            onClick={onClose}
-            className='text-sm text-gray-500 hover:text-gray-900 hover:scale-115 transition'
-            aria-label='Close modal'
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Loader */}
-        {loading && (
-          <div className='flex justify-center items-center h-40'>
-            <Loader className='animate-spin text-gray-500 w-6 h-6' />
-          </div>
-        )}
-
-        {/* Contenido cuando NO está cargando */}
-        {!loading && (
-          <>
-            {/* Links a plataformas */}
-            {(album.spotifyLink ||
-              album.amazonMusicLink ||
-              album.appleMusicLink) && (
-              <div className='text-start border-b pb-4 mb-4 mt-4'>
-                <div className='flex flex-row items-center space-x-3 sm:space-x-2 gap-y-2 flex-col-xs items-start-xs'>
-                  <p className='text-sm text-gray-500 flex-shrink-0 pr-1'>
-                    🔊 ¡Encontralo en tu plataforma preferida!
-                  </p>
-
-                  <AlbumPlatformLinks
-                    spotifyLink={album.spotifyLink}
-                    amazonMusicLink={album.amazonMusicLink}
-                    appleMusicLink={album.appleMusicLink}
-                    variant='colored'
-                    iconSize='text-lg sm:text-xl text-xl-xs'
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Lista de canciones */}
-            {hasSongs && (
-              <>
-                <ul className='divide-y divide-gray-100'>
-                  {songs.map((song, index) => (
-                    <li
-                      key={song.id || index}
-                      className='flex justify-between gap-x-4 py-4'
-                    >
-                      <div className='flex min-w-0 flex-col text-start'>
-                        <p className='text-sm font-semibold text-gray-900'>
-                          {song.name}
-                        </p>
-                        <p className='mt-1 text-xs text-gray-500'>
-                          {song.artistName}
-                        </p>
-                      </div>
-
-                      <div className='shrink-0 flex items-center'>
-                        <p className='text-sm text-gray-600'>{song.duration}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-
-                <button
-                  className='mt-6 w-full bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition duration-150'
-                  onClick={onClose}
-                >
-                  Close
-                </button>
-              </>
-            )}
-
-            {/* No tiene canciones */}
-            {showNoSongsMessage && (
-              <p className='text-gray-500 text-center mt-4'>
-                This album has no songs.
-              </p>
-            )}
-
-            {/* Error */}
-            {error && <p className='text-red-500 text-center mt-4'>{error}</p>}
-          </>
-        )}
+        <img
+          src={album.photo}
+          alt={album.title}
+          loading='lazy'
+          onLoad={() => setLoaded(true)}
+          className={`
+            w-full h-auto max-h-[180px] sm:max-h-[200px]
+            object-contain rounded mb-2 transition-opacity duration-500
+            ${loaded ? 'opacity-100' : 'opacity-0'}
+          `}
+        />
       </div>
+
+      {/* TÍTULO */}
+      <button
+        onClick={() => onClick?.(album.id)}
+        className='font-semibold text-md text-gray-600 hover:underline text-center w-full'
+      >
+        {album.title}
+      </button>
+
+      {/* ARTISTA */}
+      <p
+        className='text-sm text-gray-500 text-center truncate w-full'
+        title={album.displayArtistName}
+      >
+        {album.displayArtistName}
+      </p>
+
+      {/* AÑO */}
+      <p className='text-sm text-gray-500 text-center'>{album.year}</p>
+
+      {/* LINKS */}
+      <AlbumPlatformLinks
+        spotifyLink={album.spotifyLink}
+        amazonMusicLink={album.amazonMusicLink}
+        appleMusicLink={album.appleMusicLink}
+      />
     </div>
   );
 };
 
-export default AlbumSongsModal;
+export default AlbumCard;

@@ -14,15 +14,17 @@ const AlbumList: React.FC<AlbumListProps> = ({
   albumsLoading = false,
 }) => {
   const listTopRef = useRef<HTMLDivElement>(null);
-  const offset = window.innerWidth < 640 ? 190 : 180;
   const [shouldScroll, setShouldScroll] = useState(true);
 
-useScroll(listTopRef as React.RefObject<HTMLElement>, {
-  deps: [page],
-  behavior: 'auto',
-  offset,
-  enabled: shouldScroll,
-});
+  // offset para scrollear según pantalla
+  const offset = window.innerWidth < 640 ? 190 : 180;
+
+  useScroll(listTopRef, {
+    deps: [page],
+    behavior: 'auto',
+    offset,
+    enabled: shouldScroll,
+  });
 
   const handlePageChange = (newPage: number) => {
     setShouldScroll(true);
@@ -37,21 +39,24 @@ useScroll(listTopRef as React.RefObject<HTMLElement>, {
     <>
       <div ref={listTopRef} />
 
-      <div className='flex justify-center'>
-        <div className='flex flex-wrap justify-center gap-6 px-4 py-6 max-w-[1100px] w-full'>
+      <div className="flex justify-center">
+        <div className="flex flex-wrap justify-center gap-6 px-4 py-6 max-w-[1100px] w-full">
           {albums.map((album) => (
             <div
               key={album.id}
-              className='w-full max-w-[350px] sm:w-[calc((100%/2)-1.5rem)] lg:w-[calc((100%/3)-1.5rem)]'
+              className="w-full max-w-[350px] sm:w-[calc((100%/2)-1.5rem)] lg:w-[calc((100%/3)-1.5rem)]"
             >
-              <AlbumCard album={album} onClick={() => onClick?.(album.id)} />
+              <AlbumCard
+                album={album}
+                onClick={() => onClick?.(album.id)}
+              />
             </div>
           ))}
         </div>
       </div>
 
       {totalPages > 1 && (
-        <div className='mt-8 w-full flex justify-center px-4'>
+        <div className="mt-8 w-full flex justify-center px-4">
           <PaginationControls
             page={page}
             totalPages={totalPages}

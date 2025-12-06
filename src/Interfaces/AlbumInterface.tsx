@@ -91,6 +91,7 @@ export interface AlbumSongsModalProps {
   loading: boolean;
   error: string | null;
   onClose: () => void;
+  
 }
 
 
