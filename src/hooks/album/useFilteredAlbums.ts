@@ -24,7 +24,7 @@ const buildFilterParams = (
     filters.year.forEach((decadeStr) => {
       const match = decadeStr.match(/^(\d{4})s$/);
       if (match) {
-        const startYear = parseInt(match[1]);
+        const startYear = Number.parseInt(match[1], 10); 
         for (let y = startYear; y < startYear + 10; y++) expandedYears.push(y);
       }
     });

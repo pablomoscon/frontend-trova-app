@@ -14,14 +14,12 @@ export function useScroll(
     }: UseScrollOptions = {}
 ) {
     const mountedRef = useRef(false);
-
     const depsRef = useRef(deps);
+    const lastDepsRef = useRef(deps);
 
     useEffect(() => {
         depsRef.current = deps;
     }, [deps]);
-
-    const lastDepsRef = useRef(deps);
 
     useEffect(() => {
         if (!enabled) return;
@@ -38,9 +36,13 @@ export function useScroll(
 
         if (scrollGlobal || scrollLocal) {
             requestAnimationFrame(() => {
-                if (target && target.current) {
-                    const rect = target.current.getBoundingClientRect();
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const element = target?.current;
+
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    const scrollTop =
+                        window.pageYOffset || document.documentElement.scrollTop;
+
                     window.scrollTo({
                         top: rect.top + scrollTop - offset,
                         left: 0,
@@ -51,6 +53,5 @@ export function useScroll(
                 }
             });
         }
-
     }, [target, enabled, offset, behavior, scrollOnMount]);
 }

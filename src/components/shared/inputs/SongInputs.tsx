@@ -3,7 +3,7 @@ import { AlbumSongInputsProps } from '../../../Interfaces/AlbumInterface';
 
 const SongInputs: React.FC<AlbumSongInputsProps> = ({
   listOfSongs,
-  handleChange,
+  onChange,
   isEditMode,
   goToSongsStep,
 }) => {
@@ -14,13 +14,13 @@ const SongInputs: React.FC<AlbumSongInputsProps> = ({
   ) => {
     const updatedSongs = [...listOfSongs];
     updatedSongs[index][field] = value;
-    handleChange({ target: { name: 'listOfSongs', value: updatedSongs } });
+    onChange({ target: { name: 'listOfSongs', value: updatedSongs } });
   };
 
   const addSong = () => {
     const last = listOfSongs[listOfSongs.length - 1];
     if (last?.name.trim() && last?.duration.trim()) {
-      handleChange({
+      onChange({
         target: {
           name: 'listOfSongs',
           value: [...listOfSongs, { name: '', duration: '' }],
@@ -31,9 +31,9 @@ const SongInputs: React.FC<AlbumSongInputsProps> = ({
 
   return (
     <div className='col-span-full'>
-      <label className='block text-xs sm:text-sm font-medium text-gray-900 text-start'>
+      <p className='block text-xs sm:text-sm font-medium text-gray-900 text-start'>
         Canciones
-      </label>
+      </p>
       {isEditMode ? (
         <button
           type='button'
@@ -44,23 +44,23 @@ const SongInputs: React.FC<AlbumSongInputsProps> = ({
         </button>
       ) : (
         <>
-          {listOfSongs.map((song, i) => (
+          {listOfSongs.map((song) => (
             <div
-              key={i}
+              key={song.id}
               className='flex flex-col sm:flex-row gap-2 mt-2 text-xs sm:text-sm'
             >
               <input
                 type='text'
                 placeholder='Nombre de la canción'
                 value={song.name}
-                onChange={(e) => updateSong(i, 'name', e.target.value)}
+                onChange={(e) => updateSong(song.id!, 'name', e.target.value)}
                 className='input sm:w-1/2 border border-gray-300 rounded-md p-2'
               />
               <input
                 type='text'
                 placeholder='Duración (ej: 3:45)'
                 value={song.duration}
-                onChange={(e) => updateSong(i, 'duration', e.target.value)}
+                onChange={(e) => updateSong(song.id!, 'duration', e.target.value)}
                 className='input sm:w-1/2 border border-gray-300 rounded-md p-2'
               />
             </div>

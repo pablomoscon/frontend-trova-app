@@ -139,10 +139,13 @@ export interface AlbumGenreSelectorProps {
 }
 
 export interface AlbumSongInputsProps extends OptionalStepNavigation {
-  listOfSongs: { name: string; duration: string }[];
-  onChange: (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => void;
+  listOfSongs: Song[];
+  onChange: (e: {
+    target: {
+      name: 'listOfSongs';
+      value: Song[];
+    };
+  }) => void;
   isEditMode: boolean;
 }
 
