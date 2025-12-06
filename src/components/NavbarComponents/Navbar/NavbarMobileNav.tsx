@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavbarMobileNavProps } from '../../../Interfaces/NavbarInterface';
 import NavbarLinks from './NavbarLinks';
-import SearchInput from '../../Shared/SearchInput';
+import SearchInput from '../../Shared/inputs/SearchInput';
 
 const NavbarMobileNav: React.FC<NavbarMobileNavProps> = ({
   isOpen,

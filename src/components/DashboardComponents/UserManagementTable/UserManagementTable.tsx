@@ -1,6 +1,6 @@
 import React from 'react';
 import Spinner from '../../Shared/Spinner';
-import SearchInput from '../../Shared/SearchInput';
+import SearchInput from '../../Shared/inputs/SearchInput';
 import { useManagementUser } from '../../../hooks/user/useManagementUser';
 import PaginationControls from '../../Shared/PaginationControls';
 import UserRow from './UserRow';

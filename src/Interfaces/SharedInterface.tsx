@@ -106,3 +106,12 @@ export interface FileUploadProps {
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   previewSrc?: string;
 }
+
+export interface SectionProps {
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+  bgColor?: string;
+  textColor?: string;
+  padding?: string;
+}
