@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SignInData, SignupData } from '../Interfaces/AuthInterface';
+import { SignInData, SignUpData } from '../Interfaces/AuthInterface';
 import { User } from '../Interfaces/UserInterface';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL
@@ -9,7 +9,7 @@ export const signIn = async (data: SignInData) => {
   return response.data;
 };
 
-export const signUp = async (data: SignupData) => {
+export const signUp = async (data: SignUpData) => {
   const response = await axios.post(`${baseURL}/auth/sign-up`, data);
   return response.data;
 };
