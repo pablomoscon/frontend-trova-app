@@ -3,10 +3,9 @@ import TextInput from '../../Shared/inputs/TextInput';
 import TextAreaInput from '../../Shared/inputs/TextAreaInput';
 import ImageFileUpload from '../../Shared/inputs/ImageFileUpload';
 import { AlbumFormFieldsProps } from '../../../Interfaces/AlbumInterface';
-import SongInputs from '../../Shared/inputs/SongInputs';
+import SongInputs from '../../Shared/inputs/SongInputs/SongInputs';
 import ArtistSelector from './ArtistSelector';
 import GenreSelector from './GenreSelector';
-
 
 const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
   formData,

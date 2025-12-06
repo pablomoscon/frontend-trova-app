@@ -3,11 +3,13 @@ import { UserCircleIcon } from 'lucide-react';
 import InputField from '../../Shared/inputs/InputField';
 import { validateForm } from '../../../utils/validateSignUp';
 import useSignUp from '../../../hooks/auth/useSignUp';
-import SelectInput from '../../Shared/inputs/SelectInputProps';
 import { getRoleOptions } from '../../../utils/roleUtils';
+import SelectInput from '../../Shared/inputs/SelectInput';
+import { SignUpData } from '../../../Interfaces/AuthInterface';
 
 const CreateUserForm: React.FC = () => {
   const { formData, handleChange, handleSubmit } = useSignUp();
+
   const [errors, setErrors] = useState({
     name: '',
     username: '',
@@ -18,6 +20,41 @@ const CreateUserForm: React.FC = () => {
   });
 
   const roles = getRoleOptions();
+
+  const fields: {
+    label: string;
+    name: keyof SignUpData;
+    placeholder: string;
+    type?: string;
+  }[] = [
+    {
+      label: 'Nombre',
+      name: 'name',
+      placeholder: 'Juan Gonzalez',
+    },
+    {
+      label: 'Apellido',
+      name: 'username',
+      placeholder: 'juangonzalez',
+    },
+    {
+      label: 'Email',
+      name: 'email',
+      placeholder: 'juangonzalez@mail.com',
+    },
+    {
+      label: 'Contraseña',
+      name: 'password',
+      type: 'password',
+      placeholder: 'Tu contraseña',
+    },
+    {
+      label: 'Confirme la contraseña',
+      name: 'confirmPassword',
+      type: 'password',
+      placeholder: 'Repetí tu contraseña',
+    },
+  ];
 
   const handleSubmitWithValidation = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,53 +74,21 @@ const CreateUserForm: React.FC = () => {
 
         <form onSubmit={handleSubmitWithValidation} className='space-y-6'>
           <div className='grid grid-cols-1 gap-y-6 text-start text-gray-700'>
-            <InputField
-              label='Nombre'
-              name='name'
-              value={formData.name}
-              onChange={handleChange}
-              placeholder='Juan Gonzalez'
-              error={errors.name}
-            />
+            {/* 🔥 Render dinámico de inputs */}
+            {fields.map((f) => (
+              <InputField
+                key={f.name}
+                label={f.label}
+                name={f.name}
+                type={f.type ?? 'text'}
+                value={formData[f.name]}
+                onChange={handleChange}
+                placeholder={f.placeholder}
+                error={errors[f.name]}
+              />
+            ))}
 
-            <InputField
-              label='Apellido'
-              name='username'
-              value={formData.username}
-              onChange={handleChange}
-              placeholder='juangonzalez'
-              error={errors.username}
-            />
-
-            <InputField
-              label='Email'
-              name='email'
-              value={formData.email}
-              onChange={handleChange}
-              placeholder='juangonzalez@mail.com'
-              error={errors.email}
-            />
-
-            <InputField
-              label='Contraseña'
-              name='password'
-              value={formData.password}
-              onChange={handleChange}
-              placeholder='Tu contraseña'
-              error={errors.password}
-              type='password'
-            />
-
-            <InputField
-              label='Confirme la contraseña'
-              name='confirmPassword'
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder='Repetí tu contraseña'
-              error={errors.confirmPassword}
-              type='password'
-            />
-
+            {/* Select Input */}
             <SelectInput
               label='Rol'
               name='role'
@@ -94,13 +99,13 @@ const CreateUserForm: React.FC = () => {
               error={errors.role}
             />
 
+            {/* Foto */}
             <div>
               <p className='block text-sm font-medium text-gray-700 text-center'>
                 Foto
               </p>
               <div className='mt-2 flex flex-col items-center gap-y-3'>
                 <UserCircleIcon className='size-12 text-gray-300' />
-
                 <button
                   type='button'
                   className='rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
@@ -111,6 +116,7 @@ const CreateUserForm: React.FC = () => {
             </div>
           </div>
 
+          {/* Botón Enviar */}
           <div className='flex justify-center'>
             <button
               type='submit'
@@ -119,6 +125,8 @@ const CreateUserForm: React.FC = () => {
               Enviar
             </button>
           </div>
+
+          {/* Link Sign In */}
           <p className='mt-4 text-center text-sm text-gray-600'>
             ¿Ya tenés una cuenta?{' '}
             <a

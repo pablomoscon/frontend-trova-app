@@ -14,16 +14,16 @@ export interface SignInData {
   password: string;
 }
 
-export interface SignupData {
+export interface SignUpData {
   username: string;
   name: string;
-  photo?: string;
   email: string;
   password: string;
   confirmPassword: string;
+  role?: string;
 }
 
-export interface SignupErrors {
+export interface SignUpErrors {
   name: string;
   username: string;
   email: string;
