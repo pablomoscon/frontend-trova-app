@@ -2,7 +2,7 @@ import React from 'react';
 import Spinner from '../../Shared/Spinner';
 import SearchInput from '../../Shared/inputs/SearchInput';
 import PageSizeSelector from '../../Shared/PageSizeSelector';
-import PaginationControls from '../../Shared/PaginationControls';
+import PaginationControls from '../../Shared/PaginationControls/PaginationControls';
 import { useManagementArtists } from '../../../hooks/artist/useManagementArtists';
 import ArtistRow from './ArtistRow';
 import ArtistEditModal from './ArtistEditModal';

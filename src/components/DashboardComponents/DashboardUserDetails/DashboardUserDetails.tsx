@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Spinner from '../../Shared/Spinner';
-import PaginationControls from '../../Shared/PaginationControls';
+import PaginationControls from '../../Shared/PaginationControls/PaginationControls';
 import { useFetchUsers } from '../../../hooks/user/useFetchUsers';
 import { User } from '../../../Interfaces/UserInterface';
 import { useScroll } from '../../../hooks/shared/useScroll';

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import InputField from '../../Shared/inputs/InputField';
 import useSignIn from '../../../hooks/auth/useSignIn';
-import SubmitButton from '../../Shared/SubmitButton';
 import DotsLoader from '../../Shared/DotsLoader';
+import Button from '../../Shared/Button';
 
 const SignInForm: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -12,10 +12,7 @@ const SignInForm: React.FC = () => {
 
   return (
     <div className='w-full max-w-sm mx-auto pb-10 relative'>
-      
-      {loading && (
-          <DotsLoader />
-      )}
+      {loading && <DotsLoader />}
 
       <form
         onSubmit={handleSubmit}
@@ -37,7 +34,7 @@ const SignInForm: React.FC = () => {
           placeholder='Tu contraseña'
         />
 
-        <SubmitButton text='Ingresá' />
+        <Button text='Ingresá' />
       </form>
     </div>
   );

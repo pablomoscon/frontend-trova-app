@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { UserCircleIcon } from 'lucide-react';
 import InputField from '../../Shared/inputs/InputField';
 import SelectInput from '../../Shared/inputs/SelectInput';
-import SubmitButton from '../../Shared/SubmitButton';
 import { SignUpData } from '../../../Interfaces/AuthInterface';
 import useSignUp from '../../../hooks/auth/useSignUp';
 import { getRoleOptions } from '../../../utils/roleUtils';
 import { validateForm } from '../../../utils/validateSignUpUtils';
 import AuthLayout from '../../AuthComponents/AuthLayout/AuthLayout';
+import Button from '../../Shared/Button';
 
 const CreateUserForm: React.FC = () => {
   const { formData, handleChange, handleSubmit } = useSignUp();
@@ -97,7 +97,7 @@ const CreateUserForm: React.FC = () => {
         </div>
 
         {/* Botón submit */}
-        <SubmitButton text='Enviar' />
+        <Button text='Enviar' />
 
         {/* Link Sign In */}
         <p className='mt-4 text-center text-sm text-gray-600'>
