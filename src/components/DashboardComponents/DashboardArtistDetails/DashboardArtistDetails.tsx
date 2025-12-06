@@ -2,7 +2,7 @@ import React from 'react';
 import Spinner from '../../Shared/Spinner';
 import { useFetchSummaryArtists } from '../../../hooks/album/useFetchSummaryArtist';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
-import PaginationControls from '../../Shared/PaginationControls';
+import PaginationControls from '../../Shared/PaginationControls/PaginationControls';
 import ArtistCardWithAlbums from './ArtistCardWithAlbums';
 
 const DashboardArtistDetails: React.FC = () => {

@@ -1,13 +1,12 @@
 import React from 'react';
 import Spinner from '../../Shared/Spinner';
 import NewArtistModal from '../../ArtistComponents/ArtistForms/NewArtistModal';
-import { createNewArtist } from '../../../utils/createNewArtistUtils';
-import { ArtistFormData } from '../../../Interfaces/ArtistInterface';
 import LoadingDots from '../../Shared/LoadingDots';
 import { useCreateAlbum } from '../../../hooks/album/useCreateAlbum';
 import { useCreateArtist } from '../../../hooks/artist/useCreateArtist';
 import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
 import AlbumFormFields from '../AlbumFormFields/AlbumFormFields';
+import { createArtist } from '../../../services/artistService';
 
 const CreateAlbum: React.FC = () => {
   const {
@@ -17,6 +16,7 @@ const CreateAlbum: React.FC = () => {
     setSongsInput,
     resetForm,
     handleFileChange,
+    handleSongChange,
     imagePreview,
     handleSubmit,
     isLoading,
@@ -34,8 +34,8 @@ const CreateAlbum: React.FC = () => {
     newArtistFormData,
     setNewArtistFormData,
     handleAddArtist,
-  } = useCreateArtist(async (artistData: ArtistFormData) => {
-    const newArtist = await createNewArtist(artistData);
+  } = useCreateArtist(async (formData: FormData) => {
+    const newArtist = await createArtist(formData);
     setArtists((prev) => [...prev, newArtist]);
     return newArtist;
   }, handleChange);
@@ -61,6 +61,7 @@ const CreateAlbum: React.FC = () => {
               artists={artists}
               setShowArtistModal={setShowArtistModal}
               isEditMode={false}
+              handleSongChange={handleSongChange}
               handleFileChange={handleFileChange}
               imagePreview={imagePreview}
             />

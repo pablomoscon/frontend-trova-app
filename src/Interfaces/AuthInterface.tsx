@@ -61,10 +61,14 @@ export interface Credentials {
   password: string;
 }
 
-export interface SubmitButtonProps {
+export interface ButtonProps {
   text: string;
-  disabled?: boolean;
+  to?: string; // Si se define, será un Link
+  onClick?: () => void;
+  type?: 'submit' | 'button' | 'reset';
+  className?: string;
 }
+
 
 export interface ScrollContextInterface {
   localActive: boolean;

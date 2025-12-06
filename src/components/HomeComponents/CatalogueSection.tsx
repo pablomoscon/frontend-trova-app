@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import ResponsiveImage from '../Shared/ResponsiveImage';
+import Button from '../Shared/Button';
 
 const CatalogueSection: React.FC = () => {
   const [desktopLoaded, setDesktopLoaded] = useState(false);
@@ -19,7 +19,7 @@ const CatalogueSection: React.FC = () => {
 
         {/* Texto */}
         <div className='flex flex-col gap-8 justify-start items-center md:items-start text-center md:text-left'>
-          <h2 className='text-4xl md:text-4xl sm:text-5xl font-extrabold leading-tight text-center'>
+          <h2 className='text-4xl sm:text-5xl font-extrabold leading-tight'>
             Explorá nuestra colección musical
           </h2>
 
@@ -37,12 +37,7 @@ const CatalogueSection: React.FC = () => {
           />
 
           <div className='mt-4 flex justify-center w-full'>
-            <Link
-              to='/catalogo'
-              className='block w-full bg-gray-900 text-white text-lg sm:text-xl font-medium px-6 py-4 rounded-full shadow-md hover:bg-gray-800 transform hover:scale-105 duration-300 max-w-sm'
-            >
-              Ver Catálogo
-            </Link>
+            <Button to='/catalogo' text='Ver Catálogo' />
           </div>
         </div>
       </div>

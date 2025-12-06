@@ -37,6 +37,19 @@ export interface PaginationControlsProps {
   onPageChangeComplete?: () => void;
 }
 
+export interface PageButtonProps {
+  onClick: () => void;
+  disabled?: boolean;
+  children: React.ReactNode;
+  ariaLabel?: string;
+}
+
+export interface NumberedPageButtonProps {
+  pageNumber: number;
+  currentPage: number;
+  onClick: () => void;
+}
+
 export interface UseScrollOptions {
   deps?: DependencyList;
   behavior?: ScrollBehavior;

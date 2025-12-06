@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import TextInput from '../../Shared/inputs/TextInput';
 import TextAreaInput from '../../Shared/inputs/TextAreaInput';
-import ImageFileUpload from '../../Shared/inputs/ImageFileUpload/ImageFileUpload';
 import { AlbumFormFieldsProps } from '../../../Interfaces/AlbumInterface';
 import SongInputs from '../../Shared/inputs/SongInputs/SongInputs';
 import ArtistSelector from './ArtistSelector';
 import GenreSelector from './GenreSelector';
+import ImageFileUpload from '../../Shared/ImageFileUpload/ImageFileUpload';
 
 const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
   formData,
@@ -15,6 +15,7 @@ const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
   isEditMode,
   goToSongsStep,
   handleFileChange,
+  handleSongChange,
   imagePreview,
 }) => {
   const [selectedFileName, setSelectedFileName] = useState('');
@@ -50,7 +51,7 @@ const AlbumFormFields: React.FC<AlbumFormFieldsProps> = ({
 
       <SongInputs
         listOfSongs={formData.listOfSongs}
-        handleChange={handleChange}
+        onChange={ handleSongChange}
         isEditMode={isEditMode}
         goToSongsStep={goToSongsStep}
       />

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Spinner from '../../Shared/Spinner';
-import PaginationControls from '../../Shared/PaginationControls';
+import PaginationControls from '../../Shared/PaginationControls/PaginationControls';
 import { useFetchArtists } from '../../../hooks/artist/useFetchArtists';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';
 import { useScroll } from '../../../hooks/shared/useScroll';
@@ -18,12 +18,12 @@ const ArtistList: React.FC = () => {
 
   const topRef = useRef<HTMLDivElement>(null);
 
-useScroll(topRef as React.RefObject<HTMLElement>, {
-  deps: [page, isLoading],
-  behavior: 'instant',
-  offset: 0,
-  enabled: !isLoading,
-});
+  useScroll(topRef as React.RefObject<HTMLElement>, {
+    deps: [page, isLoading],
+    behavior: 'instant',
+    offset: 0,
+    enabled: !isLoading,
+  });
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);

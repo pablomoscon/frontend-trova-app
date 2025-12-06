@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Spinner from '../../Shared/Spinner';
-import PaginationControls from '../../Shared/PaginationControls';
+import PaginationControls from '../../Shared/PaginationControls/PaginationControls';
 import { useFetchArtistsWithAlbums } from '../../../hooks/artist/useFetchArtistsWithAlbums';
 import { Album } from '../../../Interfaces/AlbumInterface';
 import { usePageAndSearch } from '../../../hooks/shared/usePageAndSearch';

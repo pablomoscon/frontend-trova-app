@@ -2,16 +2,12 @@ import React from 'react';
 import { User } from '../../../Interfaces/UserInterface';
 import { FaEnvelope, FaCalendarAlt, FaUserShield } from 'react-icons/fa';
 import DetailRow from './DetailRow';
+import { formatDate } from '../../../utils/formatDateUtils';
 
 const AdminDetails: React.FC<{ user: User }> = ({ user }) => {
-  const formatDate = (dateStr?: string) =>
-    dateStr
-      ? new Date(dateStr).toLocaleDateString('es-AR', {
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric',
-        })
-      : '-';
+  const statusColor =
+    user.status === 'ACTIVE' ? 'text-gray-600' : 'text-gray-300';
+  const statusLabel = user.status === 'ACTIVE' ? 'Activo' : 'Suspendido';
 
   return (
     <section
@@ -22,6 +18,7 @@ const AdminDetails: React.FC<{ user: User }> = ({ user }) => {
       <h2 className='text-3xl font-extrabold text-gray-900 mb-4 tracking-tight'>
         {user.name}
       </h2>
+
       <p className='inline-block px-4 py-1 text-gray-700 font-semibold rounded-full bg-indigo-100 uppercase tracking-wide mb-8'>
         {user.role === 'ADMIN' ? 'Administrador' : 'Usuario'}
       </p>
@@ -32,25 +29,19 @@ const AdminDetails: React.FC<{ user: User }> = ({ user }) => {
           value={user.email}
         />
 
-        {user.createdAt && (
-          <DetailRow
-            icon={<FaCalendarAlt className='text-gray-600 w-6 h-6 shrink-0' />}
-            label='Miembro desde:'
-            value={formatDate(user.createdAt)}
-          />
-        )}
+        <DetailRow
+          icon={<FaCalendarAlt className='text-gray-600 w-6 h-6 shrink-0' />}
+          label='Miembro desde:'
+          value={formatDate(user.createdAt)}
+        />
 
         {user.status && (
           <DetailRow
             icon={<FaUserShield className='text-gray-600 w-6 h-6 shrink-0' />}
             label='Estado:'
             value={
-              <span
-                className={`font-semibold ${
-                  user.status === 'ACTIVE' ? 'text-gray-600' : 'text-gray-300'
-                }`}
-              >
-                {user.status === 'ACTIVE' ? 'Activo' : 'Suspendido'}
+              <span className={`font-semibold ${statusColor}`}>
+                {statusLabel}
               </span>
             }
           />
