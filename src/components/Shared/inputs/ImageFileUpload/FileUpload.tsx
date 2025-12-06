@@ -1,6 +1,7 @@
-import { FileUploadProps } from "../../../Interfaces/SharedInterface";
+import React from 'react';
+import { FileUploadProps } from '../../../../Interfaces/SharedInterface';
 
-export const FileUpload: React.FC<FileUploadProps> = ({
+const FileUpload: React.FC<FileUploadProps> = ({
   label,
   selectedFileName,
   setSelectedFileName,
@@ -11,23 +12,30 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     <label className='block text-center sm:text-start text-sm font-medium text-gray-900 mb-2'>
       {label}
     </label>
+
     <div className='flex flex-col items-center sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0 sm:justify-start'>
-      <label className='w-[70%] sm:w-auto text-sm md:text-base cursor-pointer inline-flex items-center justify-center px-2 sm:px-3 md:px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition text-center'>
+      <label
+        htmlFor='file'
+        className='w-[70%] sm:w-auto text-sm md:text-base cursor-pointer inline-flex items-center justify-center px-2 sm:px-3 md:px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition text-center'
+      >
         📁 Seleccionar archivo
       </label>
       <span className='text-sm text-gray-600 text-center sm:text-left'>
         {selectedFileName || 'Ningún archivo seleccionado'}
       </span>
-      <input
-        placeholder='Seleccione un archivo...'
-        type='file'
-        className='hidden'
-        onChange={(e) => {
-          onFileChange(e);
-          setSelectedFileName(e.target.files?.[0]?.name || '');
-        }}
-      />
     </div>
+
+    <input
+      type='file'
+      id='file'
+      name='file'
+      className='hidden'
+      onChange={(e) => {
+        onFileChange(e);
+        setSelectedFileName(e.target.files?.[0]?.name || '');
+      }}
+    />
+
     {previewSrc && (
       <div className='col-span-full my-6'>
         <p className='text-sm font-medium text-center text-gray-700 mb-3'>
@@ -45,3 +53,5 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     )}
   </div>
 );
+
+export default FileUpload;
