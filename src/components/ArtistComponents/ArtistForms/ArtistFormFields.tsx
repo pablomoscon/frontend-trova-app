@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { ArtistFormData } from '../../../Interfaces/ArtistInterface';
 import TextInput from '../../Shared/inputs/TextInput';
-import ImageFileUpload from '../../Shared/inputs/ImageFileUpload/ImageFileUpload';
 import TextAreaInput from '../../Shared/inputs/TextAreaInput';
+import ImageFileUpload from '../../Shared/ImageFileUpload/ImageFileUpload';
 
 const ArtistFormFields: React.FC<{
   formData: ArtistFormData;
