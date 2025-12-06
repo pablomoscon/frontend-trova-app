@@ -45,3 +45,9 @@ export interface SearchUsersProps {
   refresh: () => void;
   currentPage: number;
 }
+
+export interface DetailRowProps {
+  icon: React.ReactNode;
+  label?: string;
+  value: string | React.ReactNode;
+}
