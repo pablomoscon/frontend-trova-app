@@ -37,7 +37,7 @@ export const generateFiltersFromAlbums = (albums: Album[]): FilterSection[] => {
             id: 'year',
             name: 'Año',
             options: Array.from(decades)
-                .sort((a, b) => parseInt(b) - parseInt(a))
+                .sort((a, b) => Number.parseInt(b.replace("s", ""), 10) - Number.parseInt(a.replace("s", ""), 10))
                 .map((d) => ({ label: d, value: d })),
         },
     ];

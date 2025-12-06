@@ -17,7 +17,7 @@ const PageSizeSelector: React.FC<PageSizeSelectorProps> = ({
         id='page-size-select'
         title='Cantidad de álbumes por página'
         value={pageSize}
-        onChange={(e) => onChange(parseInt(e.target.value))}
+        onChange={(e) => onChange(Number.parseInt(e.target.value))}
         className='border border-gray-300 rounded px-2 py-1 text-sm sm:text-base'
       >
         {[6, 9, 12, 15].map((size) => (

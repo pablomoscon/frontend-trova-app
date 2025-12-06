@@ -95,9 +95,9 @@ const CreateUserForm: React.FC = () => {
             />
 
             <div>
-              <label className='block text-sm font-medium text-gray-700 text-center'>
+              <p className='block text-sm font-medium text-gray-700 text-center'>
                 Foto
-              </label>
+              </p>
               <div className='mt-2 flex flex-col items-center gap-y-3'>
                 <UserCircleIcon className='size-12 text-gray-300' />
 

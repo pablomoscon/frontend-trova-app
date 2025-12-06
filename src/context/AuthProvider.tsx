@@ -1,50 +1,38 @@
-import { useState, ReactNode, useEffect } from 'react';
+import { ReactNode, useMemo, useEffect } from 'react';
 import { AuthContext } from './AuthContext';
-import { User } from '../Interfaces/UserInterface';
-import { isTokenExpired } from '../utils/tokenUtils';
+import { useAuthState } from '../hooks/auth/useAuthState';
+import { selectIsAdmin, selectIsAuthenticated, selectToken } from '../utils/authSelectors';
+import { loadStoredUser } from '../services/authService';
+import { getValidUserOrNull } from '../utils/validateUserToken';
+
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const storedUser = localStorage.getItem('user');
-  const parsedUser: User | null = storedUser ? JSON.parse(storedUser) : null;
-  const initialUser =
-    parsedUser && !isTokenExpired(parsedUser.token) ? parsedUser : null;
+  const { user, login, logout, setUser } = useAuthState();
 
-  const [user, setUser] = useState<User | null>(initialUser);
+  // valores derivados
+  const token = selectToken(user);
+  const isAdmin = selectIsAdmin(user);
+  const isAuthenticated = selectIsAuthenticated(user);
 
-  const login = (userData: User) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-  };
+  // valor memoizado del context
+  const value = useMemo(
+    () => ({
+      user,
+      login,
+      logout,
+      token,
+      isAdmin,
+      isAuthenticated,
+    }),
+    [user, login, logout, token, isAdmin, isAuthenticated]
+  );
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-  };
-
-  const isAdmin = user?.role === 'ADMIN';
-  const isAuthenticated = !!user && !isTokenExpired(user.token);
-  const token = user?.token || null;
-
-  const value = {
-    user,
-    login,
-    logout,
-    isAdmin,
-    isAuthenticated,
-    token,
-  };
-
+  // sincronización inicial con localStorage
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    const parsedUser: User | null = storedUser ? JSON.parse(storedUser) : null;
-
-    if (!parsedUser || isTokenExpired(parsedUser.token)) {
-      setUser(null);
-      localStorage.removeItem('user');
-    } else {
-      setUser(parsedUser);
-    }
-  }, []);
+    const storedUser = loadStoredUser();
+    const validUser = getValidUserOrNull(storedUser);
+    setUser(validUser);
+  }, [setUser]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

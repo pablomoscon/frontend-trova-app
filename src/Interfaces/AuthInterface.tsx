@@ -29,6 +29,7 @@ export interface SignupErrors {
   email: string;
   password: string;
   confirmPassword: string;
+  role: string;
 }
 
 export interface SignInValidationResult {

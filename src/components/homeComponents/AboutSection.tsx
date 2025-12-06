@@ -10,8 +10,8 @@ const AboutSection: React.FC = () => (
       </div>
 
       <p className='text-lg sm:text-xl text-gray-700 leading-relaxed max-w-3xl'>
-        En{' '}
-        <span className='font-semibold text-gray-900'>
+        En
+        <span className="font-semibold text-gray-900">
           Trova Industrias Musicales
         </span>
         , celebramos la riqueza de la música popular iberoamericana. Nuestro
