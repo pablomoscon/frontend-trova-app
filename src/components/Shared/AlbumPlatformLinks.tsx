@@ -1,6 +1,6 @@
 import React from 'react';
-import { FaSpotify, FaYoutube, FaAmazon, FaApple } from 'react-icons/fa';
 import { AlbumPlatformLinksProps } from '../../Interfaces/AlbumInterface';
+import { platformsList } from '../../utils/platformsUtils';
 
 const AlbumPlatformLinks: React.FC<AlbumPlatformLinksProps> = ({
   spotifyLink,
@@ -13,52 +13,28 @@ const AlbumPlatformLinks: React.FC<AlbumPlatformLinksProps> = ({
 }) => {
   const isColored = variant === 'colored';
 
-  const platforms = [
-    {
-      link: spotifyLink,
-      aria: 'Spotify',
-      Icon: FaSpotify,
-      colored: 'text-green-500 hover:scale-125',
-      neutral: 'text-gray-600 hover:text-green-500',
-    },
-    {
-      link: youtubeLink,
-      aria: 'YouTube',
-      Icon: FaYoutube,
-      colored: 'text-red-500 hover:scale-125',
-      neutral: 'text-gray-600 hover:text-red-500',
-    },
-    {
-      link: amazonMusicLink,
-      aria: 'Amazon Music',
-      Icon: FaAmazon,
-      colored: 'text-blue-800 hover:scale-125',
-      neutral: 'text-gray-600 hover:text-yellow-500',
-    },
-    {
-      link: appleMusicLink,
-      aria: 'Apple Music',
-      Icon: FaApple,
-      colored: 'text-gray-700 hover:scale-125',
-      neutral: 'text-gray-600 hover:text-gray-800',
-    },
-  ];
+  const linksMap: Record<string, string | undefined> = {
+    Spotify: spotifyLink,
+    'YouTube Music': youtubeLink,
+    'Amazon Music': amazonMusicLink,
+    'Apple Music': appleMusicLink,
+  };
 
   return (
     <div className={`flex justify-center items-center ${spacing}`}>
-      {platforms
-        .filter((p) => !!p.link)
-        .map(({ link, aria, Icon, colored, neutral }) => (
+      {platformsList
+        .filter((p) => !!linksMap[p.name])
+        .map(({ name, Icon, color, defaultHover }) => (
           <a
-            key={aria}
-            href={link!}
+            key={name}
+            href={linksMap[name]!}
             target='_blank'
             rel='noopener noreferrer'
-            aria-label={aria}
+            aria-label={name}
           >
             <Icon
               className={`${iconSize} ${
-                isColored ? colored : neutral
+                isColored ? color : defaultHover
               } transition cursor-pointer`}
             />
           </a>

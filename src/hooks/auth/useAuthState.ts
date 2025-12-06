@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { User } from "../../Interfaces/UserInterface";
-import { getValidUserOrNull } from "../../utils/validateUserToken";
+import { getValidUserOrNull } from "../../utils/validateUserTokenUtils";
 import { clearUser, loadStoredUser, saveUser } from "../../services/authService";
 
 
