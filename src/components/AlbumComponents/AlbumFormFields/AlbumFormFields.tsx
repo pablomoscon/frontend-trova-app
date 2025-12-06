@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextInput from '../../Shared/inputs/TextInput';
 import TextAreaInput from '../../Shared/inputs/TextAreaInput';
-import ImageFileUpload from '../../Shared/inputs/ImageFileUpload';
+import ImageFileUpload from '../../Shared/inputs/ImageFileUpload/ImageFileUpload';
 import { AlbumFormFieldsProps } from '../../../Interfaces/AlbumInterface';
 import SongInputs from '../../Shared/inputs/SongInputs/SongInputs';
 import ArtistSelector from './ArtistSelector';

@@ -98,3 +98,11 @@ export type ScrollTarget =
   src: string;
   href: string;
 }
+
+export interface FileUploadProps {
+  label: string;
+  selectedFileName: string;
+  setSelectedFileName: (name: string) => void;
+  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  previewSrc?: string;
+}

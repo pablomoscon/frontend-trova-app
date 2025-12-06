@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { ArtistEditModalProps } from '../../../Interfaces/ArtistInterface';
 import { useDetailsArtist } from '../../../hooks/artist/useDetailsArtist';
 import { useEditArtist } from '../../../hooks/artist/useEditArtist';
-import ImageFileUpload from '../../Shared/inputs/ImageFileUpload';
+import ImageFileUpload from '../../Shared/inputs/ImageFileUpload/ImageFileUpload';
 import Spinner from '../../Shared/Spinner';
 import { useCloseOnOutside } from '../../../hooks/shared/useCloseOnOutside';
 import { useModalClose } from '../../../hooks/shared/useModalClose';
