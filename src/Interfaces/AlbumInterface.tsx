@@ -159,6 +159,7 @@ export interface TextInputProps {
   colSpan?: string;
   wrapperClass?: string;
   type?: string;
+  error?: string;
 }
 
 export interface TextAreaInputProps {
@@ -168,6 +169,7 @@ export interface TextAreaInputProps {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   rows?: number;
   colSpan?: string;
+  error?: string;
 }
 
 export interface AlbumRowProps {

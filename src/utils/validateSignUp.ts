@@ -1,6 +1,6 @@
-import { SignupData, SignupErrors } from "../Interfaces/AuthInterface";
+import { SignUpData, SignUpErrors } from "../Interfaces/AuthInterface";
 
-export const validateForm = (formData: SignupData, setErrors: React.Dispatch<React.SetStateAction<SignupErrors>>) => {
+export const validateForm = (formData: SignUpData, setErrors: React.Dispatch<React.SetStateAction<SignUpErrors>>) => {
     let isValid = true;
     const errorMessages = {
         name: '',
@@ -8,6 +8,7 @@ export const validateForm = (formData: SignupData, setErrors: React.Dispatch<Rea
         email: '',
         password: '',
         confirmPassword: '',
+        role:''
     };
 
     // Validate name (should contain at least first and last name)

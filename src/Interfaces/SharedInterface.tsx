@@ -78,3 +78,23 @@ export type ScrollTarget =
     disableGlobalScroll: boolean;
     setDisableGlobalScroll: (v: boolean) => void;
   }
+
+  export interface ResponsiveImageProps {
+  visibleOn: 'desktop' | 'mobile';
+  loaded: boolean;
+  setLoaded: (v: boolean) => void;
+  maxWidth: string;
+  }
+
+  export interface FadeImageProps {
+    src: string;
+    alt: string;
+    visible: boolean;
+    className?: string;
+  }
+
+  export interface PlatformLogoProps {
+  name: string;
+  src: string;
+  href: string;
+}

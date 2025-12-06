@@ -30,3 +30,15 @@ export interface UseAlbumSongsResult {
   loading: boolean;
   error: string | null;
 }
+
+export interface SongRowProps {
+  song: Song;
+  index: number;
+  onUpdate: (index: number, field: 'name' | 'duration', value: string) => void;
+}
+
+export interface SongFieldProps {
+  value: string;
+  placeholder: string;
+  onChange: (value: string) => void;
+}
